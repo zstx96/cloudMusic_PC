@@ -1,5 +1,6 @@
 import { SourceEnum } from "@/interface";
-import { Service } from "@/utils/Service";
+import { CommentRes, Song } from "@/interface/interface";
+import Service from "@/utils/Service";
 /*
  * @作者: zhao
  * @Date: 2021-12-05 13:31:57
@@ -8,16 +9,16 @@ import { Service } from "@/utils/Service";
  * @描述: file content
  */
 export function getSongUrl(id: number) {
-  return Service.get(`/song/url?id=${id}`);
+  return Service.get<{ data: { url: string, size: number, type: string, md5: string }[] }>(`/song/url?id=${id}`);
 }
 export function checkSong(id: number) {
   return Service.get(`/check/music?id=${id}`);
 }
 export function getSongLyric(id: number) {
-  return Service.get(`/lyric?id=${id}`);
+  return Service.get<{ lrc: { lyric: string } }>(`/lyric?id=${id}`);
 }
 export function getSongDetail(id: number) {
-  return Service.get("/song/detail", {
+  return Service.get<{ songs: [Song] }>("/song/detail", {
     params: {
       ids: id,
     },
@@ -35,12 +36,14 @@ export function getSongDetail(id: number) {
 export function getComment(
   id: number,
   sortType = 1,
-  type:SourceEnum,
+  type: SourceEnum = SourceEnum.song,
   pageNo = 1,
   pageSize = 20,
   cursor?: number
 ) {
-  return Service.get("/comment/new", {
+  return Service.get<{
+    data: CommentRes
+  }>("/comment/new", {
     params: {
       type,
       id,

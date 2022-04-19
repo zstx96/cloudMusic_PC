@@ -32,26 +32,27 @@ export interface Song {
   play?: boolean;
   isLiked?: boolean;
   dt: number;
-  fee:Fee,
-  copyright:number
+  fee: Fee,
+  copyright: number
 }
 
 export interface SongRecord {
   id: number;
   name: string;
   url: string;
-  picUrl:string
+  picUrl: string
 }
 export interface Playlist {
   picUrl: string;
   creator: Creator;
   id: number;
-  playCount: number;
+  playcount: number;
   name: string;
   copywriter: string;
   createTime: number;
   userId: number;
   trackCount: number;
+  coverImgUrl?: string
 }
 export interface PlaylistDetail {
   id: number;
@@ -93,14 +94,14 @@ export interface Subscriber {
 export interface Artist {
   albumSize: number;
   alias: string[];
-  fansSize: number;
+  fansCount: number;
   followed: boolean;
   id: number;
   img1v1Url: string;
   musicSize: number;
   name: string;
   picUrl: string;
-  mvSize: number;
+  mvSize?: number;
 }
 export interface Creator {
   description: string;
@@ -158,13 +159,23 @@ export interface Comment {
   timeStr: string;
   user: UserProfile;
 }
+
+export interface CommentRes {
+  commentsTitle: string,
+  comments: Comment[],
+  currentCommentTitle: string,
+  currentComment: null,
+  totalCount: number,
+  cursor: string,
+  sortTypeList: { sortType: number, sortTypeName: string }[]
+}
 export interface Reply {
   beRepliedCommentId: number;
   content: string;
   user: User;
 }
 
-export type Mv = Record<"id" | "status" | "duration" | "playCount"|"subCount"|"shareCount"|"commentCount", number> &
-  Record<"artistName"|"publishTime"|"imgurl"|"imgurl16v9"|"name", string> &
-  Record<'artists',{id:number,name:string,img1v1Url:string,followed:boolean}[]>
+export type Mv = Record<"id" | "status" | "duration" | "playCount" | "subCount" | "shareCount" | "commentCount", number> &
+  Record<"artistName" | "publishTime" | "imgurl" | "imgurl16v9" | "name", string> &
+  Record<'artists', { id: number, name: string, img1v1Url: string, followed: boolean }[]>
 let mv: Mv;

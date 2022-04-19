@@ -1,4 +1,5 @@
-import { Service } from "@/utils/Service";
+import type { UserProfile } from "@/interface";
+import Service from "@/utils/Service";
 /*
  * @作者: zhao
  * @Date: 2021-12-04 11:46:57
@@ -29,19 +30,14 @@ export function verifyCaptcha(phone: number, captcha: number) {
     },
   });
 }
-export function getUserAccount() {
-  return Service.get("/user/account");
-}
-export function getLoginStatus() {
-  return Service.get("/login/status");
-}
+
 // 扫码登录
 export function getQrKey() {
-  return Service.get("/login/qr/key");
+  return Service.get<{ data: { unikey: string } }>("/login/qr/key");
 }
 
-export function getQrimg(key: number) {
-  return Service.get("/login/qr/create", {
+export function getQrimg(key: string) {
+  return Service.get<{ data: { qrimg: string, qrurl: string } }>("/login/qr/create", {
     params: {
       key,
       qrimg: true,
@@ -54,9 +50,9 @@ export function getQrimg(key: number) {
  * @param key
  * @returns
  */
-export function checkQr(key: number) {
+export function checkQr(key: string) {
   let now = +new Date();
-  return Service.get(`/login/qr/check`, {
+  return Service.get<{code:number,message:string,cookie?:string}>(`/login/qr/check`, {
     params: { key, now },
   });
 }

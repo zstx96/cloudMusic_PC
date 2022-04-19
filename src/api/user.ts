@@ -1,4 +1,5 @@
-import { Service } from "@/utils/Service";
+import type { User, UserProfile } from "@/interface";
+import Service from "@/utils/Service";
 
 /*
  * @作者: zhao
@@ -8,23 +9,26 @@ import { Service } from "@/utils/Service";
  * @描述: file content
  */
 
-  export function getFollows(id: number, limit?: number, offset?: number) {
-    return Service.get("/user/follows", {
-      params: {
-        uid: id,
-        limit,
-        offset,
-      },
-    });
-  }
-  export function status() {
-    return Service.get("/login/status");
-  }
-  export function logout() {
-    return Service.get("/logout");
-  }
+export function getFollows(id: number, limit?: number, offset?: number) {
+  return Service.get("/user/follows", {
+    params: {
+      uid: id,
+      limit,
+      offset,
+    },
+  });
+}
 
-export function getUserDetail(uid:number){
-  return Service.get(`/user/detail?uid=${uid}`)
+export function logout() {
+  return Service.get("/logout");
+}
+export function getUserAccount() {
+  return Service.get("/user/account");
+}
+export function getLoginStatus() {
+  return Service.get<{ data: { code: number, account: any, profile: UserProfile } }>("/login/status");
+}
+export function getUserDetail(uid: number) {
+  return Service.get<User>(`/user/detail?uid=${uid}`)
 }
 

@@ -5,22 +5,21 @@
  * @上次更新时间: Do not edit
  * @描述: file content
  */
-export enum DeviceType {}
-export const ArtistEnum = {
-  all: -1,
-  male: 1,
-  female: 2,
-  band: 3,
+export enum ArtistType {
+  all = -1,
+  male = 1,
+  female = 2,
+  band = 3,
 }; // 1.这样写奇奇怪怪的
-Object.values(ArtistEnum).filter((v) => typeof v !== "number"); // 2.无序
+// Object.values(ArtistEnum).filter((v) => typeof v !== "number"); // 2.无序
 // 3.还是全手写
-export const AreaEnum = {
-  all: -1,
-  CN: 7,
-  EU: 96,
-  JP: 8,
-  KR: 16,
-  other: 0,
+export enum AreaType {
+  all = -1,
+  CN = 7,
+  EU = 96,
+  JP = 8,
+  KR = 16,
+  other = 0,
 };
 
 export enum Fee {

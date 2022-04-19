@@ -1,12 +1,6 @@
-import { AreaEnum, ArtistEnum } from "@/interface";
+import type { ArtistType, AreaType, ArtistDetail, IArtist, IHotAlbum } from "@/interface";
+import type { Album, Artist, Song } from "@/interface/interface";
 import Service from "@/utils/Service";
-/*
- * @作者: zhao
- * @Date: 2021-12-07 11:07:21
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
 
 /**
  * @description: 获取歌手部分信息和热门歌曲
@@ -14,7 +8,10 @@ import Service from "@/utils/Service";
  * @return {*}
  */
 export function getArtistInfo(id: number) {
-  return Service.get(`/artists?id=${id}`);
+  return Service.get<{
+    artist: Artist,
+    hotSongs: Song[]
+  }>(`/artists?id=${id}`);
 }
 /**
  * @description: 获取歌手mv信息，具体mv播放地址调用 /mv 传入此接口获得的mvid
@@ -25,13 +22,23 @@ export function getArtistMv(id: number) {
   return Service.get(`/artist/mv?id=${id}`);
 }
 export function getArtistAlbum(id: number) {
-  return Service.get(`/artist/album?id=${id}`);
+  return Service.get<{
+    artist: IArtist;
+    hotAlbums: IHotAlbum[];
+    more: boolean;
+    code: number;
+  }>(`/artist/album?id=${id}`);
 }
 export function getArtistDesc(id: number) {
-  return Service.get(`/artist/desc?id=${id}`);
+  return Service.get<{
+    briefDesc: string,
+    count: number,
+    introduction: any[],
+    topicData: any[]
+  }>(`/artist/desc?id=${id}`);
 }
 export function getArtistDetail(id: number) {
-  return Service.get(`/artist/detail?id=${id}`);
+  return Service.get<{ data: ArtistDetail }>(`/artist/detail?id=${id}`);
 }
 export function getArtistSimile(id: number) {
   return Service.get(`/simi/artist?id=${id}`);
@@ -44,13 +51,15 @@ export function getArtistSimile(id: number) {
  * @param  {} offset=0
  */
 export function getArtistList(
-  type: number,
-  area: number,
+  type: ArtistType,
+  area: AreaType,
   initial = -1,
   offset = 0,
   limit = 30,
 ) {
-  return Service.get("/artist/list", {
+  return Service.get<{
+    artists: Artist[]
+  }>("/artist/list", {
     params: {
       type,
       area,

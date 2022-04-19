@@ -9,4 +9,18 @@
 export * from "@/interface"
 export * from "./user"
 export * from "../enum"
+export * from "./Artist"
+export * from "./Album"
+
+export interface NavItem {
+    iconUrl?: string,
+    title?: string,
+    path: string,
+    children?: Nav
+}
+export interface NavGroup {
+    title?: string,
+    children: NavItem[]
+}
+export type Nav = NavItem[]
 

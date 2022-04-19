@@ -1,0 +1,31 @@
+<template>
+    <div class="flex gap-1 scale-75 items-center">
+        <svg :width="18" :height="18" t="1650333634522" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="3253" width="200" height="200">
+            <path   
+                d="M224 938.713333a53.58 53.58 0 0 1-53.333333-53.433333V138.72a53.333333 53.333333 0 0 1 80.886666-45.666667l618.666667 373.28a53.333333 53.333333 0 0 1 0 91.333334l-618.666667 373.28a53.16 53.16 0 0 1-27.553333 7.766666z m0.046667-810.666666a10.98 10.98 0 0 0-5.333334 1.42 10.466667 10.466667 0 0 0-5.38 9.253333v746.56a10.666667 10.666667 0 0 0 16.18 9.133333l618.666667-373.28a10.666667 10.666667 0 0 0 0-18.266666l-618.666667-373.28a10.386667 10.386667 0 0 0-5.446666-1.586667z"
+                fill="white" p-id="3254"></path>
+        </svg>
+        <span  class=" text-white">
+            {{formatNumber(count)}}
+        </span>
+    </div>
+</template>
+
+<script lang="ts" setup>
+const formatNumber = (value: number) => {
+    if(value<=10e4){
+        return value
+    }else if(value<=10e8){
+        return Number(value/10e4).toFixed() + '万'
+    }else{
+        return Number(value/10e8).toFixed() + '亿'
+    }
+}
+
+defineProps<{ count: number }>()
+
+</script>
+
+<style scoped lang="less">
+</style>

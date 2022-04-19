@@ -5,7 +5,8 @@
  * @上次更新时间: Do not edit
  * @描述: file content
  */
-import { Service } from "@/utils/Service";
+import type { Playlist, PlaylistDetail, Songlist } from "@/interface/interface";
+import Service from "@/utils/Service";
 export function getPlaylist(uid: number) {
   return Service.get("/user/playlist", {
     params: {
@@ -14,16 +15,16 @@ export function getPlaylist(uid: number) {
   });
 }
 export function getLikelist(uid: number) {
-  return Service.get("/likelist?uid=" + uid);
+  return Service.get<{ ids: number[] }>("/likelist?uid=" + uid);
 }
-export function recommendSongList() {
+export function getRecommendSongList() {
   return Service.get("/personalized");
 }
 export function getPlaylistDetail(id: number) {
-  return Service.get(`/playlist/detail?id=${id}`);
+  return Service.get<{ playlist: PlaylistDetail }>(`/playlist/detail?id=${id}`);
 }
 export function getDailyPlaylist() {
-  return Service.get("/recommend/resource");
+  return Service.get<{ recommend: Playlist[] }>("/recommend/resource");
 }
 export function getDailyPlaylistDynamic(id: number) {
   return Service.get(`/playlist/detail/dynamic?id=${id}`);
@@ -47,4 +48,8 @@ export function getPlaylistComment(
       limit,
     },
   });
+}
+
+export function getTopList() {
+  return Service.get<{ list: Playlist[] }>('/toplist')
 }
