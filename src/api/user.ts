@@ -1,4 +1,4 @@
-import type { User, UserProfile } from "@/interface";
+import type { Follower, User, UserProfile } from "@/interface";
 import Service from "@/utils/Service";
 
 /*
@@ -10,7 +10,11 @@ import Service from "@/utils/Service";
  */
 
 export function getFollows(id: number, limit?: number, offset?: number) {
-  return Service.get("/user/follows", {
+  return Service.get<{
+    follow: Follower[],
+    more: boolean,
+    touchCount: number
+  }>("/user/follows", {
     params: {
       uid: id,
       limit,

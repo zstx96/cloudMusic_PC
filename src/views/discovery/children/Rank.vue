@@ -16,7 +16,7 @@ div(class="")
             el-skeleton(v-else :rows="5")
     el-skeleton(v-else :count="3")
     p 全球榜
-    div(class=" flex gap-4 flex-wrap" v-if="global")
+    div(class=" flex  gap-4 flex-wrap" v-if="global")
         div(v-for="item in global" class="")
             el-image(:src="item.coverImgUrl" 
             lazy

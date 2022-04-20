@@ -1,15 +1,22 @@
 <template lang='pug'>
-div(v-if="albums" ) {{ albums }}
-    div(v-for="item in albums")
+div(v-if="albums" ) 
+    div()
         div
         div
+            el-table(:data="albums")
+                el-table-column(type="index")
+                el-table-column
+                    template(#default="{row}")
+                        span() {{row.name}}
+                        span(class=" text-app-gray") ({{row.alias[0]}})
+                el-table-column
 </template>
 
 <script lang="ts" setup>
 import { getArtistAlbum } from '@/api/artist';
-import { IHotAlbum } from '@/interface';
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue';
+import type { IHotAlbum } from '@/interface';
 import { ref } from 'vue';
-
 
 const props = defineProps<{ id: number }>()
 const id = props.id

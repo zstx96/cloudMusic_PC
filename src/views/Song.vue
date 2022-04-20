@@ -1,37 +1,22 @@
 <template lang='pug'>
 div(class="h-full flex flex-col pb-[70px]")
-    header-vue(class="h-[70px]  bg-transparent text-black" :text-black="true")
-    div( class="flex-1 px-[5vw]  h-full overflow-y-scroll")
+    div(class="h-[60px]")
+        header-vue(class="  bg-transparent text-black" :text-black="true")
+    div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
         div(v-if="song" class=" flex gap-2 justify-around items-center")
             div()
-                el-image(:src="song.al.picUrl" class=" w-[15vw] h-[15vw] rounded-full")
+                el-image(:src="song.al.picUrl" class=" w-[15vw] h-[15vw] rounded-full animate-spin-slow ")
             div
-            div(class=" text-center")
+            div(class="text-center")
                 p(v-text="song.name" class=" text-2xl font-bold")
                 p(v-text="song.ar[0].name")
-                div(class=" text-center h-80 w-96 overflow-y-scroll" v-if="lyric"   ref="lyricRef" )
+                div(class=" text-center h-80 w-96 overflow-y-auto" v-if="lyric"   ref="lyricRef" )
             div
             | others
         div(v-if="commentRes" class="w-[50vw] m-auto")
             p(class=" text-xl font-bold") {{commentRes.commentsTitle }}({{commentRes.totalCount}})
             div(class="text-sm")
-                div(v-for="comment in commentRes.comments" class="flex gap-3 py-3 ")
-                    div(class="")
-                        el-avatar(:src="comment.user.avatarUrl" )
-                    div(class="border-b  pb-3  flex-1 ")
-                        div
-                            span(v-text="comment.user.nickname" class="text-blue-500")
-                            |:{{comment.content}}
-                        div(class="flex justify-between my-2")
-                            span(class=" text-app-gray") {{dayjs(comment.timeStr).format('YYYY[年]MM[月]DD[日] hh:mm')}}
-                            div(class="flex items-center gap-2")
-                                span 举报
-                                | |
-                                span {{comment.likedCount}}
-                                | |
-                                span share 
-                                | |
-                                span message
+                comments-vue(:comments="commentRes.comments")
             div(class="flex justify-center")
                 el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
 
@@ -45,6 +30,7 @@ import { useRouteQuery } from '@vueuse/router'
 import dayjs from 'dayjs';
 import { reactive, ref } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
+import commentsVue from '@/components/comment/comments.vue';
 
 const id = parseInt(useRouteQuery('id').value as unknown as string)
 console.log(id);

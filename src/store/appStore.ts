@@ -55,11 +55,14 @@ const asideData: Nav = [
     },
     {
         title: "私人FM",
-        path: "/fm",
+        path: "fm",
     },
     {
         path: "playlist"
     },
+    {
+        path: "user"
+    }
 
 ]
 const useAppStore = defineStore("app", () => {

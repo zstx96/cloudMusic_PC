@@ -3,11 +3,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 const useUserStore = defineStore('user', () => {
-    const user = ref<User>()
+    const user = ref<User | null>()
     const isLogin = ref(false)
     const likedIds = ref<number[]>()
 
-    const setUser = (value: User) => {
+    const setUser = (value: User | null) => {
         user.value = value
         isLogin.value = true
     }

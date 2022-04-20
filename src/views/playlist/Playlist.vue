@@ -25,22 +25,7 @@ div(v-if="detail")
     div
         div
             span 歌曲列表
-    el-table(:data="detail.tracks" class="text-sm" stripe @row-dblclick="handleRowDblClick")
-        el-table-column(type="index")
-        el-table-column(label="操作" width="64")
-            template(#default="{ row }")
-                heart-button-vue(:is-like="row.isLiked" class=" w-5 h-5")
-        el-table-column(label="标题" prop="name")
-        el-table-column(label="歌手" :width="138" )
-            template(#default="{ row }")
-                div(class=" w-32  text-ellipsis  whitespace-nowrap ")
-                    span(v-for="item in row.ar" class=" cursor-pointer text-blue-500") {{ item.name }}/
-        el-table-column(label="专辑")
-            template(#default="{ row }")
-                span(v-text="row.al.name" class=" w-32  text-ellipsis  whitespace-nowrap ")
-        el-table-column(label="时间" prop=" ")
-            template(#default="{ row }")
-                span(v-text="dayjs(row.dt).format('mm:ss')")
+    playlist-display-vue(:data="detail.tracks")
         
 
 
@@ -57,6 +42,7 @@ import { useUserStore } from '@/store/userStore';
 import { useStorage } from '@vueuse/core';
 import { usePlayerStore } from '@/store/playerStore';
 import { getSongUrl } from '@/api/song';
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue';
 const route = useRoute()
 const id = parseInt(route.query.id as string)
 
@@ -71,12 +57,7 @@ getPlaylistDetail(id).then(res => {
     detail.value = res.playlist
 })
 
-const playerStore = usePlayerStore()
-const handleRowDblClick = async (row: Song) => {
-    playerStore.$patch({
-        currentSong: row
-    })
-}
+
 </script>
 
 <style scoped lang="less">

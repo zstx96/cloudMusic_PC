@@ -7,7 +7,11 @@ div
         span.flex-1
         span 查看全部
     div( class="") 
-        span(v-for="word in searchHistory" class="mr-2 px-2 border rounded-[10px]" v-text="word")
+        el-button(v-for="word in searchHistory" round class="mr-2 px-2 border" )
+            span {{ word }}
+            el-icon(@click="deleteSingle(word)")
+                el-icon-close
+
 
 
 </template>
@@ -16,13 +20,15 @@ div
 
 
 // 搜索历史 本地
-const searchHistory = useLocalStorage('searchHistory',[])
+const searchHistory = useLocalStorage('searchHistory', [])
 
-const deleteAll = ()=>{
+const deleteAll = () => {
     searchHistory.value = []
+}
+const deleteSingle = (v:string) => {
+    searchHistory.value = searchHistory.value.filter(item => item !== v)
 }
 </script>
 
 <style scoped lang="less">
-
 </style>

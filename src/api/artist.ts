@@ -1,5 +1,5 @@
 import type { ArtistType, AreaType, ArtistDetail, IArtist, IHotAlbum } from "@/interface";
-import type { Album, Artist, Song } from "@/interface/interface";
+import type { Album, Artist, Mv, Song } from "@/interface/interface";
 import Service from "@/utils/Service";
 
 /**
@@ -10,7 +10,8 @@ import Service from "@/utils/Service";
 export function getArtistInfo(id: number) {
   return Service.get<{
     artist: Artist,
-    hotSongs: Song[]
+    hotSongs: Song[],
+    time: number
   }>(`/artists?id=${id}`);
 }
 /**
@@ -19,7 +20,14 @@ export function getArtistInfo(id: number) {
  * @return {*}
  */
 export function getArtistMv(id: number) {
-  return Service.get(`/artist/mv?id=${id}`);
+  return Service.get<{
+    hasMore: boolean,
+    mvs: Mv[]
+  }>(`/artist/mv?id=${id}`);
+}
+type MvOrder = "上升最快" | "最热" | "最新"
+export function getArtistAllMv(order: MvOrder = "上升最快", offset = 0, limit = 30) {
+  return Service.get("/mv/all")
 }
 export function getArtistAlbum(id: number) {
   return Service.get<{

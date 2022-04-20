@@ -6,7 +6,7 @@
  * @描述: file content
  */
 
-export * from "@/interface"
+export * from "./interface"
 export * from "./user"
 export * from "../enum"
 export * from "./Artist"

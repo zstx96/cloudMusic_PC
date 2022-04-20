@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 *::-webkit-scrollbar  {
-  width: 10px;
+  width: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -12,7 +12,7 @@
 }
 
 * {
-  scrollbar-width: 10px;
+  scrollbar-width: 5px;
   scrollbar-base-color: green;
   scrollbar-track-color: red;
   scrollbar-arrow-color: blue;
@@ -21,6 +21,6 @@
 .select-row {
   color: red;
 }
-.stripe{
-  background-color: #c5c8cb  !important;
+.stripe {
+  background-color: #c5c8cb !important;
 }

@@ -1,5 +1,5 @@
 <template lang='pug'>
-div( class=" absolute bottom-0 w-full h-[70px] px-3    flex justify-between items-center   z-[10000] bg-white border-t"  )
+div( class=" w-full h-[70px] px-3    flex justify-between items-center   z-[10000] bg-white border-t"  )
     div(v-if="curSong" class="flex gap-2")
         el-image(:src="curSong.al.picUrl + '?param=200y200'"  class="rounded w-10  h-10" @click="$router.push({ name: 'song', query: { id: curSong.id } })")
         div(class=" ")
@@ -20,14 +20,14 @@ div( class=" absolute bottom-0 w-full h-[70px] px-3    flex justify-between item
         el-icon(:size="30" @click="recordVisible = !recordVisible")
             el-icon-fold
         teleport(to="#app")
-            div(v-show="recordVisible" class="shadow absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[10000] overflow-x-hidden overflow-y-scroll" :style="{ 'height': `${app_main_height - 80}px`, 'width': '400px' }")
+            div(v-show="recordVisible" v-if="recentSongs" class="shadow absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[10000] overflow-x-hidden overflow-y-scroll" :style="{ 'height': `${app_main_height - 80}px`, 'width': '400px' }")
                 p(class=" font-bold text-xl text-black") 当前播放
                 div(class="flex justify-between gap-4 border-b py-2")
-                    span 共0首
+                    span 共{{recentSongs.length}}首
                     span.flex-1
                     span
                     span(class=" text-blue-500") 清空列表
-                div(v-if="recentSongs")
+                div(v-if="recentSongs.length")
                     el-table(:data="recentSongs" 
                     :show-header="false" 
                     stripe
@@ -35,6 +35,7 @@ div( class=" absolute bottom-0 w-full h-[70px] px-3    flex justify-between item
                     :row-class-name="computedRowClassName"
                     highlight-current-row
                     @row-click="handleRowClick")
+                        el-table-column(type="index")
                         el-table-column()
                             template(#default="{ row }")
                                 span(class=" text-ellipsis w-44 whitespace-nowrap") {{ row.name }}

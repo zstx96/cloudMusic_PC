@@ -1,7 +1,7 @@
 <template lang='pug'>
-div(class="h-full flex  bg-app-red   items-center justify-between px-2.5")
+div(class="h-full flex     items-center justify-between px-2.5" :class="[!textBlack && ' bg-app-red']")
     div(v-if="$route.path === '/song'" class="w-[200px]" @click="$router.push('/')") 下拉
-    div(class=" text-lg w-[200px]" v-else) 网易云音乐
+    div(class=" text-lg cursor-pointer w-[200px]" v-else @click="$router.push({ 'name': 'discovery' })") 网易云音乐
     header-input-vue(class="flex items-center gap-2")
     div(:class="[' flex-1']")
     div(class="icon-groups w-[435px]  flex  justify-between items-center ")
@@ -11,7 +11,12 @@ div(class="h-full flex  bg-app-red   items-center justify-between px-2.5")
             el-card(:body-style="{ height: '100%' }" v-show="loginBoxVisible"  class="absolute left-0 top-[60px]  h-[500px] w-[350px] bg-white  z-[10000] px-2" )
                 login-box-vue(v-if="qrimg" :qrimg="qrimg" :qr-key="qrKey" @close-login-box="closeLoginBox" )
         span(v-if="!userStore.user?.profile.nickname" class=" text-app-gray text-sm" ) 未登录
-        span(class="  text-sm" v-text="userStore.user?.profile.nickname")
+        el-dropdown
+            span(class=" text-sm" v-text="userStore.user?.profile.nickname")
+            template(#dropdown)
+                el-dropdown-item(@click="handleLogout") logout
+
+
         span(ref="nicknameEl")
         // setting
         el-icon(:color="textBlack ? 'black' : 'white'"  class="cursor-pointer" :size="25"  )
@@ -37,11 +42,16 @@ import loginBoxVue from './component/loginBox.vue';
 import { ElMessage } from 'element-plus';
 import { getQrimg, getQrKey } from '@/api/login';
 import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'vue-router';
+import { logout } from '@/api/user';
 // 处理顶部按钮组事件
-
 withDefaults(defineProps<{ textBlack: boolean }>(), { textBlack: false })
 const userStore = useUserStore()
 
+const handleLogout = () => {
+    logout()
+    userStore.setUser(null)
+}
 
 
 /// 点击头像
@@ -51,8 +61,11 @@ const qrimg = ref()
 const closeLoginBox = () => {
     loginBoxVisible.value = false
 }
+
+const router = useRouter()
 const clickAvatar = async () => {
     if (userStore.user) {
+        router.push(`/user?id=${userStore.user.profile.userId}`)
         return
     }
     const instance = ElMessage({
@@ -71,15 +84,19 @@ const clickAvatar = async () => {
 /// 全屏
 const isFullScreen = ref(false)
 const fullScreen = () => {
-    isFullScreen.value = true
-
-    app_width.value = window.innerWidth
-    app_height.value = window.innerHeight
+    document.fullscreenEnabled
+    document.querySelector('#app')!.requestFullscreen().then(() => {
+        isFullScreen.value = true
+        app_width.value = window.innerWidth
+        app_height.value = window.innerHeight
+    })
 }
 const restoreScreen = () => {
-    isFullScreen.value = false
-    app_width.value = APP_BASE_WIDTH
-    app_height.value = APP_BASE_HEIGHT
+    document.exitFullscreen().then(() => {
+        isFullScreen.value = false
+        app_width.value = APP_BASE_WIDTH
+        app_height.value = APP_BASE_HEIGHT
+    })
 }
 </script>
 

@@ -5,14 +5,14 @@ el-container(class="h-full font-sans")
     el-container(class="")
         el-aside(width="200px" class="px-[10px] border-r")
             aside-vue
-        el-main(class="" :style="{ 'height': `${app_main_height}px` }")
+        el-main(class=" overflow-x-hidden" :style="{ 'height': `${app_main_height}px` }")
             router-view
 </template>
 
 <script lang="ts" setup>
 import headerVue from "./header/header.vue"
 import asideVue from "./aside/aside.vue";
-import  { app_main_height,app_header_height } from "@/config";
+import { app_main_height, app_header_height } from "@/config";
 </script>
 
 <style scoped lang="less">

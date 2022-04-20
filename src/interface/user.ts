@@ -24,7 +24,8 @@ export interface UserProfile {
     inBlacklist:boolean,
     playlistCount:number,
     sCount:number,
-    newFollows:number
+    newFollows:number,
+    signature:string
 
   }
   export interface User{
@@ -59,5 +60,10 @@ export interface UserProfile {
       signature:string,
       blacklist:boolean,
       eventCount:number,
-      playlistCount:number
+      playlistCount:number,
+      avatarDetail:{
+        identityIconUrl:string,
+        identityLevel:number
+        userType:number
+      }
   }

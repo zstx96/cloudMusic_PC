@@ -11,6 +11,9 @@ module.exports = {
         app:appColor,
         
       },
+      animation:{
+        'spin-slow':'spin 3s linear infinite'
+      }
     },
   },
 

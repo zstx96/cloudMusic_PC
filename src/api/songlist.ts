@@ -8,7 +8,10 @@
 import type { Playlist, PlaylistDetail, Songlist } from "@/interface/interface";
 import Service from "@/utils/Service";
 export function getPlaylist(uid: number) {
-  return Service.get("/user/playlist", {
+  return Service.get<{
+    playlist: Playlist[],
+    more: boolean
+  }>("/user/playlist", {
     params: {
       uid: uid,
     },

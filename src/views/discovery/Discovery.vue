@@ -1,15 +1,14 @@
 <template lang='pug'>
-div(class="flex flex-col")
-    el-affix
-        el-tabs(v-model="activeName"    @tab-click="handelClick")
-            el-tab-pane(v-for="(subNav, index) in subNavs" 
-            :class="[(activeName == subNav.path) && 'is-active']"
-            :name="subNav.path"
-            :label="subNav.title")  
-    div( class="flex-1 overflow-x-hidden  overflow-y-scroll  m-auto" :style="{'width':`${contentWidht}px`}")
-        router-view(#default="{Component}")
+div(class="flex overflow-x-hidden  flex-col")
+    el-tabs(v-model="activeName"    @tab-click="handelClick")
+        el-tab-pane(v-for="(subNav, index) in subNavs" 
+        :class="[(activeName == subNav.path) && 'is-active']"
+        :name="subNav.path"
+        :label="subNav.title")  
+    div(class="flex-1    overflow-y-auto   m-auto" :style="{ 'width': `${contentWidht}px` }")
+        router-view(#default="{ Component }")
             keep-alive()
-                component(:is="Component")
+                component(:is="Component" )
 </template>
 
 <script lang="ts" setup>
@@ -53,11 +52,15 @@ const handelClick = (pane: Pane) => {
 }
 
 const maxWidth = 1100
+
+const padding = 40
+const app_aside = 200
+const scroll_width = 17
 const contentWidht = computed(() => {
-    if ((app_width.value - 200) >= maxWidth) {
+    if ((app_width.value - app_aside - padding - scroll_width) >= maxWidth) {
         return maxWidth
     }
-    return app_width.value - 200
+    return app_width.value - app_aside - padding - scroll_width
 })
 
 </script>

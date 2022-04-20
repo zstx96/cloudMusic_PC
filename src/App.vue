@@ -60,9 +60,9 @@ router.addRoute("home", {
 })
 // router.replace(router.currentRoute.value.fullPath)
 
-const lastPage = useLocalStorage('lastPage','')
+const lastPage = useLocalStorage('lastPage', '')
 router.push(lastPage.value)
-router.afterEach((to)=>{
+router.afterEach((to) => {
   lastPage.value = to.fullPath
 })
 
@@ -73,10 +73,12 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-router-view(#default="{ Component }")
-  keep-alive
-    component(:is="Component")
-player-vue()
+div(class=" overflow-y-auto flex-1 ")
+  router-view(#default="{ Component }" :key="$route.query.id")
+    keep-alive
+      component(:is="Component")
+div(class="h-[70px]")
+  player-vue()
 </template>
 
 <style>
@@ -100,5 +102,7 @@ body {
   color: #2c3e50;
   background-color: aliceblue;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 </style>

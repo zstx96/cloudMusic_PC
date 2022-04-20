@@ -4,7 +4,7 @@ import "./index.css"
 
 import ElementPlus from "element-plus"
 import 'element-plus/dist/index.css'
-import { ArrowLeft, ArrowRight, Avatar, Close, CopyDocument, Delete, Fold, FolderAdd, Message, Search, Setting } from "@element-plus/icons-vue"
+import { ArrowLeft, ArrowRight, Avatar, ChatLineRound, Close, CopyDocument, Delete, Fold, FolderAdd, Message, Search, Setting, Share, Star, StarFilled } from "@element-plus/icons-vue"
 
 import Router from "@/router"
 import { createPinia } from 'pinia'
@@ -25,4 +25,8 @@ app.component('el-icon-close', Close)
     .component('el-icon-fold',Fold)
     .component('el-icon-foldAdd' ,FolderAdd)
     .component('el-icon-avatar',Avatar) 
+    .component('el-icon-star',Star)
+    .component('el-icon-starFilled',StarFilled)
+    .component('el-icon-chatLineRound',ChatLineRound)
+    .component('el-icon-share',Share)
 app.mount('#app')
