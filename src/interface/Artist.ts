@@ -1,3 +1,5 @@
+import { UserProfile } from "./user";
+
 export interface ArtistDetail {
 	videoCount: number;
 	identify: IIdentify;
@@ -6,6 +8,7 @@ export interface ArtistDetail {
 	preferShow: number;
 	showPriMsg: boolean;
 	secondaryExpertIdentiy: ISecondaryExpertIdentiy[];
+	user?:UserProfile
 }
 
 interface ISecondaryExpertIdentiy {
@@ -27,6 +30,7 @@ interface IArtist {
 	albumSize: number;
 	musicSize: number;
 	mvSize: number;
+
 }
 
 

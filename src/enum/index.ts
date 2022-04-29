@@ -39,3 +39,17 @@ export enum SourceEnum {
   video,
   dynamic,
 }
+
+export enum SearchType {
+  song = 1,
+  album = 10,
+  artist = 100,
+  playlist = 1000,
+  user = 1002,
+  mv = 1004,
+  lyric = 1006,
+  radio = 1009,
+  video = 1014,
+  all = 1018,
+  voice = 2000
+}

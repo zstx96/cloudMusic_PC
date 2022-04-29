@@ -2,8 +2,8 @@
 // 根据config设置#app的宽高
 
 import { onMounted } from 'vue';
-import config, { app_height, app_width, resizeWindow } from "@/config"
-import { useRouter } from 'vue-router';
+import { resizeWindow } from "@/config"
+import { useRoute, useRouter } from 'vue-router';
 import { getLoginStatus, getUserDetail } from './api/user';
 import { useAppStore } from "@/store/appStore"
 
@@ -35,36 +35,52 @@ getLoginStatus().then(res => {
 
 
 const firstWordUpper = (str: string) => str.replace(/^\S/, s => s.toUpperCase())
-const addRecordToRouter = (parentName: string, navs: Nav, parentFileName?: string) => {
-  const router = useRouter()
+
+ 
+const addRecordToRouter = (parentPath: string, navs: Nav, needId: boolean = false) => {
   navs.forEach(nav => {
-    const name = nav.path
+    let routeName
+    if (parentPath === "") {
+      routeName = "/"
+    } else {
+      routeName = parentPath.split('/').at(parentPath.includes('/:id') ? -3 : -2)
+    }
+
+    const path = parentPath.replaceAll('/children', '') + '/' + nav.name + (nav.params?.id ? '/:id' : '')
+    const name = (nav.name === '/') ? 'layout' : nav.name
+
     const record: RouteRecordRaw = {
-      path: nav.path,
+      path: path.replace('/layout', ''),
       name,
-      component: () => import(`../src/views/${parentFileName ? (parentFileName + '/children/') : `${name}`}/${firstWordUpper(name)}.vue`)
+      component: () => import(`../src/views${parentPath.replace('/:id', '')}/${nav.name}/${firstWordUpper(name)}.vue`)
     }
     if (nav.children) {
-      record.redirect = { name: nav.children[0].path }
+      record.redirect = { name: nav.children[0].name }
     }
-    router.addRoute(parentName, record)
+
+    router.addRoute(routeName || 'layout', record)
     if (nav.children) {
-      addRecordToRouter(name, nav.children, name)
+      addRecordToRouter(parentPath + '/' + nav.name + '/children' + (nav.params?.id ? '/:id' : ''), nav.children, Boolean(nav.params?.id))
     }
   })
 }
-addRecordToRouter("home", asideData)
-router.addRoute("home", {
+addRecordToRouter("", asideData)
+router.addRoute("/", {
+  redirect: "layout",
+  path: "/"
+})
+router.addRoute("/", {
   path: "/:pathMatch(.*)*",
   component: () => import("../src/views/404.vue")
 })
-// router.replace(router.currentRoute.value.fullPath)
 
 const lastPage = useLocalStorage('lastPage', '')
-router.push(lastPage.value)
+router.replace(lastPage.value)
+
 router.afterEach((to) => {
   lastPage.value = to.fullPath
 })
+
 
 onMounted(() => {
   resizeWindow()
@@ -73,12 +89,12 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-div(class=" overflow-y-auto flex-1 ")
-  router-view(#default="{ Component }" :key="$route.query.id")
+div(class=" flex-1 overflow-y-auto overflow-x-hidden" )
+  router-view(#default="{ Component }"  )
     keep-alive
       component(:is="Component")
-div(class="h-[70px]")
-  player-vue()
+div( )
+  player-vue
 </template>
 
 <style>
@@ -100,9 +116,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color: aliceblue;
+  background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  @apply antialiased
+}
+
+
+.scale-enter-active,
+.scale-leave-active {
+  transform-origin: 5px 105%;
+  transition: transform .3s ease;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(0);
 }
 </style>

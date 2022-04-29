@@ -5,8 +5,8 @@ div
     div(class="flex justify-center pt-[70px]" v-if="mvDetail" :key="freshFlag")
         div(class="w-[630px]")
             div(class=" font-bold text-2xl py-3")  &it;视频详情
-            div(class="w-[612px] h-[354px]")
-                video(:src="mvUrl" controls  )
+            div()
+                video(:src="mvUrl" controls class="w-[612px] h-[354px]" )
             div(class="flex  items-center gap-2")
                 el-avatar(:src="mvDetail.artists[0].img1v1Url")
                 span(v-for="ar in mvDetail.artists") {{ ar.name }} /
@@ -27,8 +27,8 @@ div
                 span(class=" text-app-gray text-sm") ({{ mvDetail.commentCount }})
             div
                 el-input(type="textarea" placeholder="请在此输入评论" :row="4")
-            div(v-if="mvCommentRes")
-                p 精彩评论
+            div(v-if="mvCommentRes" class="text-sm  ")
+                p(class=" text-xl font-bold text-black") 精彩评论
                 div 
                     comments-vue(:comments="mvCommentRes.hotComments")
                 p 
@@ -41,26 +41,32 @@ div
 import { resourceLike, LikeResourceType } from '@/api/app';
 import type { Comment, Mv } from '@/interface';
 import Service from '@/utils/Service';
-import { useRouteQuery } from '@vueuse/router';
 import dayjs from 'dayjs';
-import { ref } from 'vue';
+import { onActivated, ref } from 'vue';
+import type { Ref } from "vue"
 import commentsVue from '@/components/comment/comments.vue';
-import headerVue from '@/layout/header/header.vue';
-import { onBeforeRouteUpdate } from 'vue-router';
+import { useRoute } from 'vue-router';
+import headerVue from '@/views/layout/header/header.vue';
 
-const id = parseInt(useRouteQuery('id').value as string)
+const route = useRoute()
+const id =parseInt(route.params.id as string)
+
+
 const mvDetail = ref<Mv>()
 const getMvDetail = (id: string | number) => {
     return Service.get<{
         data: Mv
     }>(`/mv/detail?mvid=${id}`)
 }
-getMvDetail(id).then(res => {
-    mvDetail.value = res.data
-})
+const getMvDetailLocal = async (id: number) => {
+    getMvDetail(id).then(res => {
+        mvDetail.value = res.data
+    })
+
+}
 
 const mvUrl = ref()
-const getMvUrl = (id: number | string) => {
+const getMvUrl = async (id: number | string) => {
     return Service.get<{
         data: {
             url: string
@@ -104,6 +110,7 @@ const getMvComment = (id: number) => {
     return Service.get<MvCommentRes>(`/comment/mv?id=${id}`)
 }
 const initMV = async (id: number) => {
+    await getMvDetailLocal(id)
     const { data: { url } } = await getMvUrl(id)
     mvUrl.value = url
     const info = await getMvInfo(id)
@@ -114,13 +121,11 @@ const initMV = async (id: number) => {
 }
 initMV(id)
 const freshFlag = ref()
-// 一级页面 被缓存了
-onBeforeRouteUpdate(async (to, from, next) => {
-    freshFlag.value = + new Date()
-    const id = parseInt(to.query.id as string)
+// 页面被缓存了
 
+onActivated(() => {
+    const id = parseInt(route.params.id as string)
     initMV(id)
-    next()
 })
 </script>
 

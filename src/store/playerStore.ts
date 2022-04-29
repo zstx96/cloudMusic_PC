@@ -15,13 +15,18 @@ window.onbeforeunload = () => {
 
 const usePlayerStore = defineStore('player', () => {
     const mp = ref<HTMLAudioElement>()
-    const initPlayer = (value: HTMLAudioElement | undefined)=>{
+    const initPlayer = (value: HTMLAudioElement | undefined) => {
         mp.value = value
     }
-
+    const currentTime = ref()
+    const setCurrentTime = (v: any) => {
+        currentTime.value = v
+    }
     return {
         mp,
         currentSong,
+        currentTime,
+        setCurrentTime,
         initPlayer
     }
 })

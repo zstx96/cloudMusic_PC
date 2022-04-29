@@ -15,8 +15,14 @@ export * from "./Album"
 export interface NavItem {
     iconUrl?: string,
     title?: string,
-    path: string,
-    children?: Nav
+    name: string,
+    children?: Nav,
+    isMainPage?: boolean,
+    component?: any,
+    params?: {
+        id: boolean
+    },
+    group?:string
 }
 export interface NavGroup {
     title?: string,

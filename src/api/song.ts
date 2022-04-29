@@ -11,6 +11,9 @@ import Service from "@/utils/Service";
 export function getSongUrl(id: number) {
   return Service.get<{ data: { url: string, size: number, type: string, md5: string }[] }>(`/song/url?id=${id}`);
 }
+export function getSongDownloadUrl(id: number) {
+  return Service.get(`/song/download/url?id=${id}`)
+}
 export function checkSong(id: number) {
   return Service.get(`/check/music?id=${id}`);
 }
@@ -22,7 +25,7 @@ export function getSongDetail(id: number) {
     params: {
       ids: id,
     },
-  });
+  })
 }
 
 /**
@@ -70,6 +73,7 @@ export function likeSong(id: number, like: boolean = true) {
     params: {
       id,
       like,
+      timeStamp: +new Date()
     },
   });
 }

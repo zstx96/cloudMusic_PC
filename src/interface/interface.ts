@@ -47,6 +47,7 @@ export interface Playlist {
   creator: Creator;
   id: number;
   playcount: number;
+  playCount: number;
   name: string;
   copywriter: string;
   createTime: number;
@@ -172,7 +173,7 @@ export interface CommentRes {
 export interface Reply {
   beRepliedCommentId: number;
   content: string;
-  user: User;
+  user: UserProfile;
 }
 
 export type Mv = Record<"id" | "status" | "duration" | "playCount" | "subCount" | "shareCount" | "commentCount", number> &

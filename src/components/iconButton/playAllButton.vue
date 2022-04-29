@@ -1,0 +1,28 @@
+<template lang='pug'>
+el-button-group(type="danger")
+    el-button(class="bg-app-red" icon="el-icon-caretRight" type="danger" round @click="playAll(songs)") 播放全部
+    el-button(alt="wer" @click="playSong(songs)" round  icon="el-icon-plus")
+el-dialog(:modelValue="false")
+    
+</template>
+
+<script lang="ts" setup>
+import type { Song } from '@/interface';
+import { useRecordStore } from '@/store/recordStore';
+
+const recordStore = useRecordStore()
+const playAll = (songs: Song[]) => {
+    recordStore.clearPlayRecord()
+    recordStore.addPlayRecord(songs)
+}
+const playSong = (songs: Song[]) => {
+    recordStore.addPlayRecord(songs)
+}
+
+defineProps<{songs:Song[]}>()
+defineExpose()
+
+</script>
+
+<style scoped lang="less">
+</style>

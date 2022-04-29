@@ -30,7 +30,13 @@ export function getUserAccount() {
   return Service.get("/user/account");
 }
 export function getLoginStatus() {
-  return Service.get<{ data: { code: number, account: any, profile: UserProfile } }>("/login/status");
+  return Service.get<{
+    data: {
+      code: number,
+      account: any,
+      profile: UserProfile
+    }
+  }>("/login/status");
 }
 export function getUserDetail(uid: number) {
   return Service.get<User>(`/user/detail?uid=${uid}`)

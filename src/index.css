@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*::-webkit-scrollbar  {
+*::-webkit-scrollbar {
   width: 5px;
 }
 
@@ -16,6 +16,7 @@
   scrollbar-base-color: green;
   scrollbar-track-color: red;
   scrollbar-arrow-color: blue;
+  box-sizing: border-box;
 }
 
 .select-row {
@@ -24,3 +25,11 @@
 .stripe {
   background-color: #c5c8cb !important;
 }
+@layer components {
+  .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+

@@ -18,7 +18,7 @@ export function getPlaylist(uid: number) {
   });
 }
 export function getLikelist(uid: number) {
-  return Service.get<{ ids: number[] }>("/likelist?uid=" + uid);
+  return Service.get<{ ids: number[] }>("/likelist?uid=" + uid + '?timeStamp=' + Date().valueOf());
 }
 export function getRecommendSongList() {
   return Service.get("/personalized");

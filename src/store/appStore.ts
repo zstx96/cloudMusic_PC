@@ -1,72 +1,196 @@
 import type { Nav } from "@/interface"
 import { Banner } from "@/interface/interface"
-import { useLocalStorage } from "@vueuse/core"
 import { defineStore } from "pinia"
 import { ref } from "vue"
 
 
 const asideData: Nav = [
+    // layout
     {
-        title: "发现音乐",
-        path: "discovery",
+        name: "layout",
         children: [
             {
-                title: "个性推荐",
-                path: "personal"
-            },
-            {
-                title: "专属定制",
-                path: "custom"
-            },
-            {
-                title: "歌单",
-                path: "songList"
-            },
-            {
-                title: "排行榜",
-                path: "rank"
-            },
-            {
-                title: "歌手",
-                path: "artist"
-            },
-            {
-                title: "最新音乐",
-                path: "newSongs"
-            }
+                title: "发现音乐",
+                name: "discovery",
+                children: [
+                    {
+                        title: "个性推荐",
+                        name: "personal"
+                    },
+                    {
+                        title: "专属定制",
+                        name: "custom"
+                    },
+                    {
+                        title: "歌单",
+                        name: "songList"
+                    },
+                    {
+                        title: "排行榜",
+                        name: "rank"
+                    },
+                    {
+                        title: "歌手",
+                        name: "artists"
+                    },
+                    {
+                        title: "最新音乐",
+                        name: "newSongs"
+                    }
 
+                ]
+            },
+            {
+                title: "播客",
+                name: "djradio",
+            },
+            {
+                title: "视频",
+                name: "video",
+            },
+            {
+                title: "关注",
+                name: "follows",
+            },
+            {
+                title: "直播",
+                name: "live",
+            },
+            {
+                title: "私人FM",
+                name: "fm",
+            },
+            // group 我的音乐
+            {
+                title: "本地与下载",
+                name: "download",
+                group:"我的音乐"
+            },
+            {
+                title: "最近播放",
+                name: "recentPlay",
+                group:"我的音乐"
+            },
+            {
+                title: "我的音乐云盘",
+                name: "myPan",
+                group:"我的音乐"
+            },
+            {
+                title: "我的播客",
+                name: "myDj",
+                group:"我的音乐"
+            },
+            {
+                title: "我的收藏",
+                name: "myCollection",
+                group:"我的音乐"
+            },
+            // group 创建歌单
+            {
+                name: "playlist",
+                params: { id: true },
+            },
+            {
+                name:"editPlaylist"
+            },
+            {
+                name: "user",
+                params: {
+                    id: true
+                }
+            },
+            {
+                name: "searchResult",
+                children: [
+                    {
+                        title: "单曲",
+                        name: "songResult"
+                    },
+                    {
+                        title: "歌手",
+                        name: "artistResult"
+                    },
+                    {
+                        title: "专辑",
+                        name: "albumResult"
+                    },
+                    {
+                        title: "视频",
+                        name: "mvResult"
+                    },
+                    {
+                        title: "歌单",
+                        name: "playlistResult"
+                    },
+                    {
+                        title: "歌词",
+                        name: "lyricResult"
+                    },
+                    {
+                        title: "博客",
+                        name: "radioResult"
+                    },
+                    {
+                        title: "声音",
+                        name: "voiceResult"
+                    },
+                    {
+                        title: "user",
+                        name: "userResult"
+                    },
+                ]
+            },
+            {
+                name: "dailyRecommendSongs"
+            },
+            {
+                name: "artist",
+                params: {
+                    id: true
+                },
+                children: [
+                    {
+                        name: 'artistAlbum'
+                    },
+                    {
+                        name: "artistMv"
+                    },
+                    {
+                        name: "artistDesc"
+                    },
+                    {
+                        name: "artistSimi"
+                    }
+                ]
+            },
+            {
+                name:'editSelf'
+            }
         ]
     },
-    {
-        title: "播客",
-        path: "djradio",
-    },
-    {
-        title: "视频",
-        path: "video",
-    },
-    {
-        title: "关注",
-        path: "follows",
-    },
-    {
-        title: "直播",
-        path: "live",
-    },
-    {
-        title: "私人FM",
-        path: "fm",
-    },
-    {
-        path: "playlist"
-    },
-    {
-        path: "user"
-    }
 
+    {
+        name: "song"
+    },
+    {
+        name: "mv",
+        params:{id:true}
+    }
 ]
 const useAppStore = defineStore("app", () => {
     const banners = ref<Banner[]>([])
+
+    const isDarkMode = ref(false)
+
+    const toggleMode = () => {
+        if (isDarkMode) {
+            const app = <HTMLElement>document.querySelector('#app')
+
+        }
+        isDarkMode.value = !isDarkMode.value
+    }
+
     const setBanners = (value: Banner[]) => {
         banners.value = value
     }
@@ -74,7 +198,9 @@ const useAppStore = defineStore("app", () => {
     return {
         asideData,
         banners,
-        setBanners
+        setBanners,
+        isDarkMode,
+        toggleMode
     }
 })
 

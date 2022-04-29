@@ -49,7 +49,7 @@ export function getArtistDetail(id: number) {
   return Service.get<{ data: ArtistDetail }>(`/artist/detail?id=${id}`);
 }
 export function getArtistSimile(id: number) {
-  return Service.get(`/simi/artist?id=${id}`);
+  return Service.get<{artists:Artist[]}>(`/simi/artist?id=${id}`);
 }
 /**
  * @param  {ArtistEnum} type
