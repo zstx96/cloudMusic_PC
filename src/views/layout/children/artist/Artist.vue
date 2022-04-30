@@ -26,41 +26,41 @@ div( v-if="artistDetail")
 </template>
 
 <script lang="ts" setup>
-import { getArtistDesc, getArtistDetail, getArtistInfo } from '@/api/artist';
-import type { ArtistDetail } from '@/interface';
-import type { TabPanelName } from 'element-plus';
-import   { ElLoading,  } from 'element-plus';
-import { ref, watchEffect } from 'vue';
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import { getArtistDesc, getArtistDetail, getArtistInfo } from '@/api/artist'
+import type { ArtistDetail } from '@/interface'
+import type { TabPanelName } from 'element-plus'
+import   { ElLoading,  } from 'element-plus'
+import { ref, watchEffect } from 'vue'
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const id = ref(parseInt(route.params.id as string))
 const activeName = ref(route.path.split('/').at(-1)!.substring(6))
 watchEffect(() => {
-    getArtistDetail(id.value).then(res => {
-        artistDetail.value = res.data
-    })
-    activeName.value = route.path.split('/').at(-1)!.substring(6)
+	getArtistDetail(id.value).then(res => {
+		artistDetail.value = res.data
+	})
+	activeName.value = route.path.split('/').at(-1)!.substring(6)
 })
 
 const artistDetail = ref<ArtistDetail>()
 const router = useRouter()
 const handleTabClick = async (v: TabPanelName) => {
-    voidPage.value = false
-    router.push({
-        name: 'artist' + v,
-        params: {
-            id: id.value
-        }
-    })
+	voidPage.value = false
+	router.push({
+		name: 'artist' + v,
+		params: {
+			id: id.value
+		}
+	})
 }
 
 onBeforeRouteUpdate(async (to) => {
-    if(to.params.id !== id.value.toString()){
-        const i = ElLoading.service()
-        id.value = parseInt(to.params.id as string)
-       i.close()
-    }
+	if(to.params.id !== id.value.toString()){
+		const i = ElLoading.service()
+		id.value = parseInt(to.params.id as string)
+		i.close()
+	}
 })
 
 const voidPage = ref(false)

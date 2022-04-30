@@ -1,18 +1,18 @@
 <script setup lang="ts">
 // 根据config设置#app的宽高
 
-import { onMounted } from 'vue';
-import { resizeWindow } from "@/config"
-import { useRoute, useRouter } from 'vue-router';
-import { getLoginStatus, getUserDetail } from './api/user';
-import { useAppStore } from "@/store/appStore"
+import { onMounted } from 'vue'
+import { resizeWindow } from '@/config'
+import { useRouter } from 'vue-router'
+import { getLoginStatus, getUserDetail } from './api/user'
+import { useAppStore } from '@/store/appStore'
 
-import type { Nav } from './interface';
-import type { RouteRecordRaw } from 'vue-router';
-import { useUserStore } from './store/userStore';
-import { getLikelist } from './api/songlist';
-import playerVue from './components/player/player.vue';
-import { useLocalStorage } from '@vueuse/core';
+import type { Nav } from './interface'
+import type { RouteRecordRaw } from 'vue-router'
+import { useUserStore } from './store/userStore'
+import { getLikelist } from './api/songlist'
+import playerVue from './components/player/player.vue'
+import { useLocalStorage } from '@vueuse/core'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
@@ -20,70 +20,70 @@ const router = useRouter()
 const userStore = useUserStore()
 
 getLoginStatus().then(res => {
-  if (res.data.code === 200) {
-    const userId = res.data.profile.userId
-    getUserDetail(userId).then(userInfo => {
-      userStore.setUser(userInfo)
-    })
-    getLikelist(userId).then(res => {
-      userStore.$patch({
-        likedIds: res.ids
-      })
-    })
-  }
+	if (res.data.profile) {
+		const userId = res.data.profile.userId
+		getUserDetail(userId).then(userInfo => {
+			userStore.setUser(userInfo)
+		})
+		getLikelist(userId).then(res => {
+			userStore.$patch({
+				likedIds: res.ids
+			})
+		})
+	}
 })
 
 
 const firstWordUpper = (str: string) => str.replace(/^\S/, s => s.toUpperCase())
 
- 
-const addRecordToRouter = (parentPath: string, navs: Nav, needId: boolean = false) => {
-  navs.forEach(nav => {
-    let routeName
-    if (parentPath === "") {
-      routeName = "/"
-    } else {
-      routeName = parentPath.split('/').at(parentPath.includes('/:id') ? -3 : -2)
-    }
 
-    const path = parentPath.replaceAll('/children', '') + '/' + nav.name + (nav.params?.id ? '/:id' : '')
-    const name = (nav.name === '/') ? 'layout' : nav.name
+const addRecordToRouter = (parentPath: string, navs: Nav, needId = false) => {
+	navs.forEach(nav => {
+		let routeName
+		if (parentPath === '') {
+			routeName = '/'
+		} else {
+			routeName = parentPath.split('/').at(parentPath.includes('/:id') ? -3 : -2)
+		}
 
-    const record: RouteRecordRaw = {
-      path: path.replace('/layout', ''),
-      name,
-      component: () => import(`../src/views${parentPath.replace('/:id', '')}/${nav.name}/${firstWordUpper(name)}.vue`)
-    }
-    if (nav.children) {
-      record.redirect = { name: nav.children[0].name }
-    }
+		const path = parentPath.replaceAll('/children', '') + '/' + nav.name + (nav.params?.id ? '/:id' : '')
+		const name = (nav.name === '/') ? 'layout' : nav.name
 
-    router.addRoute(routeName || 'layout', record)
-    if (nav.children) {
-      addRecordToRouter(parentPath + '/' + nav.name + '/children' + (nav.params?.id ? '/:id' : ''), nav.children, Boolean(nav.params?.id))
-    }
-  })
+		const record: RouteRecordRaw = {
+			path: path.replace('/layout', ''),
+			name,
+			component: () => import(`../src/views${parentPath.replace('/:id', '')}/${nav.name}/${firstWordUpper(name)}.vue`)
+		}
+		if (nav.children) {
+			record.redirect = { name: nav.children[0].name }
+		}
+
+		router.addRoute(routeName || 'layout', record)
+		if (nav.children) {
+			addRecordToRouter(parentPath + '/' + nav.name + '/children' + (nav.params?.id ? '/:id' : ''), nav.children, Boolean(nav.params?.id))
+		}
+	})
 }
-addRecordToRouter("", asideData)
-router.addRoute("/", {
-  redirect: "layout",
-  path: "/"
+addRecordToRouter('', asideData)
+router.addRoute('/', {
+	redirect: 'layout',
+	path: '/'
 })
-router.addRoute("/", {
-  path: "/:pathMatch(.*)*",
-  component: () => import("../src/views/404.vue")
+router.addRoute('/', {
+	path: '/:pathMatch(.*)*',
+	component: () => import('../src/views/404.vue')
 })
 
 const lastPage = useLocalStorage('lastPage', '')
 router.replace(lastPage.value)
 
 router.afterEach((to) => {
-  lastPage.value = to.fullPath
+	lastPage.value = to.fullPath
 })
 
-
 onMounted(() => {
-  resizeWindow()
+	resizeWindow()
+	appStore.toggleMode()
 })
 
 </script>
@@ -102,6 +102,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+
 }
 
 body {
@@ -115,9 +116,9 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  background-color: #fff;
+  color: var(--text);
   position: relative;
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   overflow: hidden;

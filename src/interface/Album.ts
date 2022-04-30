@@ -25,7 +25,7 @@ export interface IHotAlbum {
     id: number;
     type: string;
     size: number;
-    "picId_str": string;
+    'picId_str': string;
     isSub: boolean;
 }
 
@@ -44,8 +44,8 @@ interface IArtist_2 {
     trans: string;
     name: string;
     id: number;
-    "picId_str": string;
-    "img1v1Id_str": string;
+    'picId_str': string;
+    'img1v1Id_str': string;
 }
 
 
@@ -63,7 +63,7 @@ export interface IArtist_1 {
     trans: string;
     name: string;
     id: number;
-    "img1v1Id_str": string;
+    'img1v1Id_str': string;
 }
 
 
@@ -81,6 +81,6 @@ export interface IArtist {
     trans: string;
     name: string;
     id: number;
-    "picId_str": string;
-    "img1v1Id_str": string;
+    'picId_str': string;
+    'img1v1Id_str': string;
 }

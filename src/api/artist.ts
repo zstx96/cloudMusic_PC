@@ -1,6 +1,12 @@
-import type { ArtistType, AreaType, ArtistDetail, IArtist, IHotAlbum } from "@/interface";
-import type { Album, Artist, Mv, Song } from "@/interface/interface";
-import Service from "@/utils/Service";
+import type {
+	ArtistType,
+	AreaType,
+	ArtistDetail,
+	IArtist,
+	IHotAlbum,
+} from '@/interface'
+import type { Album, Artist, Mv, Song } from '@/interface/interface'
+import Service from '@/utils/Service'
 
 /**
  * @description: 获取歌手部分信息和热门歌曲
@@ -8,11 +14,11 @@ import Service from "@/utils/Service";
  * @return {*}
  */
 export function getArtistInfo(id: number) {
-  return Service.get<{
-    artist: Artist,
-    hotSongs: Song[],
-    time: number
-  }>(`/artists?id=${id}`);
+	return Service.get<{
+		artist: Artist
+		hotSongs: Song[]
+		time: number
+	}>(`/artists?id=${id}`)
 }
 /**
  * @description: 获取歌手mv信息，具体mv播放地址调用 /mv 传入此接口获得的mvid
@@ -20,36 +26,40 @@ export function getArtistInfo(id: number) {
  * @return {*}
  */
 export function getArtistMv(id: number) {
-  return Service.get<{
-    hasMore: boolean,
-    mvs: Mv[]
-  }>(`/artist/mv?id=${id}`);
+	return Service.get<{
+		hasMore: boolean
+		mvs: Mv[]
+	}>(`/artist/mv?id=${id}`)
 }
-type MvOrder = "上升最快" | "最热" | "最新"
-export function getArtistAllMv(order: MvOrder = "上升最快", offset = 0, limit = 30) {
-  return Service.get("/mv/all")
+type MvOrder = '上升最快' | '最热' | '最新'
+export function getArtistAllMv(
+	order: MvOrder = '上升最快',
+	offset = 0,
+	limit = 30
+) {
+	return Service.get('/mv/all')
 }
 export function getArtistAlbum(id: number) {
-  return Service.get<{
-    artist: IArtist;
-    hotAlbums: IHotAlbum[];
-    more: boolean;
-    code: number;
-  }>(`/artist/album?id=${id}`);
+	return Service.get<{
+		artist: IArtist
+		hotAlbums: IHotAlbum[]
+		more: boolean
+		code: number
+	}>(`/artist/album?id=${id}`)
 }
 export function getArtistDesc(id: number) {
-  return Service.get<{
-    briefDesc: string,
-    count: number,
-    introduction: any[],
-    topicData: any[]
-  }>(`/artist/desc?id=${id}`);
+	return Service.get<{
+		briefDesc: string
+		count: number
+		introduction: any[]
+		topicData: any[]
+	}>(`/artist/desc?id=${id}`)
 }
 export function getArtistDetail(id: number) {
-  return Service.get<{ data: ArtistDetail }>(`/artist/detail?id=${id}`);
+	return Service.get<{ data: ArtistDetail }>(`/artist/detail?id=${id}`)
 }
 export function getArtistSimile(id: number) {
-  return Service.get<{artists:Artist[]}>(`/simi/artist?id=${id}`);
+	return Service.get<{ artists: Artist[] }>(`/simi/artist?id=${id}`)
 }
 /**
  * @param  {ArtistEnum} type
@@ -59,21 +69,21 @@ export function getArtistSimile(id: number) {
  * @param  {} offset=0
  */
 export function getArtistList(
-  type: ArtistType,
-  area: AreaType,
-  initial = -1,
-  offset = 0,
-  limit = 30,
+	type: ArtistType,
+	area: AreaType,
+	initial = -1,
+	offset = 0,
+	limit = 30
 ) {
-  return Service.get<{
-    artists: Artist[]
-  }>("/artist/list", {
-    params: {
-      type,
-      area,
-      initial,
-      limit,
-      offset,
-    },
-  });
+	return Service.get<{
+		artists: Artist[]
+	}>('/artist/list', {
+		params: {
+			type,
+			area,
+			initial,
+			limit,
+			offset,
+		},
+	})
 }

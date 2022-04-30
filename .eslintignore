@@ -1,0 +1,13 @@
+node_modules/
+dist/
+index.html
+.eslintrc.js
+.gitignore
+.npmignore
+.travis.yml
+.vscode
+tailwind.config.js
+postcss.config.js
+README.md
+vite.config.js
+

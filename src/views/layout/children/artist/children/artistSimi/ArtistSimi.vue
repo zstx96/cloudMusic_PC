@@ -8,15 +8,15 @@ div(v-if="artists")
 </template>
 
 <script lang="ts" setup>
-import { getArtistSimile } from '@/api/artist';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { getArtistSimile } from '@/api/artist'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 
-const artists = ref<Awaited<ReturnType<typeof getArtistSimile>>["artists"]>()
+const artists = ref<Awaited<ReturnType<typeof getArtistSimile>>['artists']>()
 getArtistSimile(id).then(res=>{
-    artists.value = res.artists 
+	artists.value = res.artists 
 })
 </script>
 

@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 transition(name="scale")
     div(class="h-full flex flex-col ")
         div(class="h-[60px]")
@@ -23,24 +23,21 @@ transition(name="scale")
                     comments-vue(:comments="commentRes.comments")
                 div(class="flex justify-center")
                     el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
-
 </template>
 
 <script lang="ts" setup>
-import { getComment, getSongDetail, getSongLyric } from '@/api/song';
-import type { CommentRes, Song } from '@/interface/interface';
-import headerVue from '@/views/layout/header/header.vue';
+import { getComment, getSongDetail, getSongLyric } from '@/api/song'
+import type { CommentRes, Song } from '@/interface/interface'
+import headerVue from '@/views/layout/header/header.vue'
 import { useRouteQuery } from '@vueuse/router'
-import { onActivated, onMounted, ref, watch } from 'vue';
-import { onBeforeRouteUpdate } from 'vue-router';
-import commentsVue from '@/components/comment/comments.vue';
-import { usePlayerStore } from '@/store/playerStore';
-import { withLoading } from '@/utils/withLoading';
-import { AxiosResponse } from 'axios';
+import { ref, watch } from 'vue'
+import { onBeforeRouteUpdate } from 'vue-router'
+import commentsVue from '@/components/comment/comments.vue'
+import { usePlayerStore } from '@/store/playerStore'
+import { withLoading } from '@/utils/withLoading'
 
 const id = parseInt(useRouteQuery('id').value as unknown as string)
 const playStore = usePlayerStore()
-
 
 const song = ref<Song>()
 // lyric
@@ -53,53 +50,52 @@ const currentIndex = ref(0)
 const commentRes = ref<CommentRes>()
 
 const initSong = async (id: number) => {
-    const { songs: [songRes] } = await getSongDetail(id)
-    song.value = songRes
-    const { lrc: { lyric: lyricRes } } = await getSongLyric(id)
-    const arr = lyricRes.split('[')
-    arr.shift()
-    lyric.value = arr.map((str, index) => str.split(']')) as [string, string][]
-    timeArr = lyric.value.map(v => {
-        const [m, s] = v[0].split(":")
-        return (+m) * 60 + (+s)
-    })
+	const {
+		songs: [songRes],
+	} = await getSongDetail(id)
+	song.value = songRes
+	const {
+		lrc: { lyric: lyricRes },
+	} = await getSongLyric(id)
+	const arr = lyricRes.split('[')
+	arr.shift()
+	lyric.value = arr.map((str, index) => str.split(']')) as [string, string][]
+	timeArr = lyric.value.map((v) => {
+		const [m, s] = v[0].split(':')
+		return +m * 60 + +s
+	})
 
-    const { data: CommentsRes } = await getComment(id, 1)
-    commentRes.value = CommentsRes
+	const { data: CommentsRes } = await getComment(id, 1)
+	commentRes.value = CommentsRes
 
-    watch(() => playStore.currentTime, (t) => {
-        if (t > +timeArr[currentIndex.value]) {
-            currentIndex.value++
-            lyricRef.value!.scrollBy({ top: 32 })
-        }
-    })
+	watch(
+		() => playStore.currentTime,
+		(t) => {
+			if (t > +timeArr[currentIndex.value]) {
+				currentIndex.value++
+				lyricRef.value?.scrollBy({ top: 32 })
+			}
+		}
+	)
 }
 
-
 initSong(id)
-// onActivated(() => {
-//     const id = parseInt(useRouteQuery('id').value as unknown as string)
-//     currentIndex.value = 0
-//     initSong(id)
-// })
 
 onBeforeRouteUpdate(async (to) => {
-    const id = (to.query as any).id
-    withLoading(initSong)(id)
-
+	const id = (to.query as any).id
+	withLoading(initSong)(id)
 })
-
 </script>
 
 <style scoped lang="less">
 .scale-enter-active,
 .scale-leave-active {
-    transform-origin: 3% 105%;
-    transition: transform .3s ease;
+	transform-origin: 3% 105%;
+	transition: transform 0.3s ease;
 }
 
 .scale-enter-from,
 .scale-leave-to {
-    transform: scale(0);
+	transform: scale(0);
 }
 </style>

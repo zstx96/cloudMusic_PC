@@ -1,5 +1,5 @@
 <template lang='pug'>
-div(  class="overflow-auto relative h-full" id="playlistPage")
+div(  class="overflow-auto relative h-full" ref="playlistPage")
     template(v-if="detail"  )
         div(class="flex gap-4")
             div
@@ -39,17 +39,17 @@ div(  class="overflow-auto relative h-full" id="playlistPage")
 </template>
 
 <script lang="ts" setup>
-import { getPlaylistDetail } from '@/api/songlist';
-import type { PlaylistDetail } from '@/interface/interface';
-import { nextTick, ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
-import dayjs from "dayjs";
-import { useUserStore } from '@/store/userStore';
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue';
-import { formatNumber } from '@/utils/format';
-import type {  LoadingOptions } from 'element-plus';
-import { withLoading } from '@/utils/withLoading';
-import playAllButtonVue from '@/components/iconButton/playAllButton.vue';
+import { getPlaylistDetail } from '@/api/songlist'
+import type { PlaylistDetail } from '@/interface/interface'
+import { nextTick, onMounted, ref } from 'vue'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+import dayjs from 'dayjs'
+import { useUserStore } from '@/store/userStore'
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import { formatNumber } from '@/utils/format'
+import type { LoadingOptions } from 'element-plus'
+import { withLoading } from '@/utils/withLoading'
+import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
@@ -59,28 +59,27 @@ const likedIds = userStore.likedIds
 const detail = ref<PlaylistDetail>()
 //FIXME 这里有异步问题
 
+const playlistPage = ref<HTMLElement>()
 onBeforeRouteUpdate((to) => {
-    const id = parseInt(to.params.id as string)
-    const target = document.querySelector('#playlistPage') as HTMLElement
-    const loadingOptions: LoadingOptions = { target, fullscreen: false }
-    withLoading(getPlaylistDetail, loadingOptions)(id).then(res => {
-        res.playlist.tracks.forEach(song => {
-            song.isLiked = likedIds?.includes(song.id) ? true : false
-        })
-        detail.value = res.playlist
-    })
+	const id = parseInt(to.params.id as string)
+	const loadingOptions: LoadingOptions = { target: playlistPage.value, fullscreen: false }
+	withLoading(getPlaylistDetail, loadingOptions)(id).then(res => {
+		res.playlist.tracks.forEach(song => {
+			song.isLiked = likedIds?.includes(song.id) ? true : false
+		})
+		detail.value = res.playlist
+	})
 })
 
-withLoading(getPlaylistDetail)(id).then(res => {
-    res.playlist.tracks.forEach(song => {
-        song.isLiked = likedIds?.includes(song.id) ? true : false
-    })
-    detail.value = res.playlist
+onMounted(() => {
+	const loadingOptions: LoadingOptions = { target: playlistPage.value, fullscreen: false }
+	withLoading(getPlaylistDetail, loadingOptions)(id).then(res => {
+		res.playlist.tracks.forEach(song => {
+			song.isLiked = likedIds?.includes(song.id) ? true : false
+		})
+		detail.value = res.playlist
+	})
 })
-
-console.log('bloacked');
-
-
 
 </script>
 

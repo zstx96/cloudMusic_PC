@@ -1,29 +1,29 @@
-import { SearchType } from "@/enum";
-import { Album, Artist, Playlist } from "@/interface";
-import Service from "@/utils/Service";
+import { SearchType } from '@/enum'
+import { Album, Artist, Playlist } from '@/interface'
+import Service from '@/utils/Service'
 
 
-export function getSearchResult<T>(keywords: string, type: SearchType, offset: number = 0, limit: number = 30): Promise<T> {
-    return Service.get<T>('/cloudsearch', {
-        params: {
-            keywords,
-            type,
-            offset,
-            limit
-        }
-    })
+export function getSearchResult<T>(keywords: string, type: SearchType, offset = 0, limit = 30): Promise<T> {
+	return Service.get<T>('/cloudsearch', {
+		params: {
+			keywords,
+			type,
+			offset,
+			limit
+		}
+	})
 }
 export function getHotSearch() {
-    return Service.get('/search/hot')
+	return Service.get('/search/hot')
 }
 export function getSearchSuggest(keywords: string) {
-    return Service.get('/search/suggest', { params: { keywords, type: 'mobile' } })
+	return Service.get('/search/suggest', { params: { keywords, type: 'mobile' } })
 }
 export function getHotSearchDetail() {
-    return Service.get<{ data: { searchWord: string, score: number }[] }>('/search/hot/detail')
+	return Service.get<{ data: { searchWord: string, score: number }[] }>('/search/hot/detail')
 }
 export function getMultimatch(keywords: string) {
-    return Service.get<{
+	return Service.get<{
         result: {
             album: Album[],
             artist: Artist[],
@@ -34,7 +34,7 @@ export function getMultimatch(keywords: string) {
     }>(`/search/multimatch?keywords=${keywords}`)
 }
 export function getSearchDefault() {
-    return Service.get<{
+	return Service.get<{
         data: {
             showKeyword: string,
             realkeyword: string

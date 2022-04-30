@@ -5,16 +5,16 @@ div(v-if="desc")
 </template>
 
 <script lang="ts" setup>
-import { getArtistDesc } from '@/api/artist';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { getArtistDesc } from '@/api/artist'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 
 const desc = ref<Awaited<ReturnType<typeof getArtistDesc>>>()
 getArtistDesc(id).then(res => {
-    desc.value = res
+	desc.value = res
 })
 
 </script>

@@ -1,11 +1,12 @@
-<template lang='pug'>
-div( class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-center   z-[10000] bg-white border-t"  )
+<template lang="pug">
+div(v-if="curSong" class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-center   z-[10000] bg-white border-t"  )
     transition(name="swiper" 
     mode="out-in"
     class="w-80 justify-start"
+    
     )
         div(v-if="$route.name !== 'song'" )
-            div(v-if="curSong" class="flex gap-2 ")
+            div( class="flex gap-2 ")
                 el-image(:src="curSong.al.picUrl + '?param=200y200'"  class="rounded w-10  h-10  cover" @click="$router.push({ name: 'song', query: { id: curSong.id } })")
                 div(class="flex flex-col items-start")
                     div.flex
@@ -27,12 +28,12 @@ div( class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-
             el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
                 el-icon-share
     div(class=" w-[440px] flex justify-between items-center flex-col py-6")
-        player-controller-vue(@play="play" @pause="pause" @pre="pre" @next="next" class="py-2" :isPaused="isPaused")
+        player-controller-vue(@play="play" @random="handRandom" @pause="pause" @pre="pre" @next="next" class="py-2" :isPaused="isPaused")
         div(class="flex-1 flex gap-1 items-center ")
             span(class="") {{ dayjs(currentTimeInSeconds * 1000).format('mm:ss') }}
             div(class="h-6 flex items-center cursor-pointer relative" 
             @click="seek"  
-            @mousemove="throttle(showTime,100,{trailing:true})($event)"  
+            @mousemove="throttle(showTime, 100, { trailing: true })($event)"  
             @mouseout="timeTipVisible = false"
             )
                 div(class="absolute bg-slate-400 rounded text-sm -top-4 left-2 transform   " v-show="timeTipVisible" :style="{ 'transform': `translateX(${timeTipOffsetX}px)` }" v-text="timeTipValue") 
@@ -61,7 +62,7 @@ div( class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-
                     highlight-current-row
                     @row-click="handleRowClick")
                         el-table-column(type="index")
-                        el-table-column()
+                        el-table-column
                             template(#default="{ row }")
                                 span(class=" text-ellipsis w-44 whitespace-nowrap") {{ row.name }}
                         el-table-column()
@@ -78,26 +79,29 @@ div( class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-
                         router-link(to="/discovery" class=" text-blue-500") 发现音乐 
 
 
-audio(ref="playerEl" loop  )
+audio(ref="playerEl"    )
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch, watchEffect } from "vue"
-import { usePlayerStore } from "@/store/playerStore"
-import heartButtonVue from "../iconButton/heartButton.vue";
-import playerControllerVue from "./playerController.vue";
-import dayjs from "dayjs"
-import type { Song } from "@/interface/interface";
-import { getSongUrl, likeSong } from "@/api/song";
-import { app_main_height } from "@/config";
-import { getRecentSong } from "@/api/record";
-import { useRoute, useRouter } from "vue-router";
-import { useRecordStore } from "@/store/recordStore";
-import { useThrottle, useThrottleFn } from "@vueuse/core";
-import { throttle } from "lodash"
-
+import { ref, onMounted, computed, watch } from 'vue'
+import { usePlayerStore } from '@/store/playerStore'
+import heartButtonVue from '../iconButton/heartButton.vue'
+import playerControllerVue from './playerController.vue'
+import dayjs from 'dayjs'
+import type { Song } from '@/interface/interface'
+import { getSongUrl, likeSong } from '@/api/song'
+import { app_main_height } from '@/config'
+import { useRoute, useRouter } from 'vue-router'
+import { useRecordStore } from '@/store/recordStore'
+import { throttle } from 'lodash'
 
 const playerStore = usePlayerStore()
+const recordStore = useRecordStore()
+
+if (recordStore.playRecord.length) {
+	playerStore.setCurrentSong(recordStore.playRecord[recordStore.curSongIndex])
+}
+
 const playerEl = ref<HTMLAudioElement>()
 const curSong = computed(() => playerStore.currentSong)
 const currentTimeInSeconds = ref(0)
@@ -106,22 +110,34 @@ const router = useRouter()
 // 处理事件按钮组
 const isPaused = ref(true)
 const play = () => {
-    if (playerEl.value?.paused) {
-        playerEl.value?.play()
-        isPaused.value = false
-    }
+	if (playerEl.value?.paused) {
+		playerEl.value?.play()
+		isPaused.value = false
+	}
 }
 const pause = () => {
-    console.log('pause');
-
-    if (!playerEl.value?.paused) {
-        playerEl.value?.pause()
-        isPaused.value = true
-    }
+	if (!playerEl.value?.paused) {
+		playerEl.value?.pause()
+		isPaused.value = true
+	}
 }
-const pre = () => { }
-const next = () => { }
+const pre = () => {
+	const index = recordStore.curSongIndex
+	recordStore.setCurSongIndex(index - 1)
+	const song = recordStore.playRecord[recordStore.curSongIndex]
+	playerStore.setCurrentSong(song)
+}
+const next = () => {
+	console.log('next')
 
+	const index = recordStore.curSongIndex
+	recordStore.setCurSongIndex(index + 1)
+	const song = recordStore.playRecord[recordStore.curSongIndex]
+	playerStore.setCurrentSong(song)
+}
+const handRandom = () => {
+	console.log('random')
+}
 // 进度条
 const percentage = ref(0)
 const fullLength = 4 * 96
@@ -129,27 +145,24 @@ const timeTipVisible = ref(false)
 const timeTipValue = ref<string>()
 const timeTipOffsetX = ref<number>()
 const seek = (e: MouseEvent) => {
-    if (e.target instanceof HTMLSpanElement) return
-    const { offsetX } = e
-    const per = offsetX / fullLength
-    console.log(playerEl.value!.duration * per);
-    playerEl.value!.currentTime = playerEl.value!.duration * per
+	if (e.target instanceof HTMLSpanElement) return
+	const { offsetX } = e
+	const per = offsetX / fullLength
+	console.log(playerEl.value!.duration * per)
+	playerEl.value!.currentTime = playerEl.value!.duration * per
 }
 const showTime = (e: MouseEvent) => {
-    if (e.target instanceof HTMLSpanElement) return
-    const { offsetX } = e
-    const per = offsetX / fullLength
-    timeTipVisible.value = true
-    timeTipOffsetX.value = offsetX
-    timeTipValue.value = dayjs(playerEl.value!.duration * per * 1000).format('mm:ss')
+	if (e.target instanceof HTMLSpanElement) return
+	const { offsetX } = e
+	const per = offsetX / fullLength
+	timeTipVisible.value = true
+	timeTipOffsetX.value = offsetX
+	timeTipValue.value = dayjs(playerEl.value!.duration * per * 1000).format(
+		'mm:ss'
+	)
 }
 
 // 播放记录
-const recordStore = useRecordStore()
-
-watchEffect(() => {
-    console.log(recordStore.playRecord);
-})
 
 const recordVisible = ref(false)
 const recentSongs = ref<Song[]>()
@@ -157,96 +170,106 @@ const recentSongs = ref<Song[]>()
 //     recentSongs.value = res.data.list.map(v => v.data)
 // })
 recentSongs.value = recordStore.playRecord
-const selectRowIndex = ref(-1)
-const computedRowClassName = ({ row, rowIndex }: { row: any, rowIndex: any }) => {
-    return (selectRowIndex.value === rowIndex) ? 'select-row' : ''
+const computedRowClassName = ({
+	row,
+	rowIndex,
+}: {
+	row: any
+	rowIndex: any
+}) => {
+	return recordStore.curSongIndex === rowIndex ? 'select-row' : ''
 }
 const handleRowClick = (song: Song) => {
-    playerStore.$patch({
-        currentSong: song
-    })
-    selectRowIndex.value = recentSongs.value!.findIndex(v => v.id === song.id)!
-    if (route.name === "song") {
-        router.push({
-            name: "song",
-            query: {
-                id: song.id
-            }
-        })
-    }
+	playerStore.$patch({
+		currentSong: song,
+	})
+	const index = recentSongs.value!.findIndex((v) => v.id === song.id)!
+	recordStore.setCurSongIndex(index)
+	if (route.name === 'song') {
+		router.push({
+			name: 'song',
+			query: {
+				id: song.id,
+			},
+		})
+	}
 }
 onMounted(() => {
-    playerStore.initPlayer(playerEl.value)
-    const mp = playerEl.value!
-    const duration = computed(() => curSong.value.dt)
-    mp.ontimeupdate = (e) => {
-        currentTimeInSeconds.value = mp.currentTime
-        playerStore.setCurrentTime(mp.currentTime)
-        percentage.value = mp.currentTime * 1000 / duration.value * 100
-    }
-    const flag = ref(false) // 未经用户交互 浏览器禁止自动播放
-    mp.oncanplay = () => {
-        if (flag.value) {
-            mp.play()
-            isPaused.value = false
-            return
-        }
-        flag.value = true
-    }
-    watch(() => playerStore.currentSong, async (song: Song) => {
-        const { data: [{ url }] } = await getSongUrl(curSong.value.id)
-        mp.src = url
-    }, { immediate: true })
+	playerStore.initPlayer(playerEl.value)
+	const mp = playerEl.value!
+	const duration = computed(() => curSong.value.dt)
+	mp.ontimeupdate = (e) => {
+		currentTimeInSeconds.value = mp.currentTime
+		playerStore.setCurrentTime(mp.currentTime)
+		percentage.value = ((mp.currentTime * 1000) / duration.value) * 100
+	}
+	const flag = ref(false) // 未经用户交互 浏览器禁止自动播放
+	mp.oncanplay = () => {
+		if (flag.value) {
+			mp.play()
+			isPaused.value = false
+			return
+		}
+		flag.value = true
+	}
 
+	watch(
+		() => playerStore.currentSong,
+		async (song: Song) => {
+			const {
+				data: [{ url }],
+			} = await getSongUrl(curSong.value.id)
+			mp.src = url
+		},
+		{ immediate: true }
+	)
 })
-
 </script>
 
 <style scoped lang="less">
 .cover {
-    cursor: pointer;
-    position: relative;
+	cursor: pointer;
+	position: relative;
 
-    &:hover::after {
-        content: "△";
-        display: flex;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(117, 105, 105, 0.2);
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        color: white;
-        position: absolute;
-        top: 0;
-        left: 0;
-        backdrop-filter: blur(2px);
-        animation: pulse infinite ease 1.5s;
-    }
+	&:hover::after {
+		content: '△';
+		display: flex;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(117, 105, 105, 0.2);
+		align-items: center;
+		justify-content: center;
+		font-size: 36px;
+		color: white;
+		position: absolute;
+		top: 0;
+		left: 0;
+		backdrop-filter: blur(2px);
+		animation: pulse infinite ease 1.5s;
+	}
 }
 
 @keyframes pulse {
-    50% {
-        opacity: .7;
-        scale: 1.1;
-    }
+	50% {
+		opacity: 0.7;
+		scale: 1.1;
+	}
 }
 
 .swiper-enter-active {
-    transition: transform .3s ease;
-
+	transition: transform 0.3s ease;
 }
 
 .swiper-leave-active {
-    transform: translateY(-60px);
-    transition: transform .3s ease;
+	transform: translateY(-60px);
+	transition: transform 0.3s ease;
 }
 
 .swiper-enter-from {
-    transform: translateY(60px);
+	transform: translateY(60px);
 }
 
 .swiper-leave-from {
-    transform: translateY(0);
+	transform: translateY(0);
 }
 </style>

@@ -9,21 +9,21 @@ div(v-if="songs")
 </template>
 
 <script lang="ts" setup>
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue';
-import type { Song } from '@/interface';
-import Service from '@/utils/Service';
-import { ref } from 'vue';
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import type { Song } from '@/interface'
+import Service from '@/utils/Service'
+import { ref } from 'vue'
 
 const songs = ref<Song[]>()
 const getRecommendSongs = ()=>{
-   return Service.get<{
+	return Service.get<{
        data:{
            dailySongs:Song[]
        }
    }>('/recommend/songs')
 }
 getRecommendSongs().then(res=>{
-    songs.value = res.data.dailySongs
+	songs.value = res.data.dailySongs
 })
 </script>
 

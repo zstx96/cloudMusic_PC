@@ -1,9 +1,9 @@
 <template lang='pug'>
-div(class='h-full flex items-center gap-2 px-1 ' v-if="mlog")
+div(class='h-full flex items-center gap-2 px-1 ' v-if="data[0]")
     div(class='')
-        el-avatar(:src="mlog.baseInfo.resource.mlogBaseData.coverUrl ")
+        el-avatar(:src="data[0].baseInfo.resource.mlogBaseData.coverUrl ")
     div(class='flex-1 ellipsis items-center py-2')
-        span(v-text="mlog.baseInfo.resource.mlogBaseData.text ")
+        span(v-text="data[0].baseInfo.resource.mlogBaseData.text ")
 </template>
 
 <script lang="ts" setup>
@@ -25,8 +25,7 @@ interface New_mlog{
     },
     resourceId:string
 }
-const props = defineProps<{data:New_mlog[]}>()
-const mlog = props.data[0]
+defineProps<{data:New_mlog[]}>()
 </script>
 
 <style scoped lang="less">

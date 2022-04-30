@@ -1,15 +1,17 @@
-import { Banner } from "@/interface/interface";
-import Service from "@/utils/Service";
-import { id } from "element-plus/lib/locale";
+import { Banner } from '@/interface/interface'
+import Service from '@/utils/Service'
+import { id } from 'element-plus/lib/locale'
 
 
-export function homePage() { }
+export function homePage() { 
+	''
+}
 
 export function getBanners() {
-    return Service.get<{ banners: Banner[] }>('/banner?type=2')
+	return Service.get<{ banners: Banner[] }>('/banner?type=2')
 }
 export function getDragonBalls() {
-    return Service.get("/homepage/dragon/ball")
+	return Service.get('/homepage/dragon/ball')
 }
 export enum LikeResourceType {
     mv = 1,
@@ -18,12 +20,12 @@ export enum LikeResourceType {
     动态 = 6
 }
 export function resourceLike(id: number, t: boolean, type: LikeResourceType) {
-    return Service.get(`/resource/like`, {
-        params: {
-            id: id,
-            t: t,
-            type: 1,
-            timestamp:+new Date()
-        }
-    })
+	return Service.get('/resource/like', {
+		params: {
+			id: id,
+			t: t,
+			type: 1,
+			timestamp:+new Date()
+		}
+	})
 }

@@ -38,15 +38,15 @@ div
 </template>
 
 <script lang="ts" setup>
-import { resourceLike, LikeResourceType } from '@/api/app';
-import type { Comment, Mv } from '@/interface';
-import Service from '@/utils/Service';
-import dayjs from 'dayjs';
-import { onActivated, ref } from 'vue';
-import type { Ref } from "vue"
-import commentsVue from '@/components/comment/comments.vue';
-import { useRoute } from 'vue-router';
-import headerVue from '@/views/layout/header/header.vue';
+import { resourceLike, LikeResourceType } from '@/api/app'
+import type { Comment, Mv } from '@/interface'
+import Service from '@/utils/Service'
+import dayjs from 'dayjs'
+import { onActivated, ref } from 'vue'
+import type { Ref } from 'vue'
+import commentsVue from '@/components/comment/comments.vue'
+import { useRoute } from 'vue-router'
+import headerVue from '@/views/layout/header/header.vue'
 
 const route = useRoute()
 const id =parseInt(route.params.id as string)
@@ -54,20 +54,20 @@ const id =parseInt(route.params.id as string)
 
 const mvDetail = ref<Mv>()
 const getMvDetail = (id: string | number) => {
-    return Service.get<{
+	return Service.get<{
         data: Mv
     }>(`/mv/detail?mvid=${id}`)
 }
 const getMvDetailLocal = async (id: number) => {
-    getMvDetail(id).then(res => {
-        mvDetail.value = res.data
-    })
+	getMvDetail(id).then(res => {
+		mvDetail.value = res.data
+	})
 
 }
 
 const mvUrl = ref()
 const getMvUrl = async (id: number | string) => {
-    return Service.get<{
+	return Service.get<{
         data: {
             url: string
         }
@@ -83,12 +83,12 @@ type MvInfo = {
 }
 const mvInfo = ref<MvInfo>()
 const getMvInfo = (id: any) => {
-    return Service.get<MvInfo>(`/mv/detail/info?mvid=${id}`)
+	return Service.get<MvInfo>(`/mv/detail/info?mvid=${id}`)
 }
 
 const likeMv = (t: boolean) => {
-    resourceLike(id, t, LikeResourceType.mv)
-    getMvInfo(id)
+	resourceLike(id, t, LikeResourceType.mv)
+	getMvInfo(id)
 }
 
 
@@ -107,16 +107,16 @@ interface MvCommentRes {
     more: boolean;
 }
 const getMvComment = (id: number) => {
-    return Service.get<MvCommentRes>(`/comment/mv?id=${id}`)
+	return Service.get<MvCommentRes>(`/comment/mv?id=${id}`)
 }
 const initMV = async (id: number) => {
-    await getMvDetailLocal(id)
-    const { data: { url } } = await getMvUrl(id)
-    mvUrl.value = url
-    const info = await getMvInfo(id)
-    mvInfo.value = info
-    const comments = await getMvComment(id)
-    mvCommentRes.value = comments
+	await getMvDetailLocal(id)
+	const { data: { url } } = await getMvUrl(id)
+	mvUrl.value = url
+	const info = await getMvInfo(id)
+	mvInfo.value = info
+	const comments = await getMvComment(id)
+	mvCommentRes.value = comments
 
 }
 initMV(id)
@@ -124,8 +124,8 @@ const freshFlag = ref()
 // 页面被缓存了
 
 onActivated(() => {
-    const id = parseInt(route.params.id as string)
-    initMV(id)
+	const id = parseInt(route.params.id as string)
+	initMV(id)
 })
 </script>
 

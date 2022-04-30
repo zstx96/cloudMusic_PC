@@ -4,7 +4,7 @@ div(v-else @click="appStore.toggleMode") 夜间模式
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '@/store/appStore';
+import { useAppStore } from '@/store/appStore'
 
 
 const appStore = useAppStore()

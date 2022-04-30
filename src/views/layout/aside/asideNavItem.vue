@@ -5,7 +5,7 @@ div
 </template>
 
 <script lang="ts" setup>
-import type { NavItem } from '@/interface';
+import type { NavItem } from '@/interface'
 
 const props = defineProps<NavItem>()
 

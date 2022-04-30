@@ -9,18 +9,18 @@ div(v-if="users")
 </template>
 
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router';
-import { ref } from 'vue';
-import { getSearchResult } from '@/api/search';
-import { SearchType } from '@/enum';
-import type { UserProfile } from '@/interface';
+import { useRouteQuery } from '@vueuse/router'
+import { ref } from 'vue'
+import { getSearchResult } from '@/api/search'
+import { SearchType } from '@/enum'
+import type { UserProfile } from '@/interface'
 
-const keyword = useRouteQuery('keyword').value as string;
+const keyword = useRouteQuery('keyword').value as string
 const users = ref<UserProfile[]>()
 type Result = { result: { userprofiles: UserProfile[] } }
 getSearchResult<Result>(keyword, SearchType.user).then(res => {
-    console.log(res);
-    users.value = res.result.userprofiles
+	console.log(res)
+	users.value = res.result.userprofiles
 })
 
 </script>

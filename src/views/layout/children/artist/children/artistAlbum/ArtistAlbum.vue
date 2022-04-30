@@ -13,18 +13,18 @@ div(v-if="albums" )
 </template>
 
 <script lang="ts" setup>
-import { getArtistAlbum } from '@/api/artist';
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue';
-import type { IHotAlbum } from '@/interface';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { getArtistAlbum } from '@/api/artist'
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import type { IHotAlbum } from '@/interface'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 
 const albums = ref<IHotAlbum[]>()
 getArtistAlbum(id).then(res => {
-    albums.value = res.hotAlbums
+	albums.value = res.hotAlbums
 })
 
 

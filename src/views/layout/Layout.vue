@@ -10,9 +10,9 @@ el-container(class="h-full font-sans")
 </template>
 
 <script lang="ts" setup>
-import headerVue from "./header/header.vue"
-import asideVue from "./aside/aside.vue";
-import { app_main_height, app_header_height } from "@/config";
+import headerVue from './header/header.vue'
+import asideVue from './aside/aside.vue'
+import { app_main_height, app_header_height } from '@/config'
 
 </script>
 

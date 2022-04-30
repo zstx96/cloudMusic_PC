@@ -17,7 +17,7 @@ div(v-if="list.length" class="pl-1" v-show="visible")
         span {{ item.name }}
 </template>
 
-<script lang="ts" setup>import type { Playlist } from '@/interface';
+<script lang="ts" setup>import type { Playlist } from '@/interface'
 
 
 defineProps<{

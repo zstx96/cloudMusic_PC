@@ -10,25 +10,23 @@ div(class=" h-full flex flex-col items-center justify-between")
     span(class=" text-sm text-app-gray") 选择其他登录方式>
 </template>
 
-<script lang="ts" setup>import { checkQr } from '@/api/login';
-import { ElMessage } from 'element-plus';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+<script lang="ts" setup>
+import { checkQr } from '@/api/login'
+import { ref } from 'vue'
 const props = defineProps<{ qrimg: string, qrKey: string }>()
 defineEmits<{
     (event: 'closeLoginBox', value: boolean): void
 }>()
 const qrKey = props.qrKey
 const message = ref()
-const router = useRouter()
 const timeoutId = setInterval(() => {
-    checkQr(qrKey).then(res => {
-        message.value = res.message
-        if (res.code === 803) {
-            clearInterval(timeoutId)
-            router.push({ name: 'discovery' })
-        }
-    })
+	checkQr(qrKey).then(res => {
+		message.value = res.message
+		if (res.code === 803) {
+			clearInterval(timeoutId)
+			location.reload()
+		}
+	})
 }, 1000)
 
 </script>

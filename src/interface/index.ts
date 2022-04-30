@@ -6,11 +6,11 @@
  * @描述: file content
  */
 
-export * from "./interface"
-export * from "./user"
-export * from "../enum"
-export * from "./Artist"
-export * from "./Album"
+export * from './interface'
+export * from './user'
+export * from '../enum'
+export * from './Artist'
+export * from './Album'
 
 export interface NavItem {
     iconUrl?: string,

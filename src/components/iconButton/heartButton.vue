@@ -5,9 +5,9 @@ div(class=" w-5 h-5")
 </template>
 
 <script lang="ts" setup>
-import heart from "@/assets/icon/heart.png"
-import heartFill from "@/assets/icon/heart-fill.png"
-import { ref } from "vue";
+import heart from '@/assets/icon/heart.png'
+import heartFill from '@/assets/icon/heart-fill.png'
+import { ref } from 'vue'
 const props = defineProps<{ isLike?: boolean }>()
 const isLike = ref(props.isLike)
 

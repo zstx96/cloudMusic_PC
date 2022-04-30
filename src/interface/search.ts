@@ -1,4 +1,4 @@
-import type { Artist, Playlist } from "./interface";
+import type { Artist, Playlist } from './interface'
 
 /*
  * @作者: zhao

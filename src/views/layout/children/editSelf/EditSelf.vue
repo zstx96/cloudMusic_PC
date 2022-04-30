@@ -32,10 +32,10 @@ div(v-if="form")
 </template>
 
 <script lang="ts" setup>
-import type { UserProfile } from '@/interface';
-import { useUserStore } from '@/store/userStore';
-import dayjs from 'dayjs';
-import { reactive, ref, watch } from 'vue';
+import type { UserProfile } from '@/interface'
+import { useUserStore } from '@/store/userStore'
+import dayjs from 'dayjs'
+import { reactive, ref, watch } from 'vue'
 
 // gender: 性别 0:保密 1:男性 2:女性
 // birthday: 出生日期,时间戳 unix timestamp
@@ -48,25 +48,25 @@ const userStore = useUserStore()
 const form = ref<Pick<UserProfile, 'gender' | 'birthday' | 'nickname' | 'province' | 'city' | 'signature'>>()
 
 watch(() => userStore.user, (user) => {
-    if (user) {
-        form.value = {
-            gender: user?.profile.gender,
-            birthday: user?.profile.birthday,
-            nickname: user?.profile.nickname,
-            province: user?.profile.province,
-            city: user?.profile.city,
-            signature: user?.profile.signature
-        }
-      let b =   dayjs(user?.profile.birthday).format()
-      console.log(b);
+	if (user) {
+		form.value = {
+			gender: user?.profile.gender,
+			birthday: user?.profile.birthday,
+			nickname: user?.profile.nickname,
+			province: user?.profile.province,
+			city: user?.profile.city,
+			signature: user?.profile.signature
+		}
+		let b =   dayjs(user?.profile.birthday).format()
+		console.log(b)
       
-    }
+	}
 },{immediate:true})
- const ifs = reactive({
-     y:0,
-     d:0,
-     m:0
- })
+const ifs = reactive({
+	y:0,
+	d:0,
+	m:0
+})
 
 
 </script>

@@ -20,16 +20,16 @@ div(v-if="follows")
 </template>
 
 <script lang="ts" setup>
-import { getFollows } from '@/api/user';
-import type { Follower } from '@/interface';
-import { useRouteQuery } from '@vueuse/router';
-import { ref } from 'vue';
+import { getFollows } from '@/api/user'
+import type { Follower } from '@/interface'
+import { useRouteQuery } from '@vueuse/router'
+import { ref } from 'vue'
 
 const id = parseInt(useRouteQuery('id').value as string)
 
 const follows = ref<Follower[]>()
 getFollows(id).then(res=>{
-    follows.value = res.follow
+	follows.value = res.follow
 })
 
 

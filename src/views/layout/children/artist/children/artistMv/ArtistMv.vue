@@ -15,12 +15,12 @@ div(v-if="mvs" class=" flex flex-wrap gap-2   text-sm "
 </template>
 
 <script lang="ts" setup>
-import { getArtistMv } from '@/api/artist';
-import playCountInnerVue from '@/components/iconButton/playCountInner.vue';
-import type { Mv } from '@/interface';
-import dayjs from 'dayjs';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { getArtistMv } from '@/api/artist'
+import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
+import type { Mv } from '@/interface'
+import dayjs from 'dayjs'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 dayjs
 
 const id = parseInt(useRoute().params.id as string)
@@ -33,13 +33,13 @@ const emit = defineEmits<{
 }>()
 // getArtistAllMv()
 getArtistMv(id).then(res => {
-    if (res.mvs.length) {
-        mvs.value = res.mvs
-        hasMore.value = res.hasMore
-    } else {
-        // debugger
-        emit("update:voidPage", true)
-    }
+	if (res.mvs.length) {
+		mvs.value = res.mvs
+		hasMore.value = res.hasMore
+	} else {
+		// debugger
+		emit('update:voidPage', true)
+	}
 })
 
 </script>

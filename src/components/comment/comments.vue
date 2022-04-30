@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(v-for="comment in comments" class="flex gap-3 py-3 ")
     div(class="")
         el-avatar(:src="comment.user.avatarUrl" class=" cursor-pointer" @click="$router.push({name:'user',params:{id:comment.user.userId}})" )
@@ -14,42 +14,30 @@ div(v-for="comment in comments" class="flex gap-3 py-3 ")
             div(class="flex items-center gap-2")
                 span 举报
                 | |
-                thumb-up-button(:width="20" :height="20" :liked="comment.liked" @thumb-up="" @not-thumb-up="") 
+                thumb-up-button(:width="20" :height="20" :liked="comment.liked" @thumb-up="thumbUpComment(comment.commentId,1)" @not-thumb-up="") 
                 span {{ comment.likedCount }}
                 | |
                 el-icon()
                     el-icon-share 
                 | |
-                el-icon 
-                    el-icon-chatLineRound
+               
 </template>
 
 <script lang="ts" setup>
-import type { Comment } from "@/interface"
-import dayjs from "dayjs"
-import thumbUpButton from "@/components/iconButton/thumbUpButton.vue"
-import { likeComment } from "@/api/song";
+import type { Comment } from '@/interface'
+import dayjs from 'dayjs'
+import thumbUpButton from '@/components/iconButton/thumbUpButton.vue'
+import { likeComment } from '@/api/song'
 
 defineProps<{ comments: Comment[] }>()
-const waitTime = 2000
 
-// 如果超过规定时间还没有response,终止此次axios 
-const abortController = new AbortController()
-const signal = abortController.signal
-
-
-
+// 如果超过规定时间还没有response,终止此次axios
 
 const thumbUpComment = async (id: number, t: number | undefined, type = 0) => {
-    let flag = false
-    likeComment(id, t, type).then(res=>{
-
-    })
-    setTimeout(() => {
-
-    }, waitTime);
+	likeComment(id, t, type).then((res) => {
+		// TODO like
+	})
 }
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

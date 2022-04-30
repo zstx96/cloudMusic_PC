@@ -4,7 +4,7 @@ div(class=" w-7 h-7 rounded-full bg-white flex items-center justify-center")
 </template>
 
 <script lang="ts" setup>
-import playInnerPic from "@/assets/icon/playInner.png"
+import playInnerPic from '@/assets/icon/playInner.png'
 
 </script>
 

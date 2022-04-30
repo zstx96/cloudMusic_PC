@@ -32,13 +32,13 @@ stripe
 </template>
 
 <script lang="ts" setup>
-import { likeSong } from "@/api/song";
-import type { Song } from "@/interface";
-import { usePlayerStore } from "@/store/playerStore";
-import { useUserStore } from "@/store/userStore";
-import dayjs from "dayjs"
-import { ref } from "vue";
-import heartButtonVue from "../iconButton/heartButton.vue";
+import { likeSong } from '@/api/song'
+import type { Song } from '@/interface'
+import { usePlayerStore } from '@/store/playerStore'
+import { useUserStore } from '@/store/userStore'
+import dayjs from 'dayjs'
+import { ref } from 'vue'
+import heartButtonVue from '../iconButton/heartButton.vue'
 const props =  defineProps<{ data: Song[],showPlayTime?:boolean}>()
 
 const processData = ref()
@@ -46,26 +46,26 @@ const processData = ref()
 const userStore = useUserStore()
 const ids = userStore.likedIds
 props.data.forEach(v=>{
-    if(ids?.includes(v.id)){
-        v.isLiked = true
-    }
+	if(ids?.includes(v.id)){
+		v.isLiked = true
+	}
 })
 processData.value = props.data
 
 const playerStore = usePlayerStore()
 const handleRowDblClick = async (row: Song) => {
-    playerStore.$patch({
-        currentSong: row
-    })
+	playerStore.$patch({
+		currentSong: row
+	})
 }
 const like = (id: number) => {
-    likeSong(id, true)
-    userStore.addLikeSong(id)
+	likeSong(id, true)
+	userStore.addLikeSong(id)
     
 }
 const disLike = (id: number) => {
-    likeSong(id, false)
-    userStore.deleteLikeSong(id)
+	likeSong(id, false)
+	userStore.deleteLikeSong(id)
 }
 
 

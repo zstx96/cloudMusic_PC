@@ -7,16 +7,16 @@ el-dialog(:modelValue="false")
 </template>
 
 <script lang="ts" setup>
-import type { Song } from '@/interface';
-import { useRecordStore } from '@/store/recordStore';
+import type { Song } from '@/interface'
+import { useRecordStore } from '@/store/recordStore'
 
 const recordStore = useRecordStore()
 const playAll = (songs: Song[]) => {
-    recordStore.clearPlayRecord()
-    recordStore.addPlayRecord(songs)
+	recordStore.clearPlayRecord()
+	recordStore.addPlayRecord(songs)
 }
 const playSong = (songs: Song[]) => {
-    recordStore.addPlayRecord(songs)
+	recordStore.addPlayRecord(songs)
 }
 
 defineProps<{songs:Song[]}>()

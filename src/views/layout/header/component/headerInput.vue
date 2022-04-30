@@ -20,12 +20,12 @@ div(class="relative")
 </template>
 
 <script lang="ts" setup>
-import { getSearchDefault } from '@/api/search';
-import { useRecordStore } from '@/store/recordStore';
-import { useLocalStorage } from '@vueuse/core';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import headerInputSuggestBoxVue from "./headerInputSuggestBox.vue"
+import { getSearchDefault } from '@/api/search'
+import { useRecordStore } from '@/store/recordStore'
+import { useLocalStorage } from '@vueuse/core'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import headerInputSuggestBoxVue from './headerInputSuggestBox.vue'
 
 const recordStore = useRecordStore()
 const router = useRouter()
@@ -35,34 +35,34 @@ const realKeyword = ref('')
 let baseKeyword = ''
 
 getSearchDefault().then(res => {
-    showKeyword.value = res.data.showKeyword
-    baseKeyword = res.data.realkeyword
+	showKeyword.value = res.data.showKeyword
+	baseKeyword = res.data.realkeyword
 
 })
 
 const suggestionVisible = ref(false)
 const handleFocus = () => {
-    suggestionVisible.value = true
+	suggestionVisible.value = true
 }
 const closeBox = () => {
-    console.log('close box');
-    suggestionVisible.value = false
+	console.log('close box')
+	suggestionVisible.value = false
 
 }
 const handleChange = (v: string | undefined) => {
-    if (v) {
-        recordStore.pushSearchRecord(v)
-    }
+	if (v) {
+		recordStore.pushSearchRecord(v)
+	}
 }
 const handleSelectWord = (word: string) => {
-    realKeyword.value = word
-    if (realKeyword.value === '') {
-        console.log(baseKeyword);
+	realKeyword.value = word
+	if (realKeyword.value === '') {
+		console.log(baseKeyword)
 
-        realKeyword.value = baseKeyword
-    }
-    handleChange(word)
-    router.push(`/searchResult?keyword=${realKeyword.value}`)
+		realKeyword.value = baseKeyword
+	}
+	handleChange(word)
+	router.push(`/searchResult?keyword=${realKeyword.value}`)
 }
 </script>
 

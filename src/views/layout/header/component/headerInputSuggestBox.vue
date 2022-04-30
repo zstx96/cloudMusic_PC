@@ -25,10 +25,10 @@ div(class="")
 </template>
 
 <script lang="ts" setup>
-import { getHotSearchDetail } from '@/api/search';
-import { useRecordStore } from '@/store/recordStore';
-import { useLocalStorage } from '@vueuse/core';
-import { ref } from 'vue';
+import { getHotSearchDetail } from '@/api/search'
+import { useRecordStore } from '@/store/recordStore'
+import { useLocalStorage } from '@vueuse/core'
+import { ref } from 'vue'
 
 const recordStore = useRecordStore()
 
@@ -36,14 +36,14 @@ const recordStore = useRecordStore()
 const searchRecord = recordStore.searchRecord
 
 const deleteAll = () => {
-   recordStore.clearSearchRecord()
+	recordStore.clearSearchRecord()
 }
 const deleteSingle = (v: string) => {
-    recordStore.removeSearchRecord(v)
+	recordStore.removeSearchRecord(v)
 }
 const hotSearch = ref<{ searchWord: string, score: number }[]>()
 getHotSearchDetail().then(res => {
-    hotSearch.value = res.data
+	hotSearch.value = res.data
 })
 </script>
 

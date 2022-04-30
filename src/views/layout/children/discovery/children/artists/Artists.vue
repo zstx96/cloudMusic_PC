@@ -1,4 +1,5 @@
-<template lang='pug'>
+/* eslint-disable @typescript-eslint/no-unused-vars */
+<template lang="pug">
 div
     div(class="flex flex-col gap-2 text-xs controller")
         div
@@ -24,19 +25,20 @@ div
     div(class="flex flex-wrap   gap-2 text-sm m-auto ")
         div(v-for="artist in artists" class="w-[15%]  ")
             el-image(:src="artist.picUrl + '?param=500y500'" 
-
+            lazy
             @click="$router.push(`/artist/${artist.id}`)" 
             class="rounded cursor-pointer  flex-shrink " )
+                template(#placeholder)
+                    span isLoading
             div {{ artist.name }}
 
 </template>
 
 <script lang="ts" setup>
-import { getArtistList } from '@/api/artist';
-import { AreaType, ArtistType } from '@/enum';
-import type { Artist } from '@/interface/interface';
-import { ref, watchEffect } from 'vue';
-
+import { getArtistList } from '@/api/artist'
+import { AreaType, ArtistType } from '@/enum'
+import type { Artist } from '@/interface/interface'
+import { ref, watchEffect } from 'vue'
 
 const selectedArea = ref(AreaType.all)
 const selectedClass = ref(ArtistType.all)
@@ -45,29 +47,27 @@ const selectedInitial = ref('-1')
 const artists = ref<Artist[]>()
 
 watchEffect(() => {
-    getArtistList(selectedClass.value, selectedArea.value).then((res) => {
-        artists.value = res.artists
-    })
+	getArtistList(selectedClass.value, selectedArea.value).then((res) => {
+		artists.value = res.artists
+	})
 })
 
 const selectArea = (v: AreaType) => {
-    selectedArea.value = v
+	selectedArea.value = v
 }
 const selectClass = (v: ArtistType) => {
-    selectedClass.value = v
+	selectedClass.value = v
 }
 const selectInitial = (v: string | number) => {
-    selectedInitial.value = v.toString()
+	selectedInitial.value = v.toString()
 }
-
 </script>
 
 <style scoped lang="less">
 span {
-    display: inline-block;
-    width: 75px;
-    text-align: center;
-    padding: 5px;
+	display: inline-block;
+	width: 75px;
+	text-align: center;
+	padding: 5px;
 }
-
 </style>

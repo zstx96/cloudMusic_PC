@@ -49,12 +49,12 @@ div(v-if="userDetail")
 </template>
 
 <script lang="ts" setup>
-import { getPlaylist } from '@/api/songlist';
-import { getUserDetail } from '@/api/user';
-import playCountInnerVue from '@/components/iconButton/playCountInner.vue';
-import type { Playlist, User } from '@/interface';
-import { ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { getPlaylist } from '@/api/songlist'
+import { getUserDetail } from '@/api/user'
+import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
+import type { Playlist, User } from '@/interface'
+import { ref } from 'vue'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 
 
 const route = useRoute()
@@ -63,19 +63,19 @@ const userDetail = ref<User>()
 const playlist = ref<Playlist[]>()
 
 const init = async (id: number) => {
-    await getUserDetail(id).then(res => {
-        userDetail.value = res
-    })
+	await getUserDetail(id).then(res => {
+		userDetail.value = res
+	})
 
-    await getPlaylist(id).then(res => {
-        playlist.value = res.playlist
-    })
+	await getPlaylist(id).then(res => {
+		playlist.value = res.playlist
+	})
 
 }
 init(id)
 onBeforeRouteUpdate((to) => {
-    const id = parseInt(to.params.id as string)
-    init(id)
+	const id = parseInt(to.params.id as string)
+	init(id)
 })
 </script>
 

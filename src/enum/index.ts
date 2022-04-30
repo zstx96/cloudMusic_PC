@@ -10,7 +10,7 @@ export enum ArtistType {
   male = 1,
   female = 2,
   band = 3,
-}; // 1.这样写奇奇怪怪的
+} // 1.这样写奇奇怪怪的
 // Object.values(ArtistEnum).filter((v) => typeof v !== "number"); // 2.无序
 // 3.还是全手写
 export enum AreaType {
@@ -20,7 +20,7 @@ export enum AreaType {
   JP = 8,
   KR = 16,
   other = 0,
-};
+}
 
 export enum Fee {
   free = 0,
