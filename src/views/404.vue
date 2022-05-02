@@ -5,11 +5,9 @@ el-empty(description="404")
 </template>
 
 <script lang="ts" setup>
-import { onActivated, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { onActivated, ref } from 'vue'
 
 const delay = ref(3)
-const router = useRouter()
 
 const timeout = () => {
 	const id = setTimeout(() => {

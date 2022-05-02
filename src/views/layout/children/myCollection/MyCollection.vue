@@ -1,8 +1,9 @@
 <template lang='pug'>
-p 歌单：
+p 我的收藏
 </template>
 
 <script lang="ts" setup>
+
 
 </script>
 

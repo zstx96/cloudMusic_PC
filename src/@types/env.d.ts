@@ -10,3 +10,11 @@ declare module '*.vue' {
   export default component
 }
 
+interface ImportMetaEnv {
+	readonly VITE_BASE_URL: string
+	// 更多环境变量...
+}
+
+interface ImportMeta {
+	readonly env: ImportMetaEnv
+}

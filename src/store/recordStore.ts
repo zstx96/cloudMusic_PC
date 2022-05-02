@@ -1,7 +1,6 @@
 import type { Song } from '@/interface'
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
 const searchRecord = useLocalStorage<string[]>('searchRecord', [])
 const playRecord = useLocalStorage<Song[]>('playRecord', [])

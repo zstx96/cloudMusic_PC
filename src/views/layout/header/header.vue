@@ -1,13 +1,13 @@
 <template lang="pug">
-div(class="h-full flex     items-center justify-between px-2.5" :class="[!textBlack && ' bg-app-red']")
+div(class="app-header h-full flex items-center justify-between px-2.5")
     div(v-if="$route.path === '/song'" class="w-[200px] pl-6" @click="$router.push('/')") 
         el-icon
             el-icon-arrowDown
-    div(class=" text-lg cursor-pointer w-[200px] text-white" v-else @click="$router.push({ 'name': 'discovery' })") 网易云音乐
+    div(class=" text-lg cursor-pointer w-[200px] " v-else @click="$router.push({ 'name': 'discovery' })") 网易云音乐
     header-input-vue(class="flex items-center gap-2"  )
     div(:class="[' flex-1']")
     div(class="icon-groups w-[435px]  flex  justify-between items-center ")
-        toggle-mode-vue()
+        toggle-mode-vue 
         // avatar
         div(class="relative")
             el-avatar( @click="clickAvatar" :src="userStore.user?.profile.avatarUrl" ref="avatarEl" class="relative")
@@ -19,20 +19,19 @@ div(class="h-full flex     items-center justify-between px-2.5" :class="[!textBl
             template(#dropdown)
                 el-dropdown-item(@click="handleLogout") logout
 
-
         span(ref="nicknameEl")
         // setting
-        el-icon(:color="textBlack ? 'black' : 'white'"  class="cursor-pointer" :size="25"  )
+        el-icon(   class="cursor-pointer" :size="25"  )
             el-icon-setting
-        el-icon(:color="textBlack ? 'black' : 'white'"  class="cursor-pointer" :size="25" )
+        el-icon(  class="cursor-pointer" :size="25" )
             el-icon-message
         div(class="h-[25px] w-[25px] px-[4px] flex items-center" )
             div(class=" h-[2px]  w-full   bg-white ")
         div(class="h-[25px] w-[25px] p-[4px]" v-if="!isFullScreen" @click="fullScreen")
             div(class="h-[16px]  border  border-white ")
-        el-icon(v-else :color="textBlack ? 'black' : 'white'"  class="cursor-pointer" @click="restoreScreen" :size="25")
+        el-icon(v-else    class="cursor-pointer" @click="restoreScreen" :size="25")
             el-icon-copyDocument
-        el-icon(:color="textBlack ? 'black' : 'white'"  class="cursor-pointer"  :size="28")
+        el-icon(  class="cursor-pointer"  :size="28")
             el-icon-close
 
 </template>
@@ -54,7 +53,6 @@ import { useRouter } from 'vue-router'
 import { logout } from '@/api/user'
 import toggleModeVue from '@/components/iconButton/toggleMode.vue'
 // 处理顶部按钮组事件
-withDefaults(defineProps<{ textBlack: boolean }>(), { textBlack: false })
 const userStore = useUserStore()
 
 const handleLogout = () => {
@@ -63,7 +61,7 @@ const handleLogout = () => {
 }
 
 /// 点击头像
-const loginBoxVisible = ref(false)
+const loginBoxVisible = ref(!userStore.user)
 const qrKey = ref()
 const qrimg = ref()
 const closeLoginBox = () => {
@@ -76,6 +74,7 @@ const clickAvatar = async () => {
 		router.push(`/user/${userStore.user.profile.userId}`)
 		return
 	}
+
 	const instance = ElMessage({
 		duration: 0,
 		message: '正在加载中,请稍后',
@@ -121,7 +120,6 @@ const restoreScreen = () => {
 		cursor: pointer;
 	}
 }
-
 .el-icon {
 	cursor: pointer;
 }

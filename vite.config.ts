@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [vue()],
@@ -10,13 +9,13 @@ export default defineConfig({
 			'/api': {
 				target: 'http://49.233.217.220:3000',
 				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, '')
+				rewrite: (path) => path.replace(/^\/api/, ''),
 			},
-		}
+		},
 	},
 	resolve: {
 		alias: {
-			'@': resolve(__dirname, 'src')
-		}
-	}
+			'@': resolve(__dirname, 'src'),
+		},
+	},
 })

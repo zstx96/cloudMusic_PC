@@ -3,7 +3,6 @@ import { Banner } from '@/interface/interface'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-
 const asideData: Nav = [
 	// layout
 	{
@@ -15,42 +14,44 @@ const asideData: Nav = [
 				children: [
 					{
 						title: '个性推荐',
-						name: 'personal'
+						name: 'personal',
 					},
 					{
 						title: '专属定制',
-						name: 'custom'
+						name: 'custom',
 					},
 					{
 						title: '歌单',
-						name: 'songList'
+						name: 'songList',
 					},
 					{
 						title: '排行榜',
-						name: 'rank'
+						name: 'rank',
 					},
 					{
 						title: '歌手',
-						name: 'artists'
+						name: 'artists',
 					},
 					{
 						title: '最新音乐',
-						name: 'newSongs'
-					}
-
-				]
+						name: 'newSongs',
+					},
+				],
 			},
 			{
 				title: '播客',
 				name: 'djradio',
 			},
 			{
-				title: '视频',
+				// title: '视频',
 				name: 'video',
 			},
 			{
-				title: '关注',
+				// title:"关注",
 				name: 'follows',
+				params: {
+					id: true,
+				},
 			},
 			{
 				title: '直播',
@@ -62,29 +63,29 @@ const asideData: Nav = [
 			},
 			// group 我的音乐
 			{
-				title: '本地与下载',
+				// title: '本地与下载',
 				name: 'download',
-				group:'我的音乐'
+				group: '我的音乐',
 			},
 			{
 				title: '最近播放',
 				name: 'recentPlay',
-				group:'我的音乐'
+				group: '我的音乐',
 			},
 			{
-				title: '我的音乐云盘',
+				// title: '我的音乐云盘',
 				name: 'myPan',
-				group:'我的音乐'
+				group: '我的音乐',
 			},
 			{
-				title: '我的播客',
+				// title: '我的播客',
 				name: 'myDj',
-				group:'我的音乐'
+				group: '我的音乐',
 			},
 			{
 				title: '我的收藏',
 				name: 'myCollection',
-				group:'我的音乐'
+				group: '我的音乐',
 			},
 			// group 创建歌单
 			{
@@ -92,91 +93,97 @@ const asideData: Nav = [
 				params: { id: true },
 			},
 			{
-				name:'editPlaylist'
+				name: 'editPlaylist',
 			},
 			{
 				name: 'user',
 				params: {
-					id: true
-				}
+					id: true,
+				},
 			},
 			{
 				name: 'searchResult',
 				children: [
 					{
 						title: '单曲',
-						name: 'songResult'
+						name: 'songResult',
 					},
 					{
 						title: '歌手',
-						name: 'artistResult'
+						name: 'artistResult',
 					},
 					{
 						title: '专辑',
-						name: 'albumResult'
+						name: 'albumResult',
 					},
 					{
 						title: '视频',
-						name: 'mvResult'
+						name: 'mvResult',
 					},
 					{
 						title: '歌单',
-						name: 'playlistResult'
+						name: 'playlistResult',
 					},
 					{
 						title: '歌词',
-						name: 'lyricResult'
+						name: 'lyricResult',
 					},
 					{
 						title: '博客',
-						name: 'radioResult'
+						name: 'radioResult',
 					},
 					{
 						title: '声音',
-						name: 'voiceResult'
+						name: 'voiceResult',
 					},
 					{
 						title: 'user',
-						name: 'userResult'
+						name: 'userResult',
 					},
-				]
+				],
 			},
 			{
-				name: 'dailyRecommendSongs'
+				name: 'dailyRecommendSongs',
 			},
 			{
 				name: 'artist',
 				params: {
-					id: true
+					id: true,
 				},
 				children: [
 					{
-						name: 'artistAlbum'
+						name: 'artistAlbum',
 					},
 					{
-						name: 'artistMv'
+						name: 'artistMv',
 					},
 					{
-						name: 'artistDesc'
+						name: 'artistDesc',
 					},
 					{
-						name: 'artistSimi'
-					}
-				]
+						name: 'artistSimi',
+					},
+				],
 			},
 			{
-				name:'editSelf'
-			}
-		]
+				name: 'editSelf',
+			},
+			{
+				name: 'album',
+				params: {
+					id: true,
+				},
+			},
+		],
 	},
 
 	{
-		name: 'song'
+		name: 'song',
 	},
 	{
 		name: 'mv',
-		params:{id:true}
-	}
+		params: { id: true },
+	},
 ]
 const useAppStore = defineStore('app', () => {
 	const banners = ref<Banner[]>([])
@@ -185,13 +192,14 @@ const useAppStore = defineStore('app', () => {
 
 	const toggleMode = () => {
 		const app = <HTMLElement>document.querySelector('#app')
-		if (isDarkMode.value) {
+		app.toggleAttribute('darkMode')
+		/* 	if (isDarkMode.value) {
 			app.style.setProperty('--background', '#fff')
 			app.style.setProperty('--text', '#2c3e50')
-		}else{
+		} else {
 			app.style.setProperty('--background', '#2b2b2b')
 			app.style.setProperty('--text', '#fff')
-		}
+		} */
 		isDarkMode.value = !isDarkMode.value
 	}
 
@@ -204,7 +212,7 @@ const useAppStore = defineStore('app', () => {
 		banners,
 		setBanners,
 		isDarkMode,
-		toggleMode
+		toggleMode,
 	}
 })
 

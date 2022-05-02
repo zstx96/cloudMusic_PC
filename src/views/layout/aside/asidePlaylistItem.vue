@@ -9,7 +9,7 @@ div(v-if="list.length" class="pl-1" v-show="visible")
     p(v-for="item in list" 
     :data-pid="item.id"
     class="flex gap-2 hover:bg-app-gray hover:bg-opacity-30 items-center cursor-pointer py-1 text-ellipsis overflow-hidden whitespace-nowrap"
-    :class="[(activeNav == item.id )&&'bg-app-gray bg-opacity-30']"
+    :class="[(activeNav === item.id.toString() )&&'bg-app-gray bg-opacity-30']"
     @click="($emit('update:activeNav',item.id.toString()),$router.push({name:'playlist',params:{id:item.id}}))"
     ) 
         el-icon

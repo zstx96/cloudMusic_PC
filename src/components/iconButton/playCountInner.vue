@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-1 scale-75 items-center absolute right-2 top-2">
+  <div class="flex gap-1 scale-75 items-center absolute right-2 top-2 ">
     <svg
       :width="18"
       :height="18"
@@ -16,7 +16,7 @@
         p-id="3254"
       />
     </svg>
-    <span class=" text-white">
+    <span class="  ">
       {{ formatNumber(count) }}
     </span>
   </div>

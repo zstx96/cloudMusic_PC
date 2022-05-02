@@ -22,13 +22,15 @@ export function getSearchSuggest(keywords: string) {
 export function getHotSearchDetail() {
 	return Service.get<{ data: { searchWord: string, score: number }[] }>('/search/hot/detail')
 }
+// FIXME 如何声明一个拥有多个可能字符串的 Array 类型？
+export type MultiMatchOrders = 'album' | 'artist' | 'playlist'
 export function getMultimatch(keywords: string) {
 	return Service.get<{
         result: {
             album: Album[],
             artist: Artist[],
             new_mlog: any[],
-            orders: string[],
+            orders: MultiMatchOrders[],
             playlist: Playlist[]
         }
     }>(`/search/multimatch?keywords=${keywords}`)

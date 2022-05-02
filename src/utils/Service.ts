@@ -1,26 +1,21 @@
-import config from '@/config'
 import Axios from 'axios'
-import { ElMessage } from 'element-plus'
 
-
-const baseURL = import.meta.env.PROD ? '' : config.baseURL_Dev
 // abort controller
 const controller = new AbortController()
 
-
 const Service = Axios.create({
-	baseURL,
+	baseURL: import.meta.env.VITE_BASE_URL,
 	withCredentials: true,
+	signal: controller.signal,
 })
 
-Service.interceptors.response.use((res) => {
-
-	return res.data
-}, err => {
-	ElMessage.warning('请求发生错误')
-	// console.dir(err);
-    
-
-	// return Promise.resolve(err)
-})
+Service.interceptors.response.use(
+	(res) => {
+		return res.data
+	},
+	(err) => {
+		return Promise.resolve(err)
+	}
+)
+export { controller }
 export default Service

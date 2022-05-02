@@ -14,7 +14,7 @@
  */
 
 import { Fee } from '../enum'
-import type { User, UserProfile } from './user'
+import type { UserProfile } from './user'
 
 export interface Album {
   id: number;
@@ -53,7 +53,7 @@ export interface Playlist {
   createTime: number;
   userId: number;
   trackCount: number;
-  coverImgUrl?: string
+  coverImgUrl: string
 }
 export interface PlaylistDetail {
   id: number;
@@ -149,7 +149,7 @@ export interface Tab {
   path: string;
 }
 export interface Comment {
-  beReplied: Reply[];
+  beReplied: Reply[] | undefined;
   commentId: number;
   content: string;
   liked: boolean;
@@ -179,4 +179,3 @@ export interface Reply {
 export type Mv = Record<'id' | 'status' | 'duration' | 'playCount' | 'subCount' | 'shareCount' | 'commentCount', number> &
   Record<'artistName' | 'publishTime' | 'imgurl' | 'imgurl16v9' | 'name', string> &
   Record<'artists', { id: number, name: string, img1v1Url: string, followed: boolean }[]>
-let mv: Mv

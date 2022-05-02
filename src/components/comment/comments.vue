@@ -7,8 +7,9 @@ div(v-for="comment in comments" class="flex gap-3 py-3 ")
             span(v-text="comment.user.nickname" class="text-blue-500")
             |:{{ comment.content }}
         div(v-if="comment.beReplied" class=" bg-app-gray bg-opacity-30 p-2 gap-1 cursor-pointer")
-            span(class=" text-blue-500" @click="$router.push({name:'user',params:{id:comment.beReplied[0].user.userId}})") @{{comment.beReplied[0].user.nickname}}:
-            span() {{comment.beReplied[0].content}}
+            div(v-for="item in comment.beReplied")
+                span(class=" text-blue-500" @click="$router.push({name:'user',params:{id:item.user.userId}})") @{{item.user.nickname}}:
+                span() {{comment.beReplied[0].content}}
         div(class="flex justify-between my-2")
             span(class=" text-app-gray") {{ dayjs(comment.timeStr).format('YYYY[年]MM[月]DD[日] hh:mm') }}
             div(class="flex items-center gap-2")

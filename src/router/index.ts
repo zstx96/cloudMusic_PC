@@ -1,17 +1,9 @@
-import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Layout from '@/layout/Layout.vue'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 
 
 const routes: RouteRecordRaw[] = [
-  
-    
-	/*   {
-        name:'song',
-        path:"/song",
-        component:()=>import("@/views/song/Song.vue")
-    }
-     */
+
 ]
 
 

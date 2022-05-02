@@ -10,4 +10,5 @@ tailwind.config.js
 postcss.config.js
 README.md
 vite.config.js
+package.json
 

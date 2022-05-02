@@ -1,6 +1,5 @@
 import { Banner } from '@/interface/interface'
 import Service from '@/utils/Service'
-import { id } from 'element-plus/lib/locale'
 
 
 export function homePage() { 

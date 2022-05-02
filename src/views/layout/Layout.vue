@@ -1,12 +1,14 @@
 <template lang='pug'>
 el-container(class="h-full font-sans")
-    el-header(  :style="{ 'height': `${app_header_height}px` }")
+    el-header( :style="{ 'height': `${app_header_height}px` }")
         header-vue
     el-container(class="overflow-auto"   :style="{ 'height': `${app_main_height}px` }")
         el-aside(width="200px" class="px-[10px] border-r")
             aside-vue
         el-main(class=" overflow-x-hidden overflow-y-auto" id="subApp" :style="{ 'height': `${app_main_height}px` }")
-            router-view(class="overflow-auto"  )
+            router-view(class="overflow-auto" #default="{Component}" )
+                keep-alive
+                    component(:is="Component")
 </template>
 
 <script lang="ts" setup>

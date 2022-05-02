@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(v-if="userDetail")
     div(class="flex gap-4 py-4")
         div()
@@ -16,12 +16,12 @@ div(v-if="userDetail")
                     span(class="bg-app-gray px-2 rounded-full") Lv{{ userDetail.level }}
                     span(v-if="userDetail.profile.gender === 1" class=" font-medium rounded-full") ♂
                     span(v-if="userDetail.profile.gender === 2" class="h-5 w-5 flex justify-center items-center rotate-45  text-pink-600  font-bold rounded-full bg-pink-300" )  ♀
-                div(v-if="true")
+                div(v-if="userDetail.profile.userId === userStore.user?.profile.userId")
                     el-button( icon="el-icon-editPen" round @click="$router.push({name:'editSelf'})") 编辑个人资料    
                 div(v-if="userDetail.profile.artistId")
                     el-button(round @click="$router.push(`/artist/${userDetail?.profile.artistId}`)" ) 歌手页
             div(class="flex")
-                div(class="flex flex-col items-center w-14 border-r cursor-pointer" @click="$router.push({ name: 'follows', query: { id: userDetail?.profile.userId } })")
+                div(class="flex flex-col items-center w-14 border-r cursor-pointer" @click="$router.push({ name: 'follows', query: {name: userDetail?.profile.nickname },params:{id:userDetail?.profile.userId} })")
                     span(class=" font-bold") {{ userDetail.profile.follows }}
                     span(class="text-sm") 关注
                 div(class="flex flex-col  items-center w-20 cursor-pointer")
@@ -37,11 +37,15 @@ div(v-if="userDetail")
             el-tab-pane(name="" label="创建的播客")
             el-tab-pane(name="" label="收藏的歌单")
             el-tab-pane(name="" label="创建的音乐专栏")
-        div(v-if="playlist" class=" grid   grid-cols-5    gap-2     relative ")
-            div(v-for="item in playlist"  )
-                div(class=" ")
-                    el-image(:src="item.coverImgUrl + '?param=360y360'" class="w-full cursor-pointer aspect-square" fit="cover"   @click="$router.push(`/playlist/${item.id}`)")
-                    play-count-inner-vue(:count="item.playCount")
+        div(v-if="playlist" class=" grid   grid-cols-4 lg:grid-cols-5      gap-2     relative ")
+            div(v-for="(item,index) in playlist"  )
+                cover-vue(
+                :pic-url="item.coverImgUrl+'?param=500y500'" 
+                :playcount="item.playCount" 
+                :index="index" 
+                v-model:hoverElIndex="hoverElIndex"
+                @click="$router.push({name:'playlist',params:{id:item.id}})"
+                )
                 p(class=" text-ellipsis w-40 overflow-hidden whitespace-nowrap") {{ item.name }}
                 span(class=" text-sm text-app-gray") {{ item.trackCount }}首
                 
@@ -51,26 +55,27 @@ div(v-if="userDetail")
 <script lang="ts" setup>
 import { getPlaylist } from '@/api/songlist'
 import { getUserDetail } from '@/api/user'
-import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
 import type { Playlist, User } from '@/interface'
+import { useUserStore } from '@/store/userStore'
 import { ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+import coverVue from '@/components/cover/cover.vue'
 
-
+const userStore = useUserStore()
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 const userDetail = ref<User>()
 const playlist = ref<Playlist[]>()
+const hoverElIndex = ref(-2)
 
 const init = async (id: number) => {
-	await getUserDetail(id).then(res => {
+	await getUserDetail(id).then((res) => {
 		userDetail.value = res
 	})
 
-	await getPlaylist(id).then(res => {
+	await getPlaylist(id).then((res) => {
 		playlist.value = res.playlist
 	})
-
 }
 init(id)
 onBeforeRouteUpdate((to) => {
@@ -81,7 +86,7 @@ onBeforeRouteUpdate((to) => {
 
 <style scoped lang="less">
 .tag {
-    background-color: #fde4e2;
-    color: #f36a84;
+	background-color: #fde4e2;
+	color: #f36a84;
 }
 </style>

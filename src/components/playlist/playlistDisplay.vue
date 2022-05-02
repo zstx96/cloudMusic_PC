@@ -1,9 +1,7 @@
-<template lang='pug'>
+<template lang="pug">
 el-table(
 :data="processData" 
-class="text-xs" 
 class-name="text-sm" 
-stripe 
 @row-dblclick="handleRowDblClick")
 
     el-table-column(type="index" width="64")
@@ -11,9 +9,14 @@ stripe
         template(#default="{ row }")
             heart-button-vue(:is-like="row.isLiked" @like="like(row.id)" @dislike="disLike(row.id)"  class=" w-5 h-5")
     el-table-column(label="标题" :min-width="300" prop="name")
+        template(#default="{row}")
+            p(class=" ") {{row.name}}
+                span(v-if="row.noCopyrightRcmd" class=" text-app-gray  text-xs")
+                    span(class=" border rounded ") 无音源
+                    span( ) {{row.noCopyrightRcmd.typeDesc}}
     el-table-column(label="歌手" :width="138" )
         template(#default="{ row }")
-            div(class=" w-32  text-ellipsis text-blue-500  whitespace-nowrap ")
+            div(class=" w-32  text-ellipsis text-blue-500  whitespace-nowrap")
                 span(v-for="(item, index) in row.ar" class=" cursor-pointer" @click="$router.push(`/artist/${item.id}`)") {{ item.name }}
                     span(:class="[(index == row.ar.length - 1) && 'hidden']") /
     el-table-column(label="专辑")
@@ -24,7 +27,7 @@ stripe
             span(v-text="dayjs(row.dt).format('mm:ss')")
     
     el-table-column(label="播放时间" v-if="showPlayTime")
-        template(#default="{ row,column,$index}")
+        template(#default="{ $index}")
             slot( :index="$index")
            
     
@@ -39,14 +42,13 @@ import { useUserStore } from '@/store/userStore'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import heartButtonVue from '../iconButton/heartButton.vue'
-const props =  defineProps<{ data: Song[],showPlayTime?:boolean}>()
+const props = defineProps<{ data: Song[]; showPlayTime?: boolean }>()
 
 const processData = ref()
-
 const userStore = useUserStore()
 const ids = userStore.likedIds
-props.data.forEach(v=>{
-	if(ids?.includes(v.id)){
+props.data.forEach((v) => {
+	if (ids?.includes(v.id)) {
 		v.isLiked = true
 	}
 })
@@ -55,21 +57,17 @@ processData.value = props.data
 const playerStore = usePlayerStore()
 const handleRowDblClick = async (row: Song) => {
 	playerStore.$patch({
-		currentSong: row
+		currentSong: row,
 	})
 }
 const like = (id: number) => {
 	likeSong(id, true)
 	userStore.addLikeSong(id)
-    
 }
 const disLike = (id: number) => {
 	likeSong(id, false)
 	userStore.deleteLikeSong(id)
 }
-
-
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

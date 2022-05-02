@@ -1,0 +1,22 @@
+<template lang="pug">
+div(class="relative cursor-pointer" @mouseover="$emit('update:hoverElIndex',index)")
+	el-image(:src="picUrl" fit="cover" class="rounded w-full aspect-square" lazy)
+		template(#placeholder)
+			span isLoading ...
+	play-inner-red-vue(class="absolute bottom-2 right-2 z-[10000] transition  duration-500" :class="[hoverElIndex === index ? '' : ' hidden']")
+	play-count-inner-vue(:count="playcount" class="absolute top-1 right-2  ")
+</template>
+
+<script lang="ts" setup>
+import playCountInnerVue from '../iconButton/playCountInner.vue'
+import playInnerRedVue from '../iconButton/playInnerRed.vue'
+
+defineProps<{
+	picUrl: string
+	playcount: number
+	index: number
+	hoverElIndex: number
+}>()
+</script>
+
+<style scoped lang="less"></style>

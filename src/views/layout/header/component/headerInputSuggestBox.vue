@@ -1,5 +1,5 @@
 <template lang='pug'>
-div(class="")
+div(class="suggest-box text-black")
     div(class="flex gap-2 items-center text-sm text-app-gray")
         span 搜索历史
         el-icon(@click="deleteAll")
@@ -20,14 +20,11 @@ div(class="")
             span.font-medium(v-text="item.searchWord")
             span(class="text-sm text-app-gray" v-text="item.score")
 
-
-
 </template>
 
 <script lang="ts" setup>
 import { getHotSearchDetail } from '@/api/search'
 import { useRecordStore } from '@/store/recordStore'
-import { useLocalStorage } from '@vueuse/core'
 import { ref } from 'vue'
 
 const recordStore = useRecordStore()

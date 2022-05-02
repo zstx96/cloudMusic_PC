@@ -5,7 +5,7 @@ import type {
 	IArtist,
 	IHotAlbum,
 } from '@/interface'
-import type { Album, Artist, Mv, Song } from '@/interface/interface'
+import type { Artist, Mv, Song } from '@/interface/interface'
 import Service from '@/utils/Service'
 
 /**
@@ -20,6 +20,13 @@ export function getArtistInfo(id: number) {
 		time: number
 	}>(`/artists?id=${id}`)
 }
+
+export function getArtistTopSong(id: number) {
+	return Service.get<{ code: number; more: boolean; songs: Song[] }>(
+		`/artist/top/song?id=${id}`
+	)
+}
+
 /**
  * @description: 获取歌手mv信息，具体mv播放地址调用 /mv 传入此接口获得的mvid
  * @param {number} id

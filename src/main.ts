@@ -1,4 +1,4 @@
-import { createApp, watch } from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
 
@@ -8,13 +8,14 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Avatar, CaretBottom, CaretRi
 
 import Router from '@/router'
 import { createPinia } from 'pinia'
-
+import { myDirectives } from './directives'
 
 
 
 const app = createApp(App)
 
-app.use(ElementPlus).use(Router).use(createPinia())
+app.use(ElementPlus).use(Router).use(createPinia()).use(myDirectives)
+
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)

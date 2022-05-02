@@ -1,14 +1,3 @@
-/*
- * @作者: zhao
- * @Date: 2022-03-23 17:09:29
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
-enum Gender {
-  mala = 1,
-  femala = 2
-}
 export interface UserProfile {
   nickname: string;
   remarkName: string,

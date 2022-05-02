@@ -1,14 +1,10 @@
-import { computed, customRef, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 export const APP_BASE_WIDTH = 1180
 export const APP_BASE_HEIGHT = 670
 const APP_HEADER_HEIGHT = 60
 const APP_CONTROLLER_HEIGHT = 70
 
-const config = {
-	baseURL_Dev: '/api',
-	baseURL_Prod: 'http://49.233.217.220:3000',
 
-}
 export const app_height = ref(APP_BASE_HEIGHT)
 export const app_width = ref(APP_BASE_WIDTH)
 
@@ -24,5 +20,3 @@ export const resizeWindow = () => {
 	})
 }
 
-
-export default config

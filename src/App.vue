@@ -19,60 +19,81 @@ const asideData = appStore.asideData
 const router = useRouter()
 const userStore = useUserStore()
 
-getLoginStatus().then(res => {
+getLoginStatus().then((res) => {
 	if (res.data.profile) {
 		const userId = res.data.profile.userId
-		getUserDetail(userId).then(userInfo => {
+		getUserDetail(userId).then((userInfo) => {
 			userStore.setUser(userInfo)
 		})
-		getLikelist(userId).then(res => {
+		getLikelist(userId).then((res) => {
 			userStore.$patch({
-				likedIds: res.ids
+				likedIds: res.ids,
 			})
 		})
 	}
 })
 
+const firstWordUpper = (str: string) =>
+	str.replace(/^\S/, (s) => s.toUpperCase())
 
-const firstWordUpper = (str: string) => str.replace(/^\S/, s => s.toUpperCase())
-
+const modules = import.meta.glob('./views/**/*.vue')
+console.log(modules)
 
 const addRecordToRouter = (parentPath: string, navs: Nav, needId = false) => {
-	navs.forEach(nav => {
+	navs.forEach((nav) => {
 		let routeName
 		if (parentPath === '') {
 			routeName = '/'
 		} else {
-			routeName = parentPath.split('/').at(parentPath.includes('/:id') ? -3 : -2)
+			routeName = parentPath
+				.split('/')
+				.at(parentPath.includes('/:id') ? -3 : -2)
 		}
 
-		const path = parentPath.replaceAll('/children', '') + '/' + nav.name + (nav.params?.id ? '/:id' : '')
-		const name = (nav.name === '/') ? 'layout' : nav.name
-
+		const path =
+			parentPath.replaceAll('/children', '') +
+			'/' +
+			nav.name +
+			(nav.params?.id ? '/:id' : '')
+		const name = nav.name === '/' ? 'layout' : nav.name
+		const url = `./views${parentPath.replace('/:id', '')}/${
+			nav.name
+		}/${firstWordUpper(name)}.vue`
+		
 		const record: RouteRecordRaw = {
 			path: path.replace('/layout', ''),
 			name,
-			component: () => import(`../src/views${parentPath.replace('/:id', '')}/${nav.name}/${firstWordUpper(name)}.vue`)
+			component: modules[url],
 		}
 		if (nav.children) {
 			record.redirect = { name: nav.children[0].name }
 		}
-
 		router.addRoute(routeName || 'layout', record)
 		if (nav.children) {
-			addRecordToRouter(parentPath + '/' + nav.name + '/children' + (nav.params?.id ? '/:id' : ''), nav.children, Boolean(nav.params?.id))
+			addRecordToRouter(
+				parentPath +
+					'/' +
+					nav.name +
+					'/children' +
+					(nav.params?.id ? '/:id' : ''),
+				nav.children,
+				Boolean(nav.params?.id)
+			)
 		}
 	})
 }
+
 addRecordToRouter('', asideData)
 router.addRoute('/', {
 	redirect: 'layout',
-	path: '/'
+	path: '/',
 })
 router.addRoute('/', {
 	path: '/:pathMatch(.*)*',
-	component: () => import('../src/views/404.vue')
+	component: () => import('../src/views/404.vue'),
 })
+
+console.log(router.getRoutes())
 
 const lastPage = useLocalStorage('lastPage', '')
 router.replace(lastPage.value)
@@ -80,16 +101,13 @@ router.replace(lastPage.value)
 router.afterEach((to) => {
 	lastPage.value = to.fullPath
 })
-
 onMounted(() => {
 	resizeWindow()
-	appStore.toggleMode()
 })
-
 </script>
 
 <template lang="pug">
-div(class=" flex-1 overflow-y-auto overflow-x-hidden" )
+div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light" )
   router-view(#default="{ Component }"  )
     keep-alive
       component(:is="Component")
@@ -100,40 +118,37 @@ div( )
 <style>
 html,
 body {
-  height: 100%;
-  width: 100%;
-
+	height: 100%;
+	width: 100%;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(126, 117, 81);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(126, 117, 81);
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--text);
-  position: relative;
-  background-color: var(--background);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  @apply antialiased
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--app-text);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	@apply antialiased;
 }
-
 
 .scale-enter-active,
 .scale-leave-active {
-  transform-origin: 5px 105%;
-  transition: transform .3s ease;
+	transform-origin: 5px 105%;
+	transition: transform 0.3s ease;
 }
 
 .scale-enter-from,
 .scale-leave-to {
-  transform: scale(0);
+	transform: scale(0);
 }
 </style>

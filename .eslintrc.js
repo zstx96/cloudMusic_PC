@@ -26,8 +26,14 @@ module.exports = {
 
 		'vue/script-setup-uses-vars': 'error', //因为不能检测vue SFC pug
 		'@typescript-eslint/no-unused-vars': 'off', //所以关闭,由tsConfig 处理unused vars
-		
+
 		//有的props只是单纯的数据展示并不需要响应性，动态组件中重命名props有利于理解
-		// 'vue/no-setup-props-destructure':'off'
+		'vue/no-setup-props-destructure': ['warn'],
+		'@typescript-eslint/no-explicit-any': [
+			'warn',
+			{
+				ignoreRestArgs: true,
+			},
+		],
 	},
 }

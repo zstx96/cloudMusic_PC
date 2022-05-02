@@ -1,8 +1,8 @@
-<template lang='pug'>
+<template lang="pug">
 div(class="pt-2 font-normal text-[15px]")
     div(v-for="[groupTitle, group] in Object.entries(groups)")
         p(class=" text-sm text-app-gray py-2") {{ groupTitle }}
-        div(v-for="(navItem, navIndex) in group" 
+        div(v-for="(navItem) in group" 
         class="flex items-center mb-1 py-1  hover:bg-app-gray hover:bg-opacity-30 rounded " 
         :class="[navItem.name === focusNav ? 'bg-app-gray bg-opacity-30 font-bold  text-xl' : '']"
         @click="handelClick(groupTitle, navItem.name)")
@@ -24,17 +24,18 @@ div(class="pt-2 font-normal text-[15px]")
 
 <script lang="ts" setup>
 import { getPlaylist } from '@/api/songlist'
-import type { Nav, NavItem, Playlist } from '@/interface'
+import type { Nav, Playlist } from '@/interface'
 import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
-import { nextTick, reactive, ref, watch } from 'vue'
+import { nextTick, onActivated, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import asidePlaylistItemVue from './asidePlaylistItem.vue'
 
 const appStore = useAppStore()
-const asideData = appStore.asideData[0].children!.filter(v => v.title)
+const asideData = appStore.asideData[0].children!.filter((v) => v.title)
 const groups = ref<Record<string, Nav>>({})
-asideData.forEach(v => {
+const tabSet = new Set()
+asideData.forEach((v) => {
 	if (v.group === undefined) v.group = ''
 	if (!Object.hasOwn(groups.value, v.group as string)) {
 		groups.value[v.group] = []
@@ -42,10 +43,15 @@ asideData.forEach(v => {
 	} else {
 		groups.value[v.group].push(v)
 	}
+	tabSet.add(v.name)
 })
 
 const route = useRoute()
+
 const focusNav = ref(route.path.split('/')[1])
+onActivated(() => {
+	focusNav.value = route.path.split('/')[1]
+})
 
 const router = useRouter()
 const handelClick = (groupName: string, name: string) => {
@@ -59,52 +65,52 @@ const createByOthers = ref<Playlist[]>([])
 const createByMeVisible = ref(false)
 const createByOthersVisible = ref(false)
 
-watch(() => userStore.user, (user) => {
-	if (user) {
-		let id = user.profile.userId
-		getPlaylist(id).then(res => {
-			res.playlist.forEach(v => {
-				if (id === v.creator.userId) {
-					createByMe.value.push(v)
-				} else {
-					createByOthers.value.push(v)
-				}
-			})
-			if (route.name === 'playlist') {
-				let pid = route.params.id as string
-				res.playlist.some(v => {
-					if (pid === v.id.toString()) {
-						if (id === v.creator.userId) {
-							createByMeVisible.value = true
-						} else {
-							createByOthersVisible.value = true
-						}
-						focusNav.value = pid.toString()
-						nextTick(() => {
-							const aside = document.querySelector('aside')! 
-							const target = (document.querySelector(`p[data-pid="${pid}"]`) as HTMLElement)
-							console.log( target.offsetTop , aside )
-                            
-							aside.scrollBy({
-								top: target.offsetTop,
-							})
-						})
-
-						return true
+watch(
+	() => userStore.user,
+	(user) => {
+		if (user) {
+			let id = user.profile.userId
+			getPlaylist(id).then((res) => {
+				res.playlist.forEach((v) => {
+					if (id === v.creator.userId) {
+						createByMe.value.push(v)
+					} else {
+						createByOthers.value.push(v)
 					}
 				})
-			}
+				if (route.name === 'playlist') {
+					let pid = route.params.id as string
+					res.playlist.some((v) => {
+						if (pid === v.id.toString()) {
+							if (id === v.creator.userId) {
+								createByMeVisible.value = true
+							} else {
+								createByOthersVisible.value = true
+							}
+							focusNav.value = pid.toString()
+							nextTick(() => {
+								const aside = document.querySelector('aside')!
+								const target = document.querySelector(
+									`p[data-pid="${pid}"]`
+								) as HTMLElement
+								aside.scrollBy({
+									top: target.offsetTop,
+								})
+							})
 
-
-		})
-	}
-
-}, { immediate: true })
-
+							return true
+						}
+					})
+				}
+			})
+		}
+	},
+	{ immediate: true }
+)
 </script>
 
 <style scoped lang="less">
 .active-nav {
-    background: #f6f6f7;
+	background: #f6f6f7;
 }
 </style>

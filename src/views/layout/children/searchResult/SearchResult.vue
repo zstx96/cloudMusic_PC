@@ -2,13 +2,13 @@
 div(v-if="result")
     p.text-xl.font-bold 搜索 {{ keyword }}
     h3(class=" text-app-gray text-sm py-2") 你可能感兴趣
-    div(class="flex ")
-        div(v-for="item in result.orders" class="bg-slate-200 h-16 m-4 rounded cursor-pointer  w-1/3") 
-            component(:is="loadComponent(item)" :data="result[item]")
+    div(class="flex  text-sm")
+        div(v-for="item in result.orders" class="bg-slate-200 h-16 m-4 rounded cursor-pointer  w-1/3 px-2 ") 
+            component(:is="loadComponent(item)" :data="result[item]" class="h-full flex items-center gap-2")
     el-tabs(:active-name="activeName" @tab-change="handleTabChange")
         el-tab-pane(v-for="item in tabs" :name="item.name" :label="item.label")
     div
-        router-view(:key="JSON.stringify($route.query.keyword)")
+        router-view(:key="$route.query.keyword")
 </template>
 
 <script lang="ts" setup>
@@ -18,7 +18,7 @@ import { useRouteQuery } from '@vueuse/router'
 import type { TabPanelName } from 'element-plus'
 import { defineAsyncComponent, ref } from 'vue'
 import type { Ref } from 'vue'
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -70,17 +70,17 @@ getMultimatch(keyword.value).then((res) => {
 })
 
 const handleTabChange = (name: TabPanelName) => {
-	const path = router.getRoutes().find((v) => v.name === name)?.path
-	router.push(`${path}?keyword=${keyword.value}`)
+	console.log(name)
+	router.push({ name: name as string, query: { keyword: keyword.value } })
 	getSearchResult(keyword.value, SearchType[name as unknown as SearchTypeKey])
 }
 // vue component动态导入组件
 const loadComponent = (name: string) =>
 	defineAsyncComponent(() => import(`./components/${name}.vue`))
 
-onBeforeRouteUpdate((to) => {
-	keyword.value = to.query.keyword as string
-})
+// onBeforeRouteUpdate((to) => {
+// 	keyword.value = to.query.keyword as string
+// })
 </script>
 
 <style scoped lang="less"></style>

@@ -35,7 +35,7 @@ div(v-if="form")
 import type { UserProfile } from '@/interface'
 import { useUserStore } from '@/store/userStore'
 import dayjs from 'dayjs'
-import { reactive, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 // gender: 性别 0:保密 1:男性 2:女性
 // birthday: 出生日期,时间戳 unix timestamp
@@ -62,11 +62,6 @@ watch(() => userStore.user, (user) => {
       
 	}
 },{immediate:true})
-const ifs = reactive({
-	y:0,
-	d:0,
-	m:0
-})
 
 
 </script>

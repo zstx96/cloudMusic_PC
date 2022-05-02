@@ -1,12 +1,4 @@
-import type { UserProfile } from '@/interface'
 import Service from '@/utils/Service'
-/*
- * @作者: zhao
- * @Date: 2021-12-04 11:46:57
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
 
 // 手机号登录
 export function loginByPhone(phone: number, captcha: number) {

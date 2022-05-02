@@ -2,7 +2,7 @@
 transition(name="scale")
     div(class="h-full flex flex-col ")
         div(class="h-[60px]")
-            header-vue(class="  bg-transparent text-black" :text-black="true")
+            header-vue(class="  bg-transparent " )
         div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
             div(v-if="song" class=" flex gap-2 justify-around items-center")
                 el-image(:src="song.al.picUrl" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
@@ -10,7 +10,7 @@ transition(name="scale")
                     p(v-text="song.name" class=" text-2xl font-bold")
                     p(v-text="song.ar[0].name" class="pb-3")
                     div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth " v-if="lyric"   ref="lyricRef" )
-                        p(v-for="([time, text], index) in lyric" 
+                        p(v-for="([, text], index) in lyric" 
                         class="py-1"
                         :class="[(currentIndex == (index + 1)) ? 'font-bold text-black' : 'text-app-gray']" 
                         ) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  

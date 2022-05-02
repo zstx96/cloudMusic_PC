@@ -1,9 +1,8 @@
 <template lang="pug">
-div(v-if="curSong" class=" w-full h-[70px] px-3 overflow-hidden    flex justify-between items-center   z-[10000] bg-white border-t"  )
+div(v-if="curSong" class=" w-full h-[70px] px-3 overflow-hidden  flex justify-between items-center   z-[10000]  border-t"  )
     transition(name="swiper" 
     mode="out-in"
     class="w-80 justify-start"
-    
     )
         div(v-if="$route.name !== 'song'" )
             div( class="flex gap-2 ")
@@ -17,13 +16,13 @@ div(v-if="curSong" class=" w-full h-[70px] px-3 overflow-hidden    flex justify-
                     div(class="text-sm")
                         span(v-for="item in curSong.ar"  v-text="item.name")
         div(v-else  class="flex  items-center gap-3" :data-is-song-page="true") 
-            el-icon(class="mr-8 ml-5 box-content p-2"  @click="$router.push('/')")
+            el-icon(class="mr-8   box-content p-2" @click="$router.back()" )
                 el-icon-arrowDown
             el-icon(class="border rounded-full p-2  box-content hover:bg-slate-300 scale " :size="20")
                 el-icon-arrowDown
             el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300" :size="20")
                 el-icon-foldAdd
-            el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
+            el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20" @click="download")
                 el-icon-download
             el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
                 el-icon-share
@@ -62,7 +61,7 @@ div(v-if="curSong" class=" w-full h-[70px] px-3 overflow-hidden    flex justify-
                     highlight-current-row
                     @row-click="handleRowClick")
                         el-table-column(type="index")
-                        el-table-column
+                        el-table-column()
                             template(#default="{ row }")
                                 span(class=" text-ellipsis w-44 whitespace-nowrap") {{ row.name }}
                         el-table-column()
@@ -94,6 +93,7 @@ import { app_main_height } from '@/config'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecordStore } from '@/store/recordStore'
 import { throttle } from 'lodash'
+import Service from '@/utils/Service'
 
 const playerStore = usePlayerStore()
 const recordStore = useRecordStore()
@@ -107,6 +107,26 @@ const curSong = computed(() => playerStore.currentSong)
 const currentTimeInSeconds = ref(0)
 const route = useRoute()
 const router = useRouter()
+// 左侧按钮
+
+const download = async () => {
+	Service.get(`/song/download/url?id=${curSong.value.id}`).then(
+		async (res) => {
+			const url = res.data.url
+			if (url) {
+				const response = await fetch(url)
+				const data = await response.blob()
+				const b = new Blob([data])
+				const a = document.createElement('a')
+				const downloadUrl = window.URL.createObjectURL(b)
+				a.href = downloadUrl
+				a.download = `${curSong.value.name}.mp3`
+				a.click()
+				window.URL.revokeObjectURL(downloadUrl)
+			}
+		}
+	)
+}
 // 处理事件按钮组
 const isPaused = ref(true)
 const play = () => {
@@ -170,13 +190,7 @@ const recentSongs = ref<Song[]>()
 //     recentSongs.value = res.data.list.map(v => v.data)
 // })
 recentSongs.value = recordStore.playRecord
-const computedRowClassName = ({
-	row,
-	rowIndex,
-}: {
-	row: any
-	rowIndex: any
-}) => {
+const computedRowClassName = ({ rowIndex }: { rowIndex: number }) => {
 	return recordStore.curSongIndex === rowIndex ? 'select-row' : ''
 }
 const handleRowClick = (song: Song) => {
@@ -203,7 +217,8 @@ onMounted(() => {
 		playerStore.setCurrentTime(mp.currentTime)
 		percentage.value = ((mp.currentTime * 1000) / duration.value) * 100
 	}
-	const flag = ref(false) // 未经用户交互 浏览器禁止自动播放
+	// 未经用户交互 浏览器禁止自动播放
+	const flag = ref(false)
 	mp.oncanplay = () => {
 		if (flag.value) {
 			mp.play()
@@ -212,7 +227,9 @@ onMounted(() => {
 		}
 		flag.value = true
 	}
-
+	mp.onended = () => {
+		isPaused.value = true
+	}
 	watch(
 		() => playerStore.currentSong,
 		async (song: Song) => {
