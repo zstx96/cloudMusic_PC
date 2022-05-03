@@ -1,6 +1,6 @@
 <template lang="pug">
-div(class="relative cursor-pointer" @mouseover="$emit('update:hoverElIndex',index)")
-	el-image(:src="picUrl" fit="cover" class="rounded w-full aspect-square" lazy)
+div(class="flex flex-col relative cursor-pointer " @mouseover="$emit('update:hoverElIndex',index)")
+	el-image(:src="picUrl+'?param=500y500'" fit="cover" class="rounded w-full aspect-square" lazy)
 		template(#placeholder)
 			span isLoading ...
 	play-inner-red-vue(class="absolute bottom-2 right-2 z-[10000] transition  duration-500" :class="[hoverElIndex === index ? '' : ' hidden']")

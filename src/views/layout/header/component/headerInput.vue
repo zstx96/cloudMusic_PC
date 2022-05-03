@@ -44,7 +44,6 @@ const handleFocus = () => {
 	suggestionVisible.value = true
 }
 const closeBox = () => {
-	console.log('close box')
 	suggestionVisible.value = false
 }
 const handleChange = (v: string | undefined) => {
@@ -55,7 +54,6 @@ const handleChange = (v: string | undefined) => {
 const handleSelectWord = (word: string) => {
 	realKeyword.value = word
 	if (realKeyword.value === '') {
-		console.log(baseKeyword)
 		realKeyword.value = baseKeyword
 	}
 	handleChange(word)

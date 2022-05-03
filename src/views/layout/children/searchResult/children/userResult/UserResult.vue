@@ -20,7 +20,6 @@ const keyword = useRouteQuery('keyword').value as string
 const users = ref<UserProfile[]>()
 type Result = { result: { userprofiles: UserProfile[] } }
 getSearchResult<Result>(keyword, SearchType.user).then(res => {
-	console.log(res)
 	users.value = res.result.userprofiles
 })
 

@@ -8,13 +8,12 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Avatar, CaretBottom, CaretRi
 
 import Router from '@/router'
 import { createPinia } from 'pinia'
-import { myDirectives } from './directives'
 
 
 
 const app = createApp(App)
 
-app.use(ElementPlus).use(Router).use(createPinia()).use(myDirectives)
+app.use(ElementPlus).use(Router).use(createPinia()) 
 
 
 app.component('ElIconClose', Close)

@@ -26,6 +26,9 @@ export function getFollows(id: number, limit?: number, offset?: number) {
 export function logout() {
 	return Service.get('/logout')
 }
+export function refresh() {
+	return Service.get('/login/refresh')
+}
 export function getUserAccount() {
 	return Service.get('/user/account')
 }

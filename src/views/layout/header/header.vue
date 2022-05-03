@@ -50,18 +50,20 @@ import { ElMessage } from 'element-plus'
 import { getQrimg, getQrKey } from '@/api/login'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'vue-router'
-import { logout } from '@/api/user'
+import { logout, refresh } from '@/api/user'
 import toggleModeVue from '@/components/iconButton/toggleMode.vue'
 // 处理顶部按钮组事件
 const userStore = useUserStore()
 
 const handleLogout = () => {
-	logout()
+	logout().then((_) => {
+		refresh()
+	})
 	userStore.setUser(null)
 }
 
 /// 点击头像
-const loginBoxVisible = ref(!userStore.user)
+const loginBoxVisible = ref(false)
 const qrKey = ref()
 const qrimg = ref()
 const closeLoginBox = () => {

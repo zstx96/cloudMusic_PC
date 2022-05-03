@@ -1,5 +1,6 @@
 <template lang="pug">
 el-table(
+v-if="processData"
 :data="processData" 
 class-name="text-sm" 
 @row-dblclick="handleRowDblClick")
@@ -38,24 +39,30 @@ class-name="text-sm"
 import { likeSong } from '@/api/song'
 import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
+import { useRecordStore } from '@/store/recordStore'
 import { useUserStore } from '@/store/userStore'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
 import heartButtonVue from '../iconButton/heartButton.vue'
+
 const props = defineProps<{ data: Song[]; showPlayTime?: boolean }>()
 
-const processData = ref()
+const recordStore = useRecordStore()
+const processData = ref<Song[]>()
 const userStore = useUserStore()
 const ids = userStore.likedIds
+
 props.data.forEach((v) => {
 	if (ids?.includes(v.id)) {
 		v.isLiked = true
 	}
 })
+// eslint-disable-next-line vue/no-setup-props-destructure
 processData.value = props.data
 
 const playerStore = usePlayerStore()
 const handleRowDblClick = async (row: Song) => {
+	recordStore.addPlayRecord([row])
 	playerStore.$patch({
 		currentSong: row,
 	})

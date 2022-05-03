@@ -25,6 +25,7 @@ const artists = ref<Awaited<ReturnType<typeof getArtistSimile>>['artists']>()
 getArtistSimile(id).then(res=>{
 	artists.value = res.artists 
 })
+
 </script>
 
 <style scoped lang="less">

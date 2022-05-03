@@ -13,31 +13,18 @@ import { useUserStore } from './store/userStore'
 import { getLikelist } from './api/songlist'
 import playerVue from './components/player/player.vue'
 import { useLocalStorage } from '@vueuse/core'
+import { withLoading } from './utils/withLoading'
+import { ElMessage } from 'element-plus'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
 const router = useRouter()
 const userStore = useUserStore()
 
-getLoginStatus().then((res) => {
-	if (res.data.profile) {
-		const userId = res.data.profile.userId
-		getUserDetail(userId).then((userInfo) => {
-			userStore.setUser(userInfo)
-		})
-		getLikelist(userId).then((res) => {
-			userStore.$patch({
-				likedIds: res.ids,
-			})
-		})
-	}
-})
-
 const firstWordUpper = (str: string) =>
 	str.replace(/^\S/, (s) => s.toUpperCase())
 
 const modules = import.meta.glob('./views/**/*.vue')
-console.log(modules)
 
 const addRecordToRouter = (parentPath: string, navs: Nav, needId = false) => {
 	navs.forEach((nav) => {
@@ -59,7 +46,7 @@ const addRecordToRouter = (parentPath: string, navs: Nav, needId = false) => {
 		const url = `./views${parentPath.replace('/:id', '')}/${
 			nav.name
 		}/${firstWordUpper(name)}.vue`
-		
+
 		const record: RouteRecordRaw = {
 			path: path.replace('/layout', ''),
 			name,
@@ -93,8 +80,6 @@ router.addRoute('/', {
 	component: () => import('../src/views/404.vue'),
 })
 
-console.log(router.getRoutes())
-
 const lastPage = useLocalStorage('lastPage', '')
 router.replace(lastPage.value)
 
@@ -103,6 +88,36 @@ router.afterEach((to) => {
 })
 onMounted(() => {
 	resizeWindow()
+})
+
+const beforeEnterApp = async () => {
+	const timer = setTimeout(() => {
+		return Promise.reject('请检查你的网络环境')
+	}, 5000)
+	try {
+		const {
+			data: { profile },
+		} = await getLoginStatus()
+		if (profile) {
+			const userId = profile.userId
+			Promise.all([getUserDetail(userId), getLikelist(userId)]).then(
+				([userInfo, res]) => {
+					userStore.setUser(userInfo)
+					userStore.$patch({
+						likedIds: res.ids,
+					})
+					clearTimeout(timer)
+					return Promise.resolve()
+				}
+			)
+		}
+	} catch (err) {
+		return Promise.reject(err)
+	}
+}
+
+withLoading(beforeEnterApp)().catch((err) => {
+	ElMessage.error(err)
 })
 </script>
 

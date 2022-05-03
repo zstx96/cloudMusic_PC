@@ -193,13 +193,6 @@ const useAppStore = defineStore('app', () => {
 	const toggleMode = () => {
 		const app = <HTMLElement>document.querySelector('#app')
 		app.toggleAttribute('darkMode')
-		/* 	if (isDarkMode.value) {
-			app.style.setProperty('--background', '#fff')
-			app.style.setProperty('--text', '#2c3e50')
-		} else {
-			app.style.setProperty('--background', '#2b2b2b')
-			app.style.setProperty('--text', '#fff')
-		} */
 		isDarkMode.value = !isDarkMode.value
 	}
 

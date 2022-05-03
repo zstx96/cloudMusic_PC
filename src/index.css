@@ -37,6 +37,7 @@
 	--app-background: #fff;
 	--el-text-color-primary: #000;
 	--app-header-background: #fd544e;
+	--app-svg-color: #fff;
 
 	color: var(--app-text-color);
 	background-color: var(--app-background);
@@ -51,6 +52,9 @@
 	--el-text-color-primary: #fff !important;
 	--el-fill-color-blank: var(--el-dark-background-primary) !important;
 	--el-text-color-regular: #fff !important;
+
+	--app-svg-color: #fff;
+
 
 }
 .el-table{

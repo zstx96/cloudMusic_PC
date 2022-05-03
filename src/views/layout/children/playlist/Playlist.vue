@@ -42,28 +42,23 @@ div(  class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPa
 <script lang="ts" setup>
 import { getPlaylistDetail } from '@/api/songlist'
 import type { PlaylistDetail } from '@/interface/interface'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onActivated, onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/store/userStore'
 import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { closeLoading, withLoading } from '@/utils/withLoading'
 import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
-import { controller } from '@/utils/Service'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
-const userStore = useUserStore()
-const likedIds = userStore.likedIds
 const detail = ref<PlaylistDetail>()
 //FIXME 这里有异步问题
 
 const playlistPage = ref<HTMLElement>()
-onBeforeRouteUpdate((to) => {
+const reset = (id: number) => {
 	closeLoading()
-	const id = parseInt(to.params.id as string)
 	const loadingOptions: LoadingOptions = {
 		target: playlistPage.value,
 		fullscreen: false,
@@ -72,11 +67,13 @@ onBeforeRouteUpdate((to) => {
 		getPlaylistDetail,
 		loadingOptions
 	)(id).then((res) => {
-		res.playlist.tracks.forEach((song) => {
-			song.isLiked = likedIds?.includes(song.id) ? true : false
-		})
 		detail.value = res.playlist
 	})
+}
+
+onBeforeRouteUpdate((to) => {
+	const id = parseInt(to.params.id as string)
+	reset(id)
 })
 
 onMounted(() => {
@@ -88,15 +85,13 @@ onMounted(() => {
 		getPlaylistDetail,
 		loadingOptions
 	)(id).then((res) => {
-		res.playlist.tracks.forEach((song) => {
-			song.isLiked = likedIds?.includes(song.id) ? true : false
-		})
 		detail.value = res.playlist
 	})
 })
 
-onBeforeUnmount(() => {
-	controller.abort()
+onActivated(() => {
+	const id = parseInt(route.params.id as string)
+	reset(id)
 })
 </script>
 

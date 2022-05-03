@@ -13,7 +13,7 @@ div()
                     @click="$router.push(`/dailyRecommendSongs`)"  )
                     play-inner-red-vue(class="absolute bottom-2 right-2 z-[10000] transition  duration-500" :class="[hoverElIndex === -1 ? '' : ' hidden']")
                 p(v-text="'每日推荐歌曲'" class="text-sm") 
-            div(class="flex flex-col   break-words" v-for="(item, index) in recommendList" )
+            div( v-for="(item, index) in recommendList")
                 cover-vue(:pic-url="item.picUrl" 
                 :playcount="item.playcount" 
                 :index="index"
@@ -34,7 +34,6 @@ const appStore = useAppStore()
 const recommendList = ref<Playlist[]>()
 const hoverElIndex = ref(-2)
 getDailyPlaylist().then((res) => {
-	console.log('later')
 	recommendList.value = res.recommend
 })
 </script>

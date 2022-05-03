@@ -22,9 +22,9 @@ const withLoading = <T>(
 	return newFn
 }
 const closeLoading = () => {
-	if (instance) {
+	if (instance?.visible) {
 		instance.close()
 	}
 }
 
-export { withLoading,closeLoading }
+export { withLoading, closeLoading }

@@ -34,7 +34,7 @@ div(v-if="form")
 <script lang="ts" setup>
 import type { UserProfile } from '@/interface'
 import { useUserStore } from '@/store/userStore'
-import dayjs from 'dayjs'
+
 import { ref, watch } from 'vue'
 
 // gender: 性别 0:保密 1:男性 2:女性
@@ -57,9 +57,6 @@ watch(() => userStore.user, (user) => {
 			city: user?.profile.city,
 			signature: user?.profile.signature
 		}
-		let b =   dayjs(user?.profile.birthday).format()
-		console.log(b)
-      
 	}
 },{immediate:true})
 

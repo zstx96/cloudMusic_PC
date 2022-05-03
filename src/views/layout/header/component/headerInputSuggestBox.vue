@@ -6,7 +6,7 @@ div(class="suggest-box text-black")
             el-icon-delete
         span.flex-1
         span 查看全部
-    div(class="py-3 flex flex-wrap") 
+    div(class="py-3 h-[120px] overflow-hidden") 
         el-button(v-for="word in searchRecord" round class="mb-1 border " size="small"  )
             span {{ word }}
             el-icon(@click="deleteSingle(word)")

@@ -7,7 +7,6 @@ div(class="overflow-auto"  )
                 el-image(:src="item.coverImgUrl" :style="{ 'height': '175px', 'width': '175px' }")
             el-table(v-if="item.tracks" 
             :data="item.tracks" 
-            class-name="el-card px-1"
             :row-class-name="({row,rowIndex})=>(rowIndex%2===0)?'':'stripe'"
             :show-header="false")
                 el-table-column(type="index" )
