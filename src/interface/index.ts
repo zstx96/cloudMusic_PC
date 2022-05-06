@@ -13,20 +13,21 @@ export * from './Artist'
 export * from './Album'
 
 export interface NavItem {
-    iconUrl?: string,
-    title?: string,
-    name: string,
-    children?: Nav,
-    isMainPage?: boolean,
-    component?: any,
-    params?: {
-        id: boolean
-    },
-    group?:string
+	iconUrl?: string
+	title?: string
+	name: string
+	children?: Nav
+	isMainPage?: boolean
+	component?: any
+
+	redirect?: string
+	params?: {
+		id: boolean
+	}
+	group?: string
 }
 export interface NavGroup {
-    title?: string,
-    children: NavItem[]
+	title?: string
+	children: NavItem[]
 }
 export type Nav = NavItem[]
-

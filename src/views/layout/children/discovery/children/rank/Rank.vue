@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(class="overflow-auto"  )
     p() 官方榜
     div(v-if="official")
@@ -11,7 +11,7 @@ div(class="overflow-auto"  )
             :show-header="false")
                 el-table-column(type="index" )
                 el-table-column(prop="name" )
-                el-table-column(prop="ar[0][name")
+                el-table-column(prop="ar[0][name]")
             el-skeleton(v-else :rows="5")
     p 全球榜
     div(class=" grid grid-cols-5 gap-3"  v-if="global")
@@ -37,12 +37,11 @@ import { ref } from 'vue'
 const official = ref<(Playlist & { tracks?: Song[] })[]>()
 const global = ref<Playlist[]>()
 
-
 const isLoading = ref(true)
-getTopList().then(res => {
+getTopList().then((res) => {
 	official.value = res.list.slice(0, 3)
-	official.value.forEach(v => {
-		getPlaylistDetail(v.id).then(res => {
+	official.value.forEach((v) => {
+		getPlaylistDetail(v.id).then((res) => {
 			v.tracks = res.playlist.tracks.slice(0, 5)
 		})
 	})
@@ -51,6 +50,4 @@ getTopList().then(res => {
 })
 </script>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

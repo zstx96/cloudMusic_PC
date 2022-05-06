@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(class=" text-right")
     el-icon
         el-icon-close(@click="$emit('closeLoginBox', false)")
@@ -13,14 +13,15 @@ div(class=" h-full flex flex-col items-center justify-between")
 <script lang="ts" setup>
 import { checkQr } from '@/api/login'
 import { ref } from 'vue'
-const props = defineProps<{ qrimg: string, qrKey: string }>()
+const props = defineProps<{ qrimg: string; qrKey: string }>()
 defineEmits<{
-    (event: 'closeLoginBox', value: boolean): void
+	(event: 'closeLoginBox', value: boolean): void
 }>()
+// eslint-disable-next-line vue/no-setup-props-destructure
 const qrKey = props.qrKey
 const message = ref()
 const timeoutId = setInterval(() => {
-	checkQr(qrKey).then(res => {
+	checkQr(qrKey).then((res) => {
 		message.value = res.message
 		if (res.code === 803) {
 			clearInterval(timeoutId)
@@ -28,8 +29,6 @@ const timeoutId = setInterval(() => {
 		}
 	})
 }, 1000)
-
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

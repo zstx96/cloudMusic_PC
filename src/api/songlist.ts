@@ -1,9 +1,8 @@
-
 import type { Playlist, PlaylistDetail } from '@/interface/interface'
 import Service from '@/utils/Service'
 export function getPlaylist(uid: number) {
 	return Service.get<{
-		playlist: Playlist[],
+		playlist: Playlist[]
 		more: boolean
 	}>('/user/playlist', {
 		params: {
@@ -12,13 +11,21 @@ export function getPlaylist(uid: number) {
 	})
 }
 export function getLikelist(uid: number) {
-	return Service.get<{ ids: number[] }>('/likelist?uid=' + uid + '?timeStamp=' + Date().valueOf())
+	return Service.get<{ ids: number[] }>(
+		'/likelist?uid=' + uid + '?timeStamp=' + Date().valueOf()
+	)
 }
 export function getRecommendSongList() {
 	return Service.get('/personalized')
 }
+let controller: AbortController
+export { controller }
 export function getPlaylistDetail(id: number) {
-	return Service.get<{ playlist: PlaylistDetail }>(`/playlist/detail?id=${id}`)
+	controller = new AbortController()
+	return Service.get<{ playlist: PlaylistDetail }>(
+		`/playlist/detail?id=${id}`,
+		{ signal: controller.signal }
+	)
 }
 export function getDailyPlaylist() {
 	return Service.get<{ recommend: Playlist[] }>('/recommend/resource')

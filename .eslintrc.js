@@ -8,6 +8,7 @@ module.exports = {
 		'eslint:recommended',
 		'plugin:vue/vue3-recommended',
 		'plugin:@typescript-eslint/recommended',
+		'plugin:prettier/recommended',
 	],
 	parser: 'vue-eslint-parser',
 	parserOptions: {
@@ -17,10 +18,10 @@ module.exports = {
 	},
 	plugins: ['vue', '@typescript-eslint'],
 	rules: {
-		indent: ['error', 'tab'],
-		'linebreak-style': ['error', 'windows'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
+		'no-console': process.env.NODE_ENV === 'production' ? 'error':'off' ,
+		'no-debugger': process.env.NODE_ENV === 'production' ? 'error':'off' ,
 		'vue/multi-word-component-names': 'off',
 		'@typescript-eslint/no-non-null-assertion': 'off',
 

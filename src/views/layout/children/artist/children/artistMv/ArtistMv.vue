@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(v-if="mvs" class=" flex flex-wrap gap-2   text-sm "
 )
     div(v-for="item in mvs" class="w-[305px] flex-shrink-0 mb-3 rounded")
@@ -29,10 +29,10 @@ const hasMore = ref()
 const mvs = ref<Mv[]>()
 
 const emit = defineEmits<{
-    (event: 'update:voidPage', flag: boolean): void
+	(event: 'update:voidPage', flag: boolean): void
 }>()
 // getArtistAllMv()
-getArtistMv(id).then(res => {
+getArtistMv(id).then((res) => {
 	if (res.mvs.length) {
 		mvs.value = res.mvs
 		hasMore.value = res.hasMore
@@ -41,8 +41,6 @@ getArtistMv(id).then(res => {
 		emit('update:voidPage', true)
 	}
 })
-
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

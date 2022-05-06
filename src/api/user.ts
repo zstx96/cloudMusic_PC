@@ -1,14 +1,6 @@
 import type { Follower, User, UserProfile } from '@/interface'
 import Service from '@/utils/Service'
 
-/*
- * @作者: zhao
- * @Date: 2021-12-04 17:22:28
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
-
 export function getFollows(id: number, limit?: number, offset?: number) {
 	return Service.get<{
 		follow: Follower[]
@@ -36,7 +28,7 @@ export function getLoginStatus() {
 	return Service.get<{
 		data: {
 			code: number
-			account: any
+			account: unknown
 			profile: UserProfile
 		}
 	}>('/login/status')

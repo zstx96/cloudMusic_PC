@@ -4,17 +4,38 @@ import './index.css'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Avatar, CaretBottom, CaretRight, ChatLineRound, Close, CopyDocument, Delete, Download, EditPen, Fold, FolderAdd, Headset, Message, Plus, Search, Setting, Share, Star, StarFilled } from '@element-plus/icons-vue'
+import {
+	ArrowDown,
+	ArrowLeft,
+	ArrowRight,
+	ArrowUp,
+	Avatar,
+	CaretBottom,
+	CaretRight,
+	ChatLineRound,
+	Close,
+	CopyDocument,
+	Delete,
+	Download,
+	EditPen,
+	Fold,
+	FolderAdd,
+	Headset,
+	Message,
+	Plus,
+	Search,
+	Setting,
+	Share,
+	Star,
+	StarFilled,
+} from '@element-plus/icons-vue'
 
 import Router from '@/router'
 import { createPinia } from 'pinia'
 
-
-
 const app = createApp(App)
 
-app.use(ElementPlus).use(Router).use(createPinia()) 
-
+app.use(ElementPlus).use(Router).use(createPinia())
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)

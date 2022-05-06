@@ -8,8 +8,8 @@ import type { Artist, Playlist } from './interface'
  * @描述: file content
  */
 export interface SearchMultiRes {
-    artist:Artist[]
-    new_mlog?:any[]
-    orders?:[]
-    playlist?:Playlist[]
+	artist: Artist[]
+	new_mlog?: any[]
+	orders?: []
+	playlist?: Playlist[]
 }

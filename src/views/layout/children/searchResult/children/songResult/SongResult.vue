@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 playlist-display-vue(v-if="songs" :data="songs")
 </template>
 
@@ -12,11 +12,11 @@ import { useRoute } from 'vue-router'
 const keyword = useRoute().query.keyword as string
 
 const songs = ref<Song[]>()
-getSearchResult<{ result: { songs: Song[] } }>(keyword!, SearchType.song).then(res => {
-	songs.value = res.result.songs
-})
-
+getSearchResult<{ result: { songs: Song[] } }>(keyword!, SearchType.song).then(
+	(res) => {
+		songs.value = res.result.songs
+	}
+)
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

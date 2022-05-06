@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(class="suggest-box text-black")
     div(class="flex gap-2 items-center text-sm text-app-gray")
         span 搜索历史
@@ -38,11 +38,10 @@ const deleteAll = () => {
 const deleteSingle = (v: string) => {
 	recordStore.removeSearchRecord(v)
 }
-const hotSearch = ref<{ searchWord: string, score: number }[]>()
-getHotSearchDetail().then(res => {
+const hotSearch = ref<{ searchWord: string; score: number }[]>()
+getHotSearchDetail().then((res) => {
 	hotSearch.value = res.data
 })
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

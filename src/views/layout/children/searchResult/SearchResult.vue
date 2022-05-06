@@ -83,7 +83,6 @@ const loadComponent = (name: string) =>
 onActivated(() => {
 	keyword.value = route.query.keyword as string
 })
-
 </script>
 
 <style scoped lang="less"></style>

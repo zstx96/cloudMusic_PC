@@ -40,7 +40,7 @@ div(  class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPa
 </template>
 
 <script lang="ts" setup>
-import { getPlaylistDetail } from '@/api/songlist'
+import { controller, getPlaylistDetail } from '@/api/songlist'
 import type { PlaylistDetail } from '@/interface/interface'
 import { onActivated, onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
@@ -48,7 +48,7 @@ import dayjs from 'dayjs'
 import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
-import { closeLoading, withLoading } from '@/utils/withLoading'
+import { withLoading } from '@/utils/withLoading'
 import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
 
 const route = useRoute()
@@ -58,7 +58,6 @@ const detail = ref<PlaylistDetail>()
 
 const playlistPage = ref<HTMLElement>()
 const reset = (id: number) => {
-	closeLoading()
 	const loadingOptions: LoadingOptions = {
 		target: playlistPage.value,
 		fullscreen: false,
@@ -66,12 +65,17 @@ const reset = (id: number) => {
 	withLoading(
 		getPlaylistDetail,
 		loadingOptions
-	)(id).then((res) => {
-		detail.value = res.playlist
-	})
+	)(id)
+		.then((res) => {
+			detail.value = res.playlist
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 }
 
 onBeforeRouteUpdate((to) => {
+	controller.abort()
 	const id = parseInt(to.params.id as string)
 	reset(id)
 })
