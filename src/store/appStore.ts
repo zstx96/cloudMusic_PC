@@ -24,7 +24,7 @@ const asideData: Nav = [
 					},
 					{
 						title: '歌单',
-						name: 'songList',
+						name: 'playlists',
 					},
 					{
 						title: '排行榜',
