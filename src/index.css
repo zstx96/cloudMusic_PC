@@ -37,11 +37,12 @@
 	--app-background: #fff;
 	--el-text-color-primary: #000;
 	--app-header-background: #fd544e;
+	--app-svg-color: #fff;
 
 	color: var(--app-text-color);
 	background-color: var(--app-background);
-
 }
+
 [darkMode] {
 	--el-dark-background-primary: #2b2b2b;
 	--app-text-color: #fff !important;
@@ -52,11 +53,11 @@
 	--el-fill-color-blank: var(--el-dark-background-primary) !important;
 	--el-text-color-regular: #fff !important;
 
+	--app-svg-color: #fff;
 }
-.el-table{
-	--el-table-tr-bg-color:var(--el-dark-background-primary) !important;
-	--el-table-text-color:var(--app-text-color-regular) !important;
-
+.el-table {
+	--el-table-tr-bg-color: var(--el-dark-background-primary) !important;
+	--el-table-text-color: var(--app-text-color-regular) !important;
 }
 
 .app-header {
@@ -67,5 +68,4 @@ svg {
 }
 .app-header svg {
 	color: #fff;
-
 }

@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div
     h1(class=" font-bold text-xl") 编辑歌单信息
 
@@ -25,5 +25,4 @@ const route = useRoute()
 const detail = JSON.parse(route.params.detail as string)
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

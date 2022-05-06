@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 p(class=" text-sm text-app-gray pt-2 cursor-pointer" @click="$emit('update:visible', !visible)" ) 
     span {{title}}
     el-icon(v-if="!visible")
@@ -17,17 +17,15 @@ div(v-if="list.length" class="pl-1" v-show="visible")
         span {{ item.name }}
 </template>
 
-<script lang="ts" setup>import type { Playlist } from '@/interface'
-
+<script lang="ts" setup>
+import type { Playlist } from '@/interface'
 
 defineProps<{
-    visible: boolean,
-    list: Playlist[],
-    title: string,
-    activeNav:string
+	visible: boolean
+	list: Playlist[]
+	title: string
+	activeNav: string
 }>()
-
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

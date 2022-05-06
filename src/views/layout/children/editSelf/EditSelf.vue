@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(v-if="form")
     h2(class="font-bold text-2xl") 编辑个人资料
     div(class="flex  ")
@@ -34,7 +34,7 @@ div(v-if="form")
 <script lang="ts" setup>
 import type { UserProfile } from '@/interface'
 import { useUserStore } from '@/store/userStore'
-import dayjs from 'dayjs'
+
 import { ref, watch } from 'vue'
 
 // gender: 性别 0:保密 1:男性 2:女性
@@ -45,30 +45,40 @@ import { ref, watch } from 'vue'
 // signature：用户签名
 
 const userStore = useUserStore()
-const form = ref<Pick<UserProfile, 'gender' | 'birthday' | 'nickname' | 'province' | 'city' | 'signature'>>()
+const form =
+	ref<
+		Pick<
+			UserProfile,
+			| 'gender'
+			| 'birthday'
+			| 'nickname'
+			| 'province'
+			| 'city'
+			| 'signature'
+		>
+	>()
 
-watch(() => userStore.user, (user) => {
-	if (user) {
-		form.value = {
-			gender: user?.profile.gender,
-			birthday: user?.profile.birthday,
-			nickname: user?.profile.nickname,
-			province: user?.profile.province,
-			city: user?.profile.city,
-			signature: user?.profile.signature
+watch(
+	() => userStore.user,
+	(user) => {
+		if (user) {
+			form.value = {
+				gender: user?.profile.gender,
+				birthday: user?.profile.birthday,
+				nickname: user?.profile.nickname,
+				province: user?.profile.province,
+				city: user?.profile.city,
+				signature: user?.profile.signature,
+			}
 		}
-		let b =   dayjs(user?.profile.birthday).format()
-		console.log(b)
-      
-	}
-},{immediate:true})
-
-
+	},
+	{ immediate: true }
+)
 </script>
 
 <style scoped lang="less">
-.el-select{
-    width: 120px;
-    margin-right: 6px;
+.el-select {
+	width: 120px;
+	margin-right: 6px;
 }
 </style>

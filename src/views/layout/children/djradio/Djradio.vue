@@ -1,12 +1,7 @@
-<template lang='pug'>
+<template lang="pug">
 p radio dj
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-
-</script>
-
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

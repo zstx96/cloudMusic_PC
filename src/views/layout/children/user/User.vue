@@ -57,7 +57,7 @@ import { getPlaylist } from '@/api/songlist'
 import { getUserDetail } from '@/api/user'
 import type { Playlist, User } from '@/interface'
 import { useUserStore } from '@/store/userStore'
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import coverVue from '@/components/cover/cover.vue'
 
@@ -78,6 +78,10 @@ const init = async (id: number) => {
 	})
 }
 init(id)
+onActivated(() => {
+	const id = parseInt(route.params.id as string)
+	init(id)
+})
 onBeforeRouteUpdate((to) => {
 	const id = parseInt(to.params.id as string)
 	init(id)

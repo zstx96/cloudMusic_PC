@@ -4,13 +4,14 @@ export const APP_BASE_HEIGHT = 670
 const APP_HEADER_HEIGHT = 60
 const APP_CONTROLLER_HEIGHT = 70
 
-
 export const app_height = ref(APP_BASE_HEIGHT)
 export const app_width = ref(APP_BASE_WIDTH)
 
 export const app_controller_height = APP_CONTROLLER_HEIGHT
 export const app_header_height = APP_HEADER_HEIGHT
-export const app_main_height = computed(() => app_height.value - app_header_height - app_controller_height)
+export const app_main_height = computed(
+	() => app_height.value - app_header_height - app_controller_height
+)
 
 export const resizeWindow = () => {
 	watchEffect(() => {
@@ -19,4 +20,3 @@ export const resizeWindow = () => {
 		app.style.height = app_height.value + 'px'
 	})
 }
-

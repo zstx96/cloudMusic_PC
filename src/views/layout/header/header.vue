@@ -3,7 +3,7 @@ div(class="app-header h-full flex items-center justify-between px-2.5")
     div(v-if="$route.path === '/song'" class="w-[200px] pl-6" @click="$router.push('/')") 
         el-icon
             el-icon-arrowDown
-    div(class=" text-lg cursor-pointer w-[200px] " v-else @click="$router.push({ 'name': 'discovery' })") 网易云音乐
+    div( v-else class=" text-lg cursor-pointer w-[200px] " @click="$router.push({ name: 'discovery' })") 网易云音乐
     header-input-vue(class="flex items-center gap-2"  )
     div(:class="[' flex-1']")
     div(class="icon-groups w-[435px]  flex  justify-between items-center ")
@@ -50,18 +50,20 @@ import { ElMessage } from 'element-plus'
 import { getQrimg, getQrKey } from '@/api/login'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'vue-router'
-import { logout } from '@/api/user'
+import { logout, refresh } from '@/api/user'
 import toggleModeVue from '@/components/iconButton/toggleMode.vue'
 // 处理顶部按钮组事件
 const userStore = useUserStore()
 
 const handleLogout = () => {
-	logout()
+	logout().then((_) => {
+		refresh()
+	})
 	userStore.setUser(null)
 }
 
 /// 点击头像
-const loginBoxVisible = ref(!userStore.user)
+const loginBoxVisible = ref(false)
 const qrKey = ref()
 const qrimg = ref()
 const closeLoginBox = () => {

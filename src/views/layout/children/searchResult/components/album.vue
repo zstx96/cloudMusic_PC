@@ -7,7 +7,6 @@ div
 import type { Album } from '@/interface'
 
 defineProps<{ data: Album[] }>()
-
 </script>
 
 <style scoped lang="less"></style>

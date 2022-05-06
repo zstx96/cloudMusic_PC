@@ -1,5 +1,5 @@
-<template lang='pug'>
-el-button-group(type="danger")
+<template lang="pug">
+el-button-group(type="danger" class=" text-white")
     el-button(class="bg-app-red" icon="el-icon-caretRight" type="danger" round @click="playAll(songs)") 播放全部
     el-button(alt="wer" @click="playSong(songs)" round  icon="el-icon-plus")
 el-dialog(:modelValue="false")
@@ -19,10 +19,11 @@ const playSong = (songs: Song[]) => {
 	recordStore.addPlayRecord(songs)
 }
 
-defineProps<{songs:Song[]}>()
-defineExpose()
-
+defineProps<{ songs: Song[] }>()
 </script>
 
 <style scoped lang="less">
+:deep(.el-button [class*='el-icon'] svg) {
+	color: white !important;
+}
 </style>

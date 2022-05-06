@@ -1,4 +1,3 @@
-
 export const formatNumber = (value: number) => {
 	if (value <= 1e4) {
 		return value

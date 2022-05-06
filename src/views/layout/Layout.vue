@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 el-container(class="h-full font-sans")
     el-header( :style="{ 'height': `${app_header_height}px` }")
         header-vue
@@ -15,15 +15,14 @@ el-container(class="h-full font-sans")
 import headerVue from './header/header.vue'
 import asideVue from './aside/aside.vue'
 import { app_main_height, app_header_height } from '@/config'
-
 </script>
 
 <style scoped lang="less">
 .el-header {
-    padding: 0 !important;
+	padding: 0 !important;
 }
 
 .rb-page {
-    height: calc();
+	height: calc();
 }
 </style>

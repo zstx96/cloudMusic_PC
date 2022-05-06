@@ -16,7 +16,7 @@ import { getMultimatch, getSearchResult } from '@/api/search'
 import { SearchType } from '@/enum'
 import { useRouteQuery } from '@vueuse/router'
 import type { TabPanelName } from 'element-plus'
-import { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, onActivated, ref, watchEffect } from 'vue'
 import type { Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -65,12 +65,13 @@ const tabs: { label: string; name: `${SearchTypeKey}Result` }[] = [
 ]
 const activeName = ref(route.name as string)
 const result = ref<Awaited<ReturnType<typeof getMultimatch>>['result']>()
-getMultimatch(keyword.value).then((res) => {
-	result.value = res.result
+watchEffect(() => {
+	getMultimatch(keyword.value).then((res) => {
+		result.value = res.result
+	})
 })
 
 const handleTabChange = (name: TabPanelName) => {
-	console.log(name)
 	router.push({ name: name as string, query: { keyword: keyword.value } })
 	getSearchResult(keyword.value, SearchType[name as unknown as SearchTypeKey])
 }
@@ -78,9 +79,10 @@ const handleTabChange = (name: TabPanelName) => {
 const loadComponent = (name: string) =>
 	defineAsyncComponent(() => import(`./components/${name}.vue`))
 
-// onBeforeRouteUpdate((to) => {
-// 	keyword.value = to.query.keyword as string
-// })
+// 非同页面进入
+onActivated(() => {
+	keyword.value = route.query.keyword as string
+})
 </script>
 
 <style scoped lang="less"></style>

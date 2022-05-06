@@ -2,7 +2,6 @@ import { Song } from '@/interface/interface'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-
 // const currentSong = useLocalStorage<Song>('lastSong',null)
 const lastSong = JSON.parse(localStorage.getItem('lastSong') || 'null')
 
@@ -25,8 +24,7 @@ const usePlayerStore = defineStore('player', () => {
 		currentTime,
 		setCurrentTime,
 		initPlayer,
-		setCurrentSong
-
+		setCurrentSong,
 	}
 })
 export { usePlayerStore }

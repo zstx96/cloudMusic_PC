@@ -1,11 +1,7 @@
-<template lang='pug'>
+<template lang="pug">
 
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-
-</script>
-
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

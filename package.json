@@ -11,10 +11,6 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^1.1.4",
-		"@johnsoncodehk/html2pug": "^1.0.0",
-		"@volar/pug-language-service": "^0.34.11",
-		"@volar/typescript-language-service": "^0.34.11",
-		"@volar/vue-language-service": "^0.34.11",
 		"@vueuse/core": "^8.3.1",
 		"@vueuse/router": "^8.3.1",
 		"axios": "^0.26.1",
@@ -26,10 +22,14 @@
 		"vue-router": "^4.0.14"
 	},
 	"devDependencies": {
+		"@johnsoncodehk/html2pug": "^1.0.0",
 		"@rollup/plugin-dynamic-import-vars": "^1.4.3",
 		"@typescript-eslint/eslint-plugin": "^5.21.0",
 		"@typescript-eslint/parser": "^5.21.0",
 		"@vitejs/plugin-vue": "^2.3.1",
+		"@volar/pug-language-service": "^0.34.11",
+		"@volar/typescript-language-service": "^0.34.11",
+		"@volar/vue-language-service": "^0.34.11",
 		"autoprefixer": "^10.4.5",
 		"eslint": "^8.14.0",
 		"eslint-config-prettier": "^8.5.0",

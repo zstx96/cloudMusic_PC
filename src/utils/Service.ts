@@ -6,7 +6,6 @@ const controller = new AbortController()
 const Service = Axios.create({
 	baseURL: import.meta.env.VITE_BASE_URL,
 	withCredentials: true,
-	signal: controller.signal,
 })
 
 Service.interceptors.response.use(

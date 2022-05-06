@@ -1,30 +1,31 @@
 import { ElLoading, LoadingOptions } from 'element-plus'
 import { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
 
-let instance: LoadingInstance | null
 const withLoading = <T>(
-	cb: (...args: any[]) => Promise<T>,
+	callback: (...args: any[]) => Promise<T>,
 	options: LoadingOptions = {}
 ) => {
-	const newFn = async (...args: any[]) => {
-		try {
-			instance = ElLoading.service(options)
-			const result = await cb(...args)
-			instance.close()
-			return Promise.resolve(result)
-		} catch (e) {
-			if (instance) {
-				instance.close()
+	let instance: LoadingInstance | null
+	const newFn = (...args: any[]): Promise<T> => {
+		return new Promise((resolve, reject) => {
+			try {
+				instance = ElLoading.service(options)
+				callback(...args)
+					.then((result) => {
+						instance && instance.close()
+						resolve(result)
+					})
+					.catch((err) => {
+						instance && instance.close()
+						reject(err)
+					})
+			} catch (e) {
+				instance && instance.close()
+				reject(e)
 			}
-			return Promise.reject(e)
-		}
+		})
 	}
 	return newFn
 }
-const closeLoading = () => {
-	if (instance) {
-		instance.close()
-	}
-}
 
-export { withLoading,closeLoading }
+export { withLoading }

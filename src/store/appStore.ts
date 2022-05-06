@@ -7,10 +7,12 @@ const asideData: Nav = [
 	// layout
 	{
 		name: 'layout',
+		redirect: 'discovery',
 		children: [
 			{
 				title: '发现音乐',
 				name: 'discovery',
+				redirect: 'personal',
 				children: [
 					{
 						title: '个性推荐',
@@ -103,6 +105,7 @@ const asideData: Nav = [
 			},
 			{
 				name: 'searchResult',
+				redirect: 'songResult',
 				children: [
 					{
 						title: '单曲',
@@ -147,6 +150,7 @@ const asideData: Nav = [
 			},
 			{
 				name: 'artist',
+				redirect: 'artistAlbum',
 				params: {
 					id: true,
 				},
@@ -187,19 +191,10 @@ const asideData: Nav = [
 ]
 const useAppStore = defineStore('app', () => {
 	const banners = ref<Banner[]>([])
-
 	const isDarkMode = ref(true)
-
 	const toggleMode = () => {
 		const app = <HTMLElement>document.querySelector('#app')
 		app.toggleAttribute('darkMode')
-		/* 	if (isDarkMode.value) {
-			app.style.setProperty('--background', '#fff')
-			app.style.setProperty('--text', '#2c3e50')
-		} else {
-			app.style.setProperty('--background', '#2b2b2b')
-			app.style.setProperty('--text', '#fff')
-		} */
 		isDarkMode.value = !isDarkMode.value
 	}
 

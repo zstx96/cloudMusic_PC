@@ -1,9 +1,8 @@
 import { Banner } from '@/interface/interface'
 import Service from '@/utils/Service'
 
-
-export function homePage() { 
-	''
+export function homePage() {
+	;('')
 }
 
 export function getBanners() {
@@ -13,10 +12,10 @@ export function getDragonBalls() {
 	return Service.get('/homepage/dragon/ball')
 }
 export enum LikeResourceType {
-    mv = 1,
-    电台 = 4,
-    视频 = 5,
-    动态 = 6
+	mv = 1,
+	电台 = 4,
+	视频 = 5,
+	动态 = 6,
 }
 export function resourceLike(id: number, t: boolean, type: LikeResourceType) {
 	return Service.get('/resource/like', {
@@ -24,7 +23,7 @@ export function resourceLike(id: number, t: boolean, type: LikeResourceType) {
 			id: id,
 			t: t,
 			type: 1,
-			timestamp:+new Date()
-		}
+			timestamp: +new Date(),
+		},
 	})
 }

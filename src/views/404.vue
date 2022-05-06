@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 el-empty(description="404")
     span {{ delay }}s后自动返回
 
@@ -31,5 +31,4 @@ onActivated(() => {
 })
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

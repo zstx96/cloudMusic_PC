@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div(class="suggest-box text-black")
     div(class="flex gap-2 items-center text-sm text-app-gray")
         span 搜索历史
@@ -6,7 +6,7 @@ div(class="suggest-box text-black")
             el-icon-delete
         span.flex-1
         span 查看全部
-    div(class="py-3 flex flex-wrap") 
+    div(class="py-3 h-[120px] overflow-hidden") 
         el-button(v-for="word in searchRecord" round class="mb-1 border " size="small"  )
             span {{ word }}
             el-icon(@click="deleteSingle(word)")
@@ -38,11 +38,10 @@ const deleteAll = () => {
 const deleteSingle = (v: string) => {
 	recordStore.removeSearchRecord(v)
 }
-const hotSearch = ref<{ searchWord: string, score: number }[]>()
-getHotSearchDetail().then(res => {
+const hotSearch = ref<{ searchWord: string; score: number }[]>()
+getHotSearchDetail().then((res) => {
 	hotSearch.value = res.data
 })
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

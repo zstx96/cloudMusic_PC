@@ -53,7 +53,6 @@ interface Pane {
 	isClosable: boolean
 }
 const handelClick = (pane: Pane) => {
-	console.log(pane.paneName)
 	activeName.value = pane.paneName as string
 	router.push({ name: pane.paneName as string })
 }

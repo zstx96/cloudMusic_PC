@@ -1,4 +1,4 @@
-<template lang='pug'>
+<template lang="pug">
 div
     teleport(to="#app")
         header-vue(class=" h-[60px] absolute top-0 w-full")
@@ -48,37 +48,34 @@ import { useRoute } from 'vue-router'
 import headerVue from '@/views/layout/header/header.vue'
 
 const route = useRoute()
-const id =parseInt(route.params.id as string)
-
+const id = parseInt(route.params.id as string)
 
 const mvDetail = ref<Mv>()
 const getMvDetail = (id: string | number) => {
 	return Service.get<{
-        data: Mv
-    }>(`/mv/detail?mvid=${id}`)
+		data: Mv
+	}>(`/mv/detail?mvid=${id}`)
 }
 const getMvDetailLocal = async (id: number) => {
-	getMvDetail(id).then(res => {
+	getMvDetail(id).then((res) => {
 		mvDetail.value = res.data
 	})
-
 }
 
 const mvUrl = ref()
 const getMvUrl = async (id: number | string) => {
 	return Service.get<{
-        data: {
-            url: string
-        }
-    }>(`/mv/url?id=${id}`)
+		data: {
+			url: string
+		}
+	}>(`/mv/url?id=${id}`)
 }
 
-
 type MvInfo = {
-    commentCount: number,
-    liked: boolean,
-    likedCount: number,
-    shareCount: number
+	commentCount: number
+	liked: boolean
+	likedCount: number
+	shareCount: number
 }
 const mvInfo = ref<MvInfo>()
 const getMvInfo = (id: any) => {
@@ -90,33 +87,33 @@ const likeMv = (t: boolean) => {
 	getMvInfo(id)
 }
 
-
 const mvCommentRes = ref<MvCommentRes>()
 interface MvCommentRes {
-    isMusician: boolean;
-    cnum: number;
-    userId: number;
-    topComments: void /* undefined */[];
-    moreHot: boolean;
-    hotComments: Comment[];
-    commentBanner: void /* 未知类型 */;
-    code: number;
-    comments: Comment[];
-    total: number;
-    more: boolean;
+	isMusician: boolean
+	cnum: number
+	userId: number
+	topComments: void /* undefined */[]
+	moreHot: boolean
+	hotComments: Comment[]
+	commentBanner: void /* 未知类型 */
+	code: number
+	comments: Comment[]
+	total: number
+	more: boolean
 }
 const getMvComment = (id: number) => {
 	return Service.get<MvCommentRes>(`/comment/mv?id=${id}`)
 }
 const initMV = async (id: number) => {
 	await getMvDetailLocal(id)
-	const { data: { url } } = await getMvUrl(id)
+	const {
+		data: { url },
+	} = await getMvUrl(id)
 	mvUrl.value = url
 	const info = await getMvInfo(id)
 	mvInfo.value = info
 	const comments = await getMvComment(id)
 	mvCommentRes.value = comments
-
 }
 initMV(id)
 const freshFlag = ref()
@@ -128,5 +125,4 @@ onActivated(() => {
 })
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>

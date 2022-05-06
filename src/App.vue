@@ -7,102 +7,55 @@ import { useRouter } from 'vue-router'
 import { getLoginStatus, getUserDetail } from './api/user'
 import { useAppStore } from '@/store/appStore'
 
-import type { Nav } from './interface'
-import type { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from './store/userStore'
 import { getLikelist } from './api/songlist'
 import playerVue from './components/player/player.vue'
+import { withLoading } from './utils/withLoading'
+import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
-const router = useRouter()
 const userStore = useUserStore()
 
-getLoginStatus().then((res) => {
-	if (res.data.profile) {
-		const userId = res.data.profile.userId
-		getUserDetail(userId).then((userInfo) => {
-			userStore.setUser(userInfo)
-		})
-		getLikelist(userId).then((res) => {
-			userStore.$patch({
-				likedIds: res.ids,
-			})
-		})
-	}
-})
+const router = useRouter()
 
-const firstWordUpper = (str: string) =>
-	str.replace(/^\S/, (s) => s.toUpperCase())
+useDynamicRouter(asideData, router)
 
-const modules = import.meta.glob('./views/**/*.vue')
-console.log(modules)
-
-const addRecordToRouter = (parentPath: string, navs: Nav, needId = false) => {
-	navs.forEach((nav) => {
-		let routeName
-		if (parentPath === '') {
-			routeName = '/'
-		} else {
-			routeName = parentPath
-				.split('/')
-				.at(parentPath.includes('/:id') ? -3 : -2)
-		}
-
-		const path =
-			parentPath.replaceAll('/children', '') +
-			'/' +
-			nav.name +
-			(nav.params?.id ? '/:id' : '')
-		const name = nav.name === '/' ? 'layout' : nav.name
-		const url = `./views${parentPath.replace('/:id', '')}/${
-			nav.name
-		}/${firstWordUpper(name)}.vue`
-		
-		const record: RouteRecordRaw = {
-			path: path.replace('/layout', ''),
-			name,
-			component: modules[url],
-		}
-		if (nav.children) {
-			record.redirect = { name: nav.children[0].name }
-		}
-		router.addRoute(routeName || 'layout', record)
-		if (nav.children) {
-			addRecordToRouter(
-				parentPath +
-					'/' +
-					nav.name +
-					'/children' +
-					(nav.params?.id ? '/:id' : ''),
-				nav.children,
-				Boolean(nav.params?.id)
-			)
-		}
-	})
-}
-
-addRecordToRouter('', asideData)
-router.addRoute('/', {
-	redirect: 'layout',
-	path: '/',
-})
-router.addRoute('/', {
-	path: '/:pathMatch(.*)*',
-	component: () => import('../src/views/404.vue'),
-})
-
-console.log(router.getRoutes())
-
-const lastPage = useLocalStorage('lastPage', '')
-router.replace(lastPage.value)
+const lastPage = useLocalStorage('lastPage', '/')
 
 router.afterEach((to) => {
 	lastPage.value = to.fullPath
 })
 onMounted(() => {
 	resizeWindow()
+})
+
+const beforeEnterApp = async () => {
+	return new Promise<void>((resolve, reject) => {
+		const timer = setTimeout(() => {
+			reject('请检查你的网络环境')
+		}, 5000)
+		getLoginStatus().then(({ data: { profile } }) => {
+			if (profile) {
+				const userId = profile.userId
+				Promise.all([getUserDetail(userId), getLikelist(userId)]).then(
+					([userInfo, res]) => {
+						userStore.setUser(userInfo)
+						userStore.$patch({
+							likedIds: res.ids,
+						})
+						clearTimeout(timer)
+						resolve()
+					}
+				)
+			}
+		})
+	})
+}
+
+withLoading(beforeEnterApp)().then(() => {
+	router.replace(lastPage.value)
 })
 </script>
 

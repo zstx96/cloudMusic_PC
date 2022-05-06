@@ -4,16 +4,16 @@ import Service from '@/utils/Service'
 export function getRecentSong(limit = 100) {
 	const timeStamp = +new Date()
 	return Service.get<{
-        data: {
-            total: number,
-            list: {
-                resourceId: string,
-                playTime: number,
-                resourceType: string,
-                data: Song
-            }[]
-        }
-    }>(`/record/recent/song?limit=${limit}&t=${timeStamp}`)
+		data: {
+			total: number
+			list: {
+				resourceId: string
+				playTime: number
+				resourceType: string
+				data: Song
+			}[]
+		}
+	}>(`/record/recent/song?limit=${limit}&t=${timeStamp}`)
 }
 export function getRecentVideo(limit = 100) {
 	return Service.get('/record/recent/video?limit=' + limit)

@@ -37,7 +37,6 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import { useUserStore } from '@/store/userStore'
 import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
@@ -47,8 +46,6 @@ import { getAlbumDetail } from '@/api/album'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
-const userStore = useUserStore()
-const likedIds = userStore.likedIds
 const detail = ref<Awaited<ReturnType<typeof getAlbumDetail>>>()
 //FIXME 这里有异步问题
 const playlistPage = ref<HTMLElement>()
@@ -62,9 +59,6 @@ onBeforeRouteUpdate((to) => {
 		getAlbumDetail,
 		loadingOptions
 	)(id).then((res) => {
-		res.songs.forEach((song) => {
-			song.isLiked = likedIds?.includes(song.id) ? true : false
-		})
 		detail.value = res
 	})
 })
@@ -78,9 +72,6 @@ onMounted(() => {
 		getAlbumDetail,
 		loadingOptions
 	)(id).then((res) => {
-		res.songs.forEach((song) => {
-			song.isLiked = likedIds?.includes(song.id) ? true : false
-		})
 		detail.value = res
 	})
 })
