@@ -52,6 +52,7 @@ import { withLoading } from '@/utils/withLoading'
 import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
 
 const route = useRoute()
+
 const id = parseInt(route.params.id as string)
 const detail = ref<PlaylistDetail>()
 //FIXME 这里有异步问题

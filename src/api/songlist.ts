@@ -57,3 +57,35 @@ export function getPlaylistComment(
 export function getTopList() {
 	return Service.get<{ list: Playlist[] }>('/toplist')
 }
+export function getHighQualityTags() {
+	return Service.get<{
+		tags: {
+			name: string
+			id: number
+			hot: boolean
+			category: number
+			type: number
+		}[]
+	}>('/playlist/highquality/tags')
+}
+export function getHigQualityPlaylist(
+	cat: string,
+	before?: number,
+	limit?: number
+) {
+	return Service.get<{
+		lasttime: number
+		more: boolean
+		playlists: Playlist[]
+		total: number
+	}>('/top/playlist/highquality', {
+		params: {
+			cat,
+			before,
+			limit,
+		},
+	})
+}
+export function getPlaylistCategory() {
+	return Service.get('/playlist/catlist')
+}
