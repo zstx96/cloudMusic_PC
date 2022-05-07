@@ -55,7 +55,6 @@ const route = useRoute()
 
 const id = parseInt(route.params.id as string)
 const detail = ref<PlaylistDetail>()
-//FIXME 这里有异步问题
 
 const playlistPage = ref<HTMLElement>()
 const reset = (id: number) => {

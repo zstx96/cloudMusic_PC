@@ -47,7 +47,7 @@ import { getAlbumDetail } from '@/api/album'
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 const detail = ref<Awaited<ReturnType<typeof getAlbumDetail>>>()
-//FIXME 这里有异步问题
+
 const playlistPage = ref<HTMLElement>()
 onBeforeRouteUpdate((to) => {
 	const id = parseInt(to.params.id as string)
