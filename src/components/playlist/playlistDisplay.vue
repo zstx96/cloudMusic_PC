@@ -57,6 +57,7 @@ props.data.forEach((v) => {
 		v.isLiked = true
 	}
 })
+
 // eslint-disable-next-line vue/no-setup-props-destructure
 processData.value = props.data
 

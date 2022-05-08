@@ -1,5 +1,5 @@
 <template lang="pug">
-div(  class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPage")
+div( class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPage")
     template(v-if="detail"  )
         div(class="flex gap-4")
             div
@@ -41,7 +41,7 @@ div(  class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPa
 
 <script lang="ts" setup>
 import { controller, getPlaylistDetail } from '@/api/songlist'
-import type { PlaylistDetail } from '@/interface/interface'
+import type { PlaylistDetail } from '@/interface'
 import { onActivated, onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
@@ -55,7 +55,6 @@ const route = useRoute()
 
 const id = parseInt(route.params.id as string)
 const detail = ref<PlaylistDetail>()
-
 const playlistPage = ref<HTMLElement>()
 const reset = (id: number) => {
 	const loadingOptions: LoadingOptions = {

@@ -74,22 +74,20 @@ const recordVisible = ref(false)
 // 左侧按钮
 
 const download = async () => {
-	Service.get(`/song/download/url?id=${curSong.value.id}`).then(
-		async (res) => {
-			const url = res.data.url
-			if (url) {
-				const response = await fetch(url)
-				const data = await response.blob()
-				const b = new Blob([data])
-				const a = document.createElement('a')
-				const downloadUrl = window.URL.createObjectURL(b)
-				a.href = downloadUrl
-				a.download = `${curSong.value.name}.mp3`
-				a.click()
-				window.URL.revokeObjectURL(downloadUrl)
-			}
+	Service.get(`/song/download/url?id=${curSong.value.id}`).then(async (res) => {
+		const url = res.data.url
+		if (url) {
+			const response = await fetch(url)
+			const data = await response.blob()
+			const b = new Blob([data])
+			const a = document.createElement('a')
+			const downloadUrl = window.URL.createObjectURL(b)
+			a.href = downloadUrl
+			a.download = `${curSong.value.name}.mp3`
+			a.click()
+			window.URL.revokeObjectURL(downloadUrl)
 		}
-	)
+	})
 }
 // 处理事件按钮组
 const isPaused = ref(true)
@@ -136,11 +134,10 @@ const showTime = (e: MouseEvent) => {
 	const per = offsetX / fullLength
 	timeTipVisible.value = true
 	timeTipOffsetX.value = offsetX
-	timeTipValue.value = dayjs(playerEl.value!.duration * per * 1000).format(
-		'mm:ss'
-	)
+	timeTipValue.value = dayjs(playerEl.value!.duration * per * 1000).format('mm:ss')
 }
-
+type LoopMode = 'loop' | 'next'
+const loopMode = ref<LoopMode>('loop')
 // 播放记录
 
 onMounted(() => {
@@ -149,9 +146,7 @@ onMounted(() => {
 			if (recordStore.curSongIndex < 0) {
 				recordStore.setCurSongIndex(0)
 			}
-			playerStore.setCurrentSong(
-				recordStore.playRecord[recordStore.curSongIndex]
-			)
+			playerStore.setCurrentSong(recordStore.playRecord[recordStore.curSongIndex])
 		} else if (route.name === 'song') {
 			getSongDetail(parseInt(route.query.id as string)).then((res) => {
 				recordStore.addPlayRecord(res.songs)
@@ -179,7 +174,12 @@ onMounted(() => {
 		flag.value = true
 	}
 	mp.onended = () => {
+		// TODO 播放完毕，根据循环方式判断下一首
 		isPaused.value = true
+		if (loopMode.value === 'loop') {
+			mp.currentTime = 0
+			mp.play()
+		}
 	}
 	watch(
 		() => playerStore.currentSong,

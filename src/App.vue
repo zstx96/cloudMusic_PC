@@ -19,7 +19,6 @@ const asideData = appStore.asideData
 const userStore = useUserStore()
 
 const router = useRouter()
-
 useDynamicRouter(asideData, router)
 
 const lastPage = useLocalStorage('lastPage', '/')
@@ -39,24 +38,26 @@ const beforeEnterApp = async () => {
 		getLoginStatus().then(({ data: { profile } }) => {
 			if (profile) {
 				const userId = profile.userId
-				Promise.all([getUserDetail(userId), getLikelist(userId)]).then(
-					([userInfo, res]) => {
-						userStore.setUser(userInfo)
-						userStore.$patch({
-							likedIds: res.ids,
-						})
-						clearTimeout(timer)
-						resolve()
-					}
-				)
+				Promise.all([getUserDetail(userId), getLikelist(userId)]).then(([userInfo, res]) => {
+					userStore.setUser(userInfo)
+					userStore.$patch({
+						likedIds: res.ids,
+					})
+					clearTimeout(timer)
+					resolve()
+				})
 			}
 		})
 	})
 }
 
-withLoading(beforeEnterApp)().then(() => {
-	router.replace(lastPage.value)
-})
+withLoading(beforeEnterApp)()
+	.catch((reason) => {
+		console.log(reason)
+	})
+	.finally(() => {
+		router.replace(lastPage.value)
+	})
 </script>
 
 <template lang="pug">

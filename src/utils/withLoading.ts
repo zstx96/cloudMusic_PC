@@ -1,10 +1,7 @@
 import { ElLoading, LoadingOptions } from 'element-plus'
 import { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
 
-const withLoading = <T>(
-	callback: (...args: any[]) => Promise<T>,
-	options: LoadingOptions = {}
-) => {
+const withLoading = <T>(callback: (...args: any[]) => Promise<T>, options: LoadingOptions = {}) => {
 	let instance: LoadingInstance | null
 	const newFn = (...args: any[]): Promise<T> => {
 		return new Promise((resolve, reject) => {
