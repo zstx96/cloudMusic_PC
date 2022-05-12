@@ -6,8 +6,7 @@ div(class="suggest-box text-black")
             el-icon-delete
         span.flex-1
         span 查看全部
-    div(class="py-3 h-[120px] overflow-hidden") 
-        //- FIXME 搜索历史框高度是固定的，应该是[0,max]
+    div(class=" max-h-[80px] overflow-hidden") 
         el-button(v-for="word in searchRecord" round class="mb-1 border " size="small"  )
             span {{ word }}
             el-icon(@click="deleteSingle(word)")

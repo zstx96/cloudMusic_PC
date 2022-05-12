@@ -24,7 +24,6 @@ const props = defineProps<{
 	timeTipVisible: boolean
 }>()
 
-// FIXME 切歌的一瞬间，会发生 当前时间是这首歌的，总时长是下首歌的
 const percentage = computed(() => ((props.currentTimeInSeconds * 1000) / props.duration) * 100)
 
 const emit = defineEmits<{
