@@ -38,12 +38,7 @@ div(class="app-header h-full flex items-center justify-between px-2.5")
 
 <script lang="ts" setup>
 import headerInputVue from './component/headerInput.vue'
-import {
-	APP_BASE_HEIGHT,
-	APP_BASE_WIDTH,
-	app_height,
-	app_width,
-} from '@/config'
+import { APP_BASE_HEIGHT, APP_BASE_WIDTH, app_height, app_width } from '@/config'
 import { ref } from 'vue'
 import loginBoxVue from './component/loginBox.vue'
 import { ElMessage } from 'element-plus'

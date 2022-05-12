@@ -76,8 +76,7 @@ const handleTabChange = (name: TabPanelName) => {
 	getSearchResult(keyword.value, SearchType[name as unknown as SearchTypeKey])
 }
 // vue component动态导入组件
-const loadComponent = (name: string) =>
-	defineAsyncComponent(() => import(`./components/${name}.vue`))
+const loadComponent = (name: string) => defineAsyncComponent(() => import(`./components/${name}.vue`))
 
 // 非同页面进入
 onActivated(() => {

@@ -33,9 +33,7 @@ const activeName = ref(route.path.split('/').at(-1))
 const router = useRouter()
 interface Pane {
 	uid: number
-	instance: import('vue').ShallowReactive<
-		import('vue').ComponentInternalInstance
-	>
+	instance: import('vue').ShallowReactive<import('vue').ComponentInternalInstance>
 	props: {
 		readonly disabled: boolean
 		readonly name: import('element-plus/es/utils').BuildPropType<

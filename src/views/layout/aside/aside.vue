@@ -71,10 +71,7 @@ watch(
 		if (user) {
 			let id = user.profile.userId
 			getPlaylist(id).then((res) => {
-				localStorage.setItem(
-					'favoriteId',
-					res.playlist[0].id.toString()
-				)
+				localStorage.setItem('favoriteId', res.playlist[0].id.toString())
 				res.playlist.forEach((v) => {
 					if (id === v.creator.userId) {
 						createByMe.value.push(v)
@@ -94,9 +91,7 @@ watch(
 							focusNav.value = pid.toString()
 							nextTick(() => {
 								const aside = document.querySelector('aside')!
-								const target = document.querySelector(
-									`p[data-pid="${pid}"]`
-								) as HTMLElement
+								const target = document.querySelector(`p[data-pid="${pid}"]`) as HTMLElement
 								aside.scrollBy({
 									top: target.offsetTop,
 								})

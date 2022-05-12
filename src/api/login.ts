@@ -29,15 +29,12 @@ export function getQrKey() {
 }
 
 export function getQrimg(key: string) {
-	return Service.get<{ data: { qrimg: string; qrurl: string } }>(
-		'/login/qr/create',
-		{
-			params: {
-				key,
-				qrimg: true,
-			},
-		}
-	)
+	return Service.get<{ data: { qrimg: string; qrurl: string } }>('/login/qr/create', {
+		params: {
+			key,
+			qrimg: true,
+		},
+	})
 }
 /**
  * @description 返回的状态码 800:over time 801:wait 802:waiting for confirm 803:authorized
@@ -47,12 +44,9 @@ export function getQrimg(key: string) {
  */
 export function checkQr(key: string) {
 	const now = +new Date()
-	return Service.get<{ code: number; message: string; cookie?: string }>(
-		'/login/qr/check',
-		{
-			params: { key, now },
-		}
-	)
+	return Service.get<{ code: number; message: string; cookie?: string }>('/login/qr/check', {
+		params: { key, now },
+	})
 }
 export function refreshLogin() {
 	return Service.get('/login/refresh')

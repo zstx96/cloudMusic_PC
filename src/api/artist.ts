@@ -1,10 +1,4 @@
-import type {
-	ArtistType,
-	AreaType,
-	ArtistDetail,
-	IArtist,
-	IHotAlbum,
-} from '@/interface'
+import type { ArtistType, AreaType, ArtistDetail, IArtist, IHotAlbum } from '@/interface'
 import type { Artist, Mv, Song } from '@/interface/interface'
 import Service from '@/utils/Service'
 
@@ -22,9 +16,7 @@ export function getArtistInfo(id: number) {
 }
 
 export function getArtistTopSong(id: number) {
-	return Service.get<{ code: number; more: boolean; songs: Song[] }>(
-		`/artist/top/song?id=${id}`
-	)
+	return Service.get<{ code: number; more: boolean; songs: Song[] }>(`/artist/top/song?id=${id}`)
 }
 
 /**
@@ -39,11 +31,7 @@ export function getArtistMv(id: number) {
 	}>(`/artist/mv?id=${id}`)
 }
 type MvOrder = '上升最快' | '最热' | '最新'
-export function getArtistAllMv(
-	order: MvOrder = '上升最快',
-	offset = 0,
-	limit = 30
-) {
+export function getArtistAllMv(order: MvOrder = '上升最快', offset = 0, limit = 30) {
 	return Service.get('/mv/all')
 }
 export function getArtistAlbum(id: number) {
@@ -75,13 +63,7 @@ export function getArtistSimile(id: number) {
  * @param  {} limit=30
  * @param  {} offset=0
  */
-export function getArtistList(
-	type: ArtistType,
-	area: AreaType,
-	initial = -1,
-	offset = 0,
-	limit = 30
-) {
+export function getArtistList(type: ArtistType, area: AreaType, initial = -1, offset = 0, limit = 30) {
 	return Service.get<{
 		artists: Artist[]
 	}>('/artist/list', {

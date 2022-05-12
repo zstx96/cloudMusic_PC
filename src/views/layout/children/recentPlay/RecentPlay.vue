@@ -26,11 +26,9 @@ const songs = ref<
 	}[]
 >()
 
-withLoading(getRecentSong, { target: '#subApp', fullscreen: false })().then(
-	({ data: { list } }) => {
-		songs.value = list
-	}
-)
+withLoading(getRecentSong, { target: '#subApp', fullscreen: false })().then(({ data: { list } }) => {
+	songs.value = list
+})
 </script>
 
 <style scoped lang="less"></style>

@@ -2,12 +2,7 @@ import { SearchType } from '@/enum'
 import { Album, Artist, Playlist } from '@/interface'
 import Service from '@/utils/Service'
 
-export function getSearchResult<T>(
-	keywords: string,
-	type: SearchType,
-	offset = 0,
-	limit = 30
-): Promise<T> {
+export function getSearchResult<T>(keywords: string, type: SearchType, offset = 0, limit = 30): Promise<T> {
 	return Service.get<T>('/cloudsearch', {
 		params: {
 			keywords,
@@ -26,9 +21,7 @@ export function getSearchSuggest(keywords: string) {
 	})
 }
 export function getHotSearchDetail() {
-	return Service.get<{ data: { searchWord: string; score: number }[] }>(
-		'/search/hot/detail'
-	)
+	return Service.get<{ data: { searchWord: string; score: number }[] }>('/search/hot/detail')
 }
 // FIXME 如何声明一个拥有多个可能字符串的 Array 类型？
 export type MultiMatchOrders = 'album' | 'artist' | 'playlist'

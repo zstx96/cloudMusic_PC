@@ -45,18 +45,7 @@ import { ref, watch } from 'vue'
 // signature：用户签名
 
 const userStore = useUserStore()
-const form =
-	ref<
-		Pick<
-			UserProfile,
-			| 'gender'
-			| 'birthday'
-			| 'nickname'
-			| 'province'
-			| 'city'
-			| 'signature'
-		>
-	>()
+const form = ref<Pick<UserProfile, 'gender' | 'birthday' | 'nickname' | 'province' | 'city' | 'signature'>>()
 
 watch(
 	() => userStore.user,

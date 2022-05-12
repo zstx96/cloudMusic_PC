@@ -59,13 +59,7 @@ export function getComment(
 		},
 	})
 }
-export function getHotComment(
-	id: number,
-	type = 0,
-	limit?: any,
-	offset?: any,
-	before?: any
-) {
+export function getHotComment(id: number, type = 0, limit?: any, offset?: any, before?: any) {
 	return Service.get('/comment/hot', {
 		params: { id, type, limit, offset, before },
 	})

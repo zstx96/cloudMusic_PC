@@ -11,9 +11,7 @@ export function getPlaylist(uid: number) {
 	})
 }
 export function getLikelist(uid: number) {
-	return Service.get<{ ids: number[] }>(
-		'/likelist?uid=' + uid + '?timeStamp=' + Date().valueOf()
-	)
+	return Service.get<{ ids: number[] }>('/likelist?uid=' + uid + '?timeStamp=' + Date().valueOf())
 }
 export function getRecommendSongList() {
 	return Service.get('/personalized')
@@ -22,10 +20,7 @@ let controller: AbortController
 export { controller }
 export function getPlaylistDetail(id: number) {
 	controller = new AbortController()
-	return Service.get<{ playlist: PlaylistDetail }>(
-		`/playlist/detail?id=${id}`,
-		{ signal: controller.signal }
-	)
+	return Service.get<{ playlist: PlaylistDetail }>(`/playlist/detail?id=${id}`, { signal: controller.signal })
 }
 export function getDailyPlaylist() {
 	return Service.get<{ recommend: Playlist[] }>('/recommend/resource')
@@ -39,12 +34,7 @@ export function getDailyPlaylistDynamic(id: number) {
  * @param  {number} offset=1
  * @param  {number} before
  */
-export function getPlaylistComment(
-	id: number,
-	limit = 20,
-	offset = 1,
-	before: number
-) {
+export function getPlaylistComment(id: number, limit = 20, offset = 1, before: number) {
 	return Service.get('/comment/playlist', {
 		params: {
 			id,
@@ -68,11 +58,7 @@ export function getHighQualityTags() {
 		}[]
 	}>('/playlist/highquality/tags')
 }
-export function getHigQualityPlaylist(
-	cat: string,
-	before?: number,
-	limit?: number
-) {
+export function getHigQualityPlaylist(cat: string, before?: number, limit?: number) {
 	return Service.get<{
 		lasttime: number
 		more: boolean

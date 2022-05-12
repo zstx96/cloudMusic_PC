@@ -5,15 +5,11 @@ import { notEmptyArray } from './help'
 
 const modules = import.meta.glob('../views/**/*.vue')
 
-const firstWordUpper = (str: string) =>
-	str.replace(/^\S/, (s) => s.toUpperCase())
+const firstWordUpper = (str: string) => str.replace(/^\S/, (s) => s.toUpperCase())
 
 const useDynamicRouter = (navs: Nav, router: Router) => {
 	const base = '../views'
-	const addRouterWithData = (
-		navs: Nav,
-		nameArr: { name: string; options: { id: boolean } }[]
-	) => {
+	const addRouterWithData = (navs: Nav, nameArr: { name: string; options: { id: boolean } }[]) => {
 		navs.forEach((navItem) => {
 			const name = navItem.name
 			let path = ''

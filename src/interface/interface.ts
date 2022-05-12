@@ -177,20 +177,8 @@ export interface Reply {
 }
 
 export type Mv = Record<
-	| 'id'
-	| 'status'
-	| 'duration'
-	| 'playCount'
-	| 'subCount'
-	| 'shareCount'
-	| 'commentCount',
+	'id' | 'status' | 'duration' | 'playCount' | 'subCount' | 'shareCount' | 'commentCount',
 	number
 > &
-	Record<
-		'artistName' | 'publishTime' | 'imgurl' | 'imgurl16v9' | 'name',
-		string
-	> &
-	Record<
-		'artists',
-		{ id: number; name: string; img1v1Url: string; followed: boolean }[]
-	>
+	Record<'artistName' | 'publishTime' | 'imgurl' | 'imgurl16v9' | 'name', string> &
+	Record<'artists', { id: number; name: string; img1v1Url: string; followed: boolean }[]>
