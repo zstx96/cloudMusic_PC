@@ -40,13 +40,9 @@ import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 
 const recordStore = useRecordStore()
 const playerStore = usePlayerStore()
-
-const route = useRoute()
-const router = useRouter()
 
 const recentSongs = ref<Song[]>()
 // getRecentSong().then(res => {
@@ -61,14 +57,6 @@ const handleRowClick = (song: Song) => {
 		currentSong: song,
 	})
 	recordStore.addPlayRecord([song])
-	if (route.name === 'song') {
-		router.push({
-			name: 'song',
-			query: {
-				id: song.id,
-			},
-		})
-	}
 }
 </script>
 

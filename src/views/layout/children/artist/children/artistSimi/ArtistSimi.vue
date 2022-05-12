@@ -6,7 +6,7 @@ div(v-if="artists")
             el-image(:src="item.img1v1Url+'?param=500y500'" 
             lazy 
             class="rounded cursor-pointer" 
-            @click="$router.push({name:'artist',params:{id:item.id}})"
+            @click="$router.push({name:'artistAlbum',params:{id:item.id}})"
             )
                 template(#placeholder)
                     div(class="h-full w-full ")

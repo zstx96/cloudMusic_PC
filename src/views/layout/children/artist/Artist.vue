@@ -1,6 +1,6 @@
 <template lang="pug">
-div(v-if="artistDetail")
-    div(class="flex gap-4")
+div()
+    div(class="flex gap-4" v-if="artistDetail")
         div
             el-image(:src="artistDetail.artist.cover + '?param=500y500'" class=" w-48")
         div
@@ -23,7 +23,9 @@ div(v-if="artistDetail")
             el-tab-pane(label="歌手详情" name="artistDesc")
             el-tab-pane(label="相似歌手" name="artistSimi")
         div
-            router-view(v-model:voidPage="voidPage"     v-if="!voidPage")
+            router-view(v-model:voidPage="voidPage" #default="{Component}" :key="$route.params.id"    v-if="!voidPage")
+                keep-alive
+                    component(:is="Component")
             el-empty(v-else)
 
 </template>
@@ -33,7 +35,7 @@ import { getArtistDetail } from '@/api/artist'
 import type { ArtistDetail } from '@/interface'
 import { withLoading } from '@/utils/withLoading'
 import type { TabPanelName } from 'element-plus'
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -60,8 +62,19 @@ const handleTabClick = async (name: TabPanelName) => {
 
 onBeforeRouteUpdate((to) => {
 	activeName.value = to.name as string
-	if (to.params.id !== id.toString()) {
-		id = parseInt(to.params.id as string)
+	if (to.name === 'artistAlbum' && to.params.id !== route.params.id) {
+		console.log(to.name)
+		activeName.value = to.name as string
+		if (to.params.id !== id.toString()) {
+			id = parseInt(to.params.id as string)
+			resetArtist(id)
+		}
+	}
+})
+onActivated(() => {
+	activeName.value = route.name as string
+	if (route.params.id !== id.toString()) {
+		id = parseInt(route.params.id as string)
 		resetArtist(id)
 	}
 })

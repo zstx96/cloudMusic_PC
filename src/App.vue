@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 根据config设置#app的宽高
 
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { resizeWindow } from '@/config'
 import { useRouter } from 'vue-router'
 import { getLoginStatus, getUserDetail } from './api/user'
@@ -9,11 +9,12 @@ import { useAppStore } from '@/store/appStore'
 
 import { useUserStore } from './store/userStore'
 import { getLikelist } from './api/songlist'
-import playerVue from './components/player/player.vue'
+
 import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
-
+import FooterVue from '@/components/Footer.vue'
+FooterVue
 const appStore = useAppStore()
 const asideData = appStore.asideData
 const userStore = useUserStore()
@@ -50,13 +51,17 @@ const beforeEnterApp = async () => {
 		})
 	})
 }
+const performance = window.performance
+console.log(performance)
 
+const loaded = ref(false)
 withLoading(beforeEnterApp)()
 	.catch((reason) => {
 		console.log(reason)
 	})
 	.finally(() => {
 		router.replace(lastPage.value)
+		loaded.value = true
 	})
 </script>
 
@@ -65,8 +70,8 @@ div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light" )
   router-view(#default="{ Component }"  )
     keep-alive
       component(:is="Component")
-div( )
-  player-vue
+div(v-if="loaded" )
+    footer-vue
 </template>
 
 <style>

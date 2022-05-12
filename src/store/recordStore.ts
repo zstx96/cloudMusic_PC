@@ -13,18 +13,14 @@ const useRecordStore = defineStore('record', () => {
 	const addPlayRecord = (songs: Song[]) => {
 		if (songs.length === 1) {
 			if (isInPlayRecord(songs[0])) {
-				const index = playRecord.value.findIndex(
-					(item) => item.id === songs[0].id
-				)
+				const index = playRecord.value.findIndex((item) => item.id === songs[0].id)
 				playRecord.value.splice(index, 1)
 			}
 			playRecord.value.unshift(songs[0])
 			setCurSongIndex(0)
 		} else {
 			songs
-				.filter(
-					(song) => !playRecord.value.find((v) => v.id === song.id)
-				)
+				.filter((song) => !playRecord.value.find((v) => v.id === song.id))
 				.forEach((song) => playRecord.value.push(song))
 		}
 	}
@@ -32,9 +28,7 @@ const useRecordStore = defineStore('record', () => {
 		playRecord.value = []
 	}
 	const removePlayRecord = (song: Song) => {
-		playRecord.value = playRecord.value.filter(
-			(item) => item.id !== song.id
-		)
+		playRecord.value = playRecord.value.filter((item) => item.id !== song.id)
 	}
 	const setCurSongIndex = (index: number) => {
 		curSongIndex.value = index
@@ -60,6 +54,17 @@ const useRecordStore = defineStore('record', () => {
 		}
 	}
 
+	const nextRecordIndex = () => {
+		const len = playRecord.value.length
+		const index = (curSongIndex.value % len) + 1
+		setCurSongIndex(index)
+	}
+	const randomRecordIndex = () => {
+		const len = playRecord.value.length
+		const index = Math.floor(Math.random() * len)
+		setCurSongIndex(index)
+	}
+
 	return {
 		searchRecord,
 		clearSearchRecord,
@@ -71,6 +76,8 @@ const useRecordStore = defineStore('record', () => {
 		removePlayRecord,
 		curSongIndex,
 		setCurSongIndex,
+		nextRecordIndex,
+		randomRecordIndex,
 	}
 })
 

@@ -12,9 +12,9 @@ export * from '../enum'
 export * from './Artist'
 export * from './Album'
 
-export type AxiosReturnType<F extends () => Promise<any>> = Awaited<
-	ReturnType<F>
->
+export type PlayMode = 'loop' | 'single' | 'shuffle'
+
+export type AxiosReturnType<F extends () => Promise<any>> = Awaited<ReturnType<F>>
 export interface NavItem {
 	iconUrl?: string
 	title?: string

@@ -82,15 +82,20 @@ const initSong = async (id: number) => {
 		}
 	)
 }
-
-watchEffect(() => {
-	if (!isNaN(parseInt(id.value))) {
-		withLoading(initSong)(parseInt(id.value)).then((_) => {
-			currentIndex.value = 0
-			lyricRef.value?.scroll({ top: 0 })
-		})
+watch(
+	() => id.value,
+	(v, old) => {
+		if (!isNaN(parseInt(v))) {
+			withLoading(initSong)(parseInt(v)).then((_) => {
+				currentIndex.value = 0
+				lyricRef.value?.scroll({ top: 0 })
+			})
+		}
+	},
+	{
+		immediate: true,
 	}
-})
+)
 </script>
 
 <style scoped lang="less">

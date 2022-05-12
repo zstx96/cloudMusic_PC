@@ -2,12 +2,13 @@
 	"name": "music-pc",
 	"private": true,
 	"version": "0.0.0",
+	"main": "electron.ts",
 	"scripts": {
 		"dev": "vite --host",
-		"lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix src",
-		"dev-force": "vite --force",
 		"build": "vue-tsc --noEmit && vite build",
-		"preview": "vite preview"
+		"lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix src",
+		"preview": "vite preview",
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^1.1.4",
@@ -22,6 +23,8 @@
 		"vue-router": "^4.0.14"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^16.2.4",
+		"@commitlint/config-conventional": "^16.2.4",
 		"@johnsoncodehk/html2pug": "^1.0.0",
 		"@rollup/plugin-dynamic-import-vars": "^1.4.3",
 		"@typescript-eslint/eslint-plugin": "^5.21.0",
@@ -36,6 +39,7 @@
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-pug": "^1.2.4",
 		"eslint-plugin-vue": "^8.7.1",
+		"husky": "^8.0.0",
 		"less": "^4.1.2",
 		"postcss": "^8.4.13",
 		"prettier": "^2.6.2",

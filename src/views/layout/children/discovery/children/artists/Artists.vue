@@ -69,5 +69,11 @@ span {
 	width: 75px;
 	text-align: center;
 	padding: 5px;
+	cursor: pointer;
+	&:hover {
+		background-color: #afaaaa;
+		border-radius: 20px;
+		font-weight: 600;
+	}
 }
 </style>
