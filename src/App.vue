@@ -14,7 +14,7 @@ import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
 import FooterVue from '@/components/Footer.vue'
-FooterVue
+
 const appStore = useAppStore()
 const asideData = appStore.asideData
 const userStore = useUserStore()
@@ -23,9 +23,11 @@ const router = useRouter()
 useDynamicRouter(asideData, router)
 
 const lastPage = useLocalStorage('lastPage', '/')
-
 router.afterEach((to) => {
 	lastPage.value = to.fullPath
+})
+router.beforeResolve((to) => {
+	console.log(to.name)
 })
 onMounted(() => {
 	resizeWindow()

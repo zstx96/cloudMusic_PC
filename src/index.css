@@ -11,13 +11,7 @@
 	border-radius: 5px;
 }
 
-* {
-	scrollbar-width: 5px;
-	scrollbar-base-color: green;
-	scrollbar-track-color: red;
-	scrollbar-arrow-color: blue;
-	box-sizing: border-box;
-}
+ 
 
 .select-row {
 	color: red;

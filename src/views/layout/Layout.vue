@@ -21,7 +21,6 @@ import { app_main_height, app_header_height } from '@/config'
 .el-header {
 	padding: 0 !important;
 }
-
 .rb-page {
 	height: calc();
 }

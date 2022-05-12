@@ -6,6 +6,7 @@ specifiers:
   '@element-plus/icons-vue': ^1.1.4
   '@johnsoncodehk/html2pug': ^1.0.0
   '@rollup/plugin-dynamic-import-vars': ^1.4.3
+  '@types/lodash': ^4.14.182
   '@typescript-eslint/eslint-plugin': ^5.21.0
   '@typescript-eslint/parser': ^5.21.0
   '@vitejs/plugin-vue': ^2.3.1
@@ -55,6 +56,7 @@ devDependencies:
   '@commitlint/config-conventional': 16.2.4
   '@johnsoncodehk/html2pug': 1.0.0
   '@rollup/plugin-dynamic-import-vars': 1.4.3
+  '@types/lodash': 4.14.182
   '@typescript-eslint/eslint-plugin': 5.21.0_vxtfsxfxxyksjzzdyas4bgfolu
   '@typescript-eslint/parser': 5.21.0_t725usgvqspm5woeqpaxbfp2qu
   '@vitejs/plugin-vue': 2.3.1_vite@2.9.6+vue@3.2.33
@@ -442,7 +444,6 @@ packages:
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
