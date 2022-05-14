@@ -9,7 +9,7 @@ div(
         span 共{{ recentSongs.length }}首
         span.flex-1
         span
-        span(class=" text-blue-500 cursor-pointer" @click="recordStore.clearPlayRecord()") 清空列表
+        span(class=" text-blue-500 cursor-pointer" @click="clearList") 清空列表
     div(v-if="recordStore.playRecord")
         el-table(:data="recordStore.playRecord" 
         :show-header="false" 
@@ -62,6 +62,11 @@ const handleRowClick = (song: Song) => {
 		currentSong: song,
 	})
 	recordStore.addPlayRecord([song])
+}
+const clearList = () => {
+	recordStore.clearPlayRecord()
+	recentSongs.value = []
+	playerStore.setCurrentSong(undefined)
 }
 </script>
 
