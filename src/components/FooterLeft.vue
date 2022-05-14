@@ -7,17 +7,16 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 					@click="$router.push({ name: 'song', query: { id: curSong.id } })"
 				)
 				div(class="flex flex-col items-start")
-					div.flex
+					div.flex.items-center.gap-2
 						span( v-text="curSong.name")
 						heart-button-vue(:is-like="curSong.isLiked || false" 
-						@like="likeSong(curSong.id, true)"
-						@dislike="likeSong(curSong.id, false)" )
+							@like="likeSong(curSong.id, true)"
+							@dislike="likeSong(curSong.id, false)" 
+						)
 					div(class="text-sm")
 						span(v-for="item in curSong.ar"  v-text="item.name")
 		div(v-else  class="flex  items-center gap-3" :data-is-song-page="true") 
-			el-icon(class="mr-8   box-content p-2" @click="$router.push('/')" )
-				el-icon-arrowDown
-			el-icon(class="border rounded-full p-2  box-content hover:bg-slate-300 scale " :size="20")
+			el-icon(class="border rounded-full p-2 mr-12  box-content hover:bg-slate-300 scale " :size="20" @click="$router.push('/')" )
 				el-icon-arrowDown
 			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300" :size="20")
 				el-icon-foldAdd

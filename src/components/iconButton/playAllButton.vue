@@ -8,12 +8,15 @@ el-dialog(:modelValue="false")
 
 <script lang="ts" setup>
 import type { Song } from '@/interface'
+import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 
 const recordStore = useRecordStore()
+const playerStore = usePlayerStore()
 const playAll = (songs: Song[]) => {
 	recordStore.clearPlayRecord()
 	recordStore.addPlayRecord(songs)
+	playerStore.setCurrentSong(songs[0])
 }
 const playSong = (songs: Song[]) => {
 	recordStore.addPlayRecord(songs)

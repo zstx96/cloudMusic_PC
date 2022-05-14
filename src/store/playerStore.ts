@@ -6,13 +6,13 @@ import { ref } from 'vue'
 const lastSong = JSON.parse(localStorage.getItem('lastSong') || 'null')
 
 const usePlayerStore = defineStore('player', () => {
-	const currentSong = ref<Song>(lastSong)
+	const currentSong = ref<Song | undefined>(lastSong)
 	const mp = ref<HTMLAudioElement>()
 	const initPlayer = (value: HTMLAudioElement | undefined) => {
 		mp.value = value
 	}
 	const currentTime = ref()
-	const setCurrentSong = (value: Song) => {
+	const setCurrentSong = (value: Song | undefined) => {
 		currentSong.value = value
 	}
 	const setCurrentTime = (v: any) => {

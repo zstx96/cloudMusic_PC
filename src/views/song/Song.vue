@@ -37,9 +37,11 @@ import { ref, watch } from 'vue'
 import commentsVue from '@/components/comment/comments.vue'
 import { usePlayerStore } from '@/store/playerStore'
 import { withLoading } from '@/utils/withLoading'
+import { useRecordStore } from '@/store/recordStore'
 
 const id = useRouteQuery<string>('id')
 const playStore = usePlayerStore()
+const recordStore = useRecordStore()
 
 const song = ref<Song>()
 // lyric
@@ -56,6 +58,7 @@ const initSong = async (id: number) => {
 		songs: [songRes],
 	} = await getSongDetail(id)
 	song.value = songRes
+	recordStore.addPlayRecord([song.value])
 	const {
 		lrc: { lyric: lyricRes },
 	} = await getSongLyric(id)
@@ -86,7 +89,7 @@ watch(
 	() => id.value,
 	(v, old) => {
 		if (!isNaN(parseInt(v))) {
-			withLoading(initSong)(parseInt(v)).then((_) => {
+			withLoading(initSong, { target: '#app' })(parseInt(v)).then((_) => {
 				currentIndex.value = 0
 				lyricRef.value?.scroll({ top: 0 })
 			})

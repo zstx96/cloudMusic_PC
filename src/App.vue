@@ -14,6 +14,7 @@ import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
 import FooterVue from '@/components/Footer.vue'
+import { ElMessage } from 'element-plus'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
@@ -49,6 +50,9 @@ const beforeEnterApp = async () => {
 					clearTimeout(timer)
 					resolve()
 				})
+			} else {
+				ElMessage.info('未登录，部分功能受限')
+				reject('未登录，部分功能受限')
 			}
 		})
 	})
@@ -60,7 +64,7 @@ withLoading(beforeEnterApp)()
 		console.log(reason)
 	})
 	.finally(() => {
-		router.replace(lastPage.value)
+		router.replace(lastPage.value || '/')
 		loaded.value = true
 	})
 </script>
