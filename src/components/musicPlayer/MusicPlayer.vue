@@ -1,13 +1,16 @@
 <template lang="pug">
 div(class="inline-flex flex-col gap-1 items-center")
     music-player-controller-vue(
+		v-if="player"
 		v-model:mode="mode"
         v-model:is-paused="isPaused"
+		v-model:hasInteracted="hasInteracted"
+		:player="player"
         @next="next"
     )
     music-player-progress-vue(
         v-model:timeTipVisible="timeTipVisible"
-        :duration="song.dt"
+        :duration="curSong.dt"
         :current-time-in-seconds="currentTime"
 		@jumps="handleJump"
     )
@@ -20,36 +23,29 @@ import type { PlayMode, Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import { ElMessage } from 'element-plus'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MusicPlayerControllerVue from './MusicPlayerController.vue'
 import MusicPlayerProgressVue from './MusicPlayerProgress.vue'
 
 const route = useRoute()
 const router = useRouter()
-defineProps<{
-	song: Song
+const props = defineProps<{
+	curSong: Song
 }>()
-
+const curSong = computed(() => props.curSong)
 const playerStore = usePlayerStore()
 const recordStore = useRecordStore()
-if (!playerStore.currentSong && recordStore.playRecord) {
-	let index = recordStore.curSongIndex
-	let song = recordStore.playRecord[index]
-	if (!song) {
-		song = recordStore.playRecord[0]
-	}
-	playerStore.setCurrentSong(song)
-}
 
 const timeTipVisible = ref(false)
 const player = ref<HTMLAudioElement>()
 
 const handleJump = (per: number) => {
-	player.value!.currentTime = (playerStore.currentSong.dt * per) / 1000
+	player.value!.currentTime = (playerStore.currentSong!.dt * per) / 1000
 }
 
-const isPaused = ref(true) //
+const isPaused = ref(true) //音乐播放器是否是暂停状态
+const hasInteracted = ref(false) //禁止自动播放媒体文件，必须交互一次后才能播放
 watch(
 	() => isPaused.value,
 	(isPaused) => {
@@ -77,8 +73,10 @@ const mode = ref<PlayMode>('loop')
 onMounted(() => {
 	const mp = player.value!
 	mp.oncanplay = () => {
-		mp.play()
-		isPaused.value = false
+		if (hasInteracted.value) {
+			mp.play()
+			isPaused.value = false
+		}
 	}
 	mp.ontimeupdate = () => {
 		currentTime.value = mp.currentTime
@@ -102,7 +100,7 @@ onMounted(() => {
 		}
 	}
 	watch(
-		() => playerStore.currentSong,
+		() => curSong.value,
 		async (song: Song | undefined) => {
 			if (song) {
 				const {
