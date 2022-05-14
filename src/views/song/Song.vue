@@ -30,7 +30,7 @@ import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
 import headerVue from '@/views/layout/header/header.vue'
 import { useRouteQuery } from '@vueuse/router'
-import { ref, watch, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 import commentsVue from '@/components/comment/comments.vue'
 import { usePlayerStore } from '@/store/playerStore'
 import { withLoading } from '@/utils/withLoading'
@@ -73,10 +73,7 @@ const initSong = async (id: number) => {
 			if (t > +timeArr[currentIndex.value]) {
 				currentIndex.value++
 				if (el) {
-					const { offsetTop } = el
-					if (offsetTop >= 256) {
-						lyricRef.value?.scrollBy({ top: 32 })
-					}
+					lyricRef.value?.scrollBy({ top: 32 })
 				}
 			}
 		}

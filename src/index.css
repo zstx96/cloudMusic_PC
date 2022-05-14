@@ -11,8 +11,6 @@
 	border-radius: 5px;
 }
 
- 
-
 .select-row {
 	color: red;
 }
@@ -26,40 +24,11 @@
 		white-space: nowrap;
 	}
 }
-#app {
-	--app-text-color: #000;
-	--app-background: #fff;
-	--el-text-color-primary: #000;
-	--app-header-background: #fd544e;
-	--app-svg-color: #fff;
-
-	color: var(--app-text-color);
-	background-color: var(--app-background);
+html {
+	--app-header-background-color: #fd544e !important;
 }
-
-[darkMode] {
-	--el-dark-background-primary: #2b2b2b;
-	--app-text-color: #fff !important;
-	--app-background: var(--el-dark-background-primary) !important;
-	--app-header-background: #000 !important;
-
-	--el-text-color-primary: #fff !important;
-	--el-fill-color-blank: var(--el-dark-background-primary) !important;
-	--el-text-color-regular: #fff !important;
-
-	--app-svg-color: #fff;
+html.dark {
+	background-color: #1c1c1c !important;
+	--app-header-background-color: #1c1c1c !important;
 }
-.el-table {
-	--el-table-tr-bg-color: var(--el-dark-background-primary) !important;
-	--el-table-text-color: var(--app-text-color-regular) !important;
-}
-
-.app-header {
-	background: var(--app-header-background);
-}
-svg {
-	color: var(--app-text-color);
-}
-.app-header svg {
-	color: #fff;
-}
+ 

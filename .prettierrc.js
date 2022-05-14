@@ -5,4 +5,6 @@ module.exports = {
 	semi: false, //句末使用分号
 	singleQuote: true, //使用单引号，
 	endOfLine: 'auto',
+	// FIXME 目前好像还不支持vue sfc
+	plugins: [require('prettier-plugin-tailwindcss')],
 }

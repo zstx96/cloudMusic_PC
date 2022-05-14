@@ -53,8 +53,6 @@ const beforeEnterApp = async () => {
 		})
 	})
 }
-const performance = window.performance
-console.log(performance)
 
 const loaded = ref(false)
 withLoading(beforeEnterApp)()
@@ -94,9 +92,9 @@ body {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: var(--app-text);
 	position: relative;
 	display: flex;
+	background: var(--el-bg-color);
 	flex-direction: column;
 	overflow: hidden;
 	@apply antialiased;

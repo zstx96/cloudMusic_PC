@@ -1,5 +1,6 @@
 <template lang="pug">
 div(class="flex items-center gap-2 text-sm")
+	svg-volume-vue
 	span(class=" px-1 py-0.5 text-app-red border-app-red border" v-text="'极高'")
 	el-icon(:size="30" @click="recordVisible = !recordVisible")
 		el-icon-fold
@@ -10,6 +11,7 @@ div(class="flex items-center gap-2 text-sm")
 <script lang="ts" setup>
 import { ref } from 'vue'
 import BoxPlayRecordVue from './BoxPlayRecord.vue'
+import SvgVolumeVue from './iconButton/SvgVolume.vue'
 const recordVisible = ref(false)
 </script>
 

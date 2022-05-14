@@ -5,8 +5,8 @@ el-container(class="h-full font-sans")
     el-container(class="overflow-auto"   :style="{ 'height': `${app_main_height}px` }")
         el-aside(width="200px" class="px-[10px] border-r")
             aside-vue
-        el-main(class=" overflow-x-hidden overflow-y-auto" id="subApp" :style="{ 'height': `${app_main_height}px` }")
-            router-view(class="overflow-auto" #default="{Component}" )
+        el-main(class=" overflow-x-hidden overflow-y-auto " id="subApp" :style="{ 'height': `${app_main_height}px` }")
+            router-view(#default="{Component}" )
                 keep-alive
                     component(:is="Component")
 </template>

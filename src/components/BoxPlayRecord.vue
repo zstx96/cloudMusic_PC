@@ -1,5 +1,9 @@
 <template lang="pug">
-div( v-if="recentSongs" class="shadow absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[10000] overflow-x-hidden overflow-y-scroll" :style="{ 'height': `${app_main_height - 80}px`, 'width': '400px' }")
+div( 
+    v-if="recentSongs" 
+    class=" border  absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[10000] overflow-x-hidden overflow-y-scroll" 
+    :style="{ 'height': `${app_main_height - 80}px`, 'width': '400px' }"
+)
     p(class=" font-bold text-xl text-black") 当前播放
     div(class="flex justify-between gap-4 border-b py-2")
         span 共{{ recentSongs.length }}首
@@ -13,7 +17,8 @@ div( v-if="recentSongs" class="shadow absolute bottom-0 right-0 -translate-y-20 
         class="text-sm"
         :row-class-name="computedRowClassName"
         highlight-current-row
-        @row-click="handleRowClick")
+        @row-click="handleRowClick"
+    )
             el-table-column(type="index")
             el-table-column()
                 template(#default="{ row }")

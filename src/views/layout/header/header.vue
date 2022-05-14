@@ -1,6 +1,6 @@
 <template lang="pug">
-div(class="app-header h-full flex items-center justify-between px-2.5")
-    div(v-if="$route.path === '/song'" class="w-[200px] pl-6" @click="$router.push('/')") 
+div(class="app-header h-full flex items-center justify-between px-2.5 " :style="{'background-color':'var(--app-header-background-color)'}")
+    div(v-if="$route.path === '/song'" class="w-[200px] pl-6 " @click="$router.push('/')") 
         el-icon
             el-icon-arrowDown
     div( v-else class=" text-lg cursor-pointer w-[200px] " @click="$router.push({ name: 'discovery' })") 网易云音乐

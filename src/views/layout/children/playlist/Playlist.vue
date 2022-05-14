@@ -1,5 +1,5 @@
 <template lang="pug">
-div( class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPage")
+div(ref="playlistPage")
     template(v-if="detail"  )
         div(class="flex gap-4")
             div
@@ -43,7 +43,7 @@ div( class="overflow-x-hidden  overflow-y-auto relative h-full" ref="playlistPag
 import { controller, getPlaylistDetail } from '@/api/songlist'
 import type { PlaylistDetail } from '@/interface'
 import { onActivated, onMounted, ref } from 'vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import { formatNumber } from '@/utils/format'
@@ -74,9 +74,12 @@ const reset = (id: number) => {
 }
 
 onBeforeRouteUpdate((to) => {
-	controller.abort()
+	controller.abort('切换页面销毁之前的请求')
 	const id = parseInt(to.params.id as string)
 	reset(id)
+})
+onBeforeRouteLeave(() => {
+	controller.abort('切换页面销毁之前的请求')
 })
 
 onMounted(() => {

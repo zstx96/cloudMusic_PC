@@ -7,7 +7,7 @@ div(v-if="result")
 			component(:is="loadComponent(item)" :data="result[item]" class="h-full flex items-center gap-2")
 	el-tabs(:active-name="activeName" @tab-change="handleTabChange")
 		el-tab-pane(v-for="item in tabs" :name="item.name" :label="item.label")
-	div(class=" overflow-y-scroll")
+	div()
 		//FIXME 切换页面因为scrollbar消失重新出现,导致页面一瞬间变形,并且有闪烁
 		router-view(:key="$route.query.keyword")
 </template>
