@@ -17,7 +17,10 @@ const loadingRef = ref<HTMLElement>()
 
 const songs = ref<Song[]>()
 nextTick(() => {
-	withLoading(getSearchResult, { target: loadingRef.value })(keyword!, SearchType.song).then((res) => {
+	withLoading(getSearchResult as () => Promise<{ result: { songs: Song[] } }>, { target: loadingRef.value })(
+		keyword,
+		SearchType.song
+	).then((res) => {
 		songs.value = res.result.songs
 	})
 })

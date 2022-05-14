@@ -1,9 +1,9 @@
 import { SearchType } from '@/enum'
-import { Album, Artist, Playlist, Song } from '@/interface'
+import { Album, Artist, Playlist } from '@/interface'
 import Service from '@/utils/Service'
 
-export function getSearchResult(keywords: string, type: SearchType, offset = 0, limit = 30): Promise<T> {
-	return Service.get<{ result: { songs: Song[] } }>('/cloudsearch', {
+export function getSearchResult<T>(keywords: string, type: SearchType, offset = 0, limit = 30): Promise<T> {
+	return Service.get('/cloudsearch', {
 		params: {
 			keywords,
 			type,

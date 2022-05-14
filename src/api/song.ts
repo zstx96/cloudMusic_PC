@@ -1,13 +1,7 @@
 import { SourceEnum } from '@/interface'
 import { CommentRes, Song } from '@/interface/interface'
 import Service from '@/utils/Service'
-/*
- * @作者: zhao
- * @Date: 2021-12-05 13:31:57
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
+
 export function getSongUrl(id: number) {
 	return Service.get<{
 		data: { url: string; size: number; type: string; md5: string }[]

@@ -4,7 +4,7 @@ div(ref="playlistPage")
         div(class="flex gap-4")
             div
                 el-image(class="h-[185px] w-[185px] rounded" fit="cover" @click="$router.push({ name: 'editPlaylist', params: { detail: JSON.stringify(detail) } })" :src="detail?.coverImgUrl")
-            div(class="flex flex-col gap-2 text-sm")
+            div(class="flex-1 flex flex-col gap-2 text-sm overflow-hidden")
                 div(class="flex items-center")
                     span(class=" text-app-red border-app-red border px-1 rounded" v-text="'歌单'") 
                     span(class=" text-2xl font-bold" v-text="detail.name")
@@ -25,8 +25,8 @@ div(ref="playlistPage")
                 div
                     span() 歌曲: {{ formatNumber(detail.trackCount) }}    
                     span 播放 : {{ formatNumber(detail.playCount) }}
-                div(class="flex w-full")
-                    span(class="mr-2 flex-shrink-0") 简介:
+                div(class=" ellipsis")
+                    span(class="mr-2  ") 简介:
                     span(class="flex-1")
                         span(v-if="detail.description" class="h-[3rem] ellipsis")  {{ detail.description }}
                         span(v-else class="cursor-pointer text-blue-700") 添加简介
