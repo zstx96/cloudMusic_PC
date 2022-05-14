@@ -1,28 +1,31 @@
 <template lang="pug">
 transition(name="scale")
-    div(class="h-full flex flex-col ")
-        div(class="h-[60px]")
-            header-vue(class="  bg-transparent " )
-        div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
-            div(v-if="song" class=" flex gap-2 justify-around items-center")
-                el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
-                div(class="text-center")
-                    p(v-text="song.name" class=" text-2xl font-bold")
-                    p(v-text="song.ar[0].name" class="pb-3")
-                    div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth " v-if="lyric"   ref="lyricRef" )
-                        p(v-for="([, text], index) in lyric" 
-                        class="py-1"
-                        :class="[(currentIndex == (index + 1)) ? 'font-bold text-black active-lyric-row' : 'text-app-gray']" 
-                        ) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  
+	div(class="h-full flex flex-col ")
+		div(class="h-[60px]")
+			header-vue(class="  bg-transparent " )
+		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
+			div(v-if="song" class=" flex gap-2 justify-around items-center")
+				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
+				div(class="text-center")
+					p(v-text="song.name" class=" text-2xl font-bold")
+					p(v-text="song.ar[0].name" class="pb-3")
+					div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth " v-if="lyric"   ref="lyricRef" )
+						p(v-for="([, text], index) in lyric" 
+						class="py-1"
+						:class="[(currentIndex == (index + 1)) ? 'font-bold text-black active-lyric-row' : 'text-app-gray']" 
+						) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  
 
-                div(class=" font-bold text-3xl")
-                | others
-            div(v-if="commentRes" class="w-[50vw] m-auto")
-                p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
-                div(class="text-sm")
-                    comments-vue(:comments="commentRes.comments")
-                div(class="flex justify-center")
-                    el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
+				div(class=" font-bold text-3xl")
+				| others
+			div(v-if="commentRes" class="w-[50vw] m-auto")
+				p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
+				div
+					div(class="text-sm")
+						comments-vue(:comments="commentRes.comments")
+					div(class="flex justify-center" v-if="commentRes.totalCount" )
+						el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
+					div(v-else)
+						p(class=" text-blue-500 text-center cursor-pointer mt-6") 尚未有人评论,点击评论
 </template>
 
 <script lang="ts" setup>
