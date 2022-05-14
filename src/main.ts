@@ -4,6 +4,8 @@ import './index.css'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
+
 import {
 	ArrowDown,
 	ArrowLeft,
@@ -36,6 +38,8 @@ import { createPinia } from 'pinia'
 const app = createApp(App)
 
 app.use(ElementPlus).use(Router).use(createPinia())
+
+// ELimage 加载完成回调函数
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)
