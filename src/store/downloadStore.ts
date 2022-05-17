@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import { useLocalStorage } from '@vueuse/core'
 import { Song } from './../interface/interface'
 import { defineStore } from 'pinia'
@@ -64,4 +62,3 @@ const useDownloadStore = defineStore('download', () => {
 })
 
 export { useDownloadStore }
->>>>>>> Stashed changes

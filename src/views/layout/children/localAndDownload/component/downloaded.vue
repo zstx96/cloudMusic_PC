@@ -1,0 +1,33 @@
+<template lang="pug">
+div
+    p 已下载
+    div(v-if="localList.length")
+        playlist-display-vue(:data="localList")
+            template(#default)
+                el-table-column(label="大小")
+                    template(#default="{row}")
+                        span {{transSize(row.size)}} 
+                el-table-column(label="下载时间")
+                    template(#default="{row}")
+                        span {{dayjs(row.downloadTime).format('YYYY-MM-DD')}}
+    el-empty(v-else)
+</template>
+
+<script lang="ts" setup>
+import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import { useDownloadStore } from '@/store/downloadStore'
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+
+const downloadStore = useDownloadStore()
+
+const localList = computed(() => downloadStore.downloadedList)
+
+const transSize = (size: number) => {
+	return `${(size / 1e6).toFixed(1)}mb`
+}
+
+dayjs
+</script>
+
+<style scoped lang="less"></style>
