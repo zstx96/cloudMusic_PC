@@ -13,7 +13,7 @@ import { getLikelist } from './api/songlist'
 import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
-import FooterVue from '@/components/Footer.vue'
+import FooterVue from '@/components/TheFooter.vue'
 import { ElMessage } from 'element-plus'
 
 const appStore = useAppStore()
@@ -80,7 +80,7 @@ div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  )
     keep-alive
       component(:is="Component")
 div(class="footer")
-    footer-vue
+    the-footer-vue
 </template>
 
 <style>

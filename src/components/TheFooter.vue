@@ -12,8 +12,8 @@ div(class="flex items-center justify-between" :style="{'height':'70px'}" )
 <script lang="ts" setup>
 import MusicPlayerVue from './musicPlayer/MusicPlayer.vue'
 
-import TheFooterLeftVue from './TheFooterLeft'
-import TheFooterRightVue from './TheFooterRight'
+import TheFooterLeftVue from './TheFooterLeft.vue'
+import TheFooterRightVue from './TheFooterRight.vue'
 
 import MusicPlayerDisableVue from './musicPlayer/MusicPlayerDisable.vue'
 
