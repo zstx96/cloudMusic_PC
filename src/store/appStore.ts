@@ -65,8 +65,8 @@ const asideData: Nav = [
 			},
 			// group 我的音乐
 			{
-				// title: '本地与下载',
-				name: 'download',
+				title: '本地与下载',
+				name: 'localAndDownload',
 				group: '我的音乐',
 			},
 			{

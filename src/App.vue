@@ -57,9 +57,14 @@ const beforeEnterApp = async () => {
 		})
 	})
 }
+console.log('parent setup')
+
+onMounted(() => {
+	console.log('parent onMounted')
+})
 
 const loaded = ref(false)
-withLoading(beforeEnterApp)()
+withLoading(beforeEnterApp, { target: '#app' })()
 	.catch((reason) => {
 		console.log(reason)
 	})
@@ -70,11 +75,11 @@ withLoading(beforeEnterApp)()
 </script>
 
 <template lang="pug">
-div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light" )
+div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  )
   router-view(#default="{ Component }"  )
     keep-alive
       component(:is="Component")
-div(v-if="loaded" )
+div(class="footer")
     footer-vue
 </template>
 

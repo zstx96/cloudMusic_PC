@@ -17,7 +17,7 @@ import MusicPlayerDisableVue from './musicPlayer/MusicPlayerDisable.vue'
 
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const playerStore = usePlayerStore()
 const recordStore = useRecordStore()
@@ -30,6 +30,11 @@ if (!playerStore.currentSong && recordStore.playRecord) {
 	}
 	playerStore.setCurrentSong(song)
 }
+
+console.log('child setup')
+onMounted(() => {
+	console.log('child onMounted')
+})
 </script>
 
 <style scoped lang="less"></style>

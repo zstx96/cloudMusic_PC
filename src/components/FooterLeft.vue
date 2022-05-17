@@ -16,12 +16,15 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 					div(class="text-sm")
 						span(v-for="item in curSong.ar"  v-text="item.name")
 		div(v-else  class="flex  items-center gap-3" :data-is-song-page="true") 
-			el-icon(class="border rounded-full p-2 mr-12  box-content hover:bg-slate-300 scale " :size="20" @click="$router.push('/')" )
+			el-icon(
+				class="border rounded-full p-2 mr-12  box-content hover:bg-slate-300 scale " 
+				:size="20" 
+				@click="$router.push('/')" 
+			)
 				el-icon-arrowDown
 			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300" :size="20")
 				el-icon-foldAdd
-			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20" @click="download")
-				el-icon-download
+			button-download-vue( :song="curSong")
 			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
 				el-icon-share
 </template>
@@ -29,29 +32,11 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 <script lang="ts" setup>
 import { likeSong } from '@/api/song'
 import type { Song } from '@/interface'
-import Service from '@/utils/Service'
+import buttonDownloadVue from './iconButton/buttonDownload.vue'
 import heartButtonVue from './iconButton/heartButton.vue'
-
-const props = defineProps<{
+defineProps<{
 	curSong: Song
 }>()
-
-const download = async () => {
-	Service.get(`/song/download/url?id=${props.curSong.id}`).then(async (res) => {
-		const url = res.data.url
-		if (url) {
-			const response = await fetch(url)
-			const data = await response.blob()
-			const b = new Blob([data])
-			const a = document.createElement('a')
-			const downloadUrl = window.URL.createObjectURL(b)
-			a.href = downloadUrl
-			a.download = `${props.curSong.name}.mp3`
-			a.click()
-			window.URL.revokeObjectURL(downloadUrl)
-		}
-	})
-}
 </script>
 
 <style scoped lang="less">

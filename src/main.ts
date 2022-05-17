@@ -12,6 +12,7 @@ import {
 	ArrowRight,
 	ArrowUp,
 	Avatar,
+	Bottom,
 	CaretBottom,
 	CaretRight,
 	ChatLineRound,
@@ -34,10 +35,14 @@ import {
 
 import Router from '@/router'
 import { createPinia } from 'pinia'
+import { directives } from './directives'
 
 const app = createApp(App)
 
-app.use(ElementPlus).use(Router).use(createPinia())
+const pinia = createPinia()
+app.use(ElementPlus).use(Router).use(pinia)
+
+app.use(directives)
 
 // ELimage 加载完成回调函数
 
@@ -64,5 +69,6 @@ app.component('ElIconClose', Close)
 	.component('el-icon-editPen', EditPen)
 	.component('el-icon-arrowUp', ArrowUp)
 	.component('el-icon-arrowDown', ArrowDown)
+	.component('el-icon-bottom', Bottom)
 
 app.mount('#app')

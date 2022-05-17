@@ -9,7 +9,7 @@ class-name="text-sm"
     el-table-column(label="操作" width="64")
         template(#default="{ row }")
             heart-button-vue(:is-like="row.isLiked" @like="like(row.id)" @dislike="disLike(row.id)"  class=" w-5 h-5")
-    el-table-column(label="标题" :min-width="300" prop="name")
+    el-table-column(label="标题" :min-width="200" prop="name")
         template(#default="{row}")
             p(class=" ") {{row.name}}
                 span(v-if="row.noCopyrightRcmd" class=" text-app-gray  text-xs")
@@ -23,13 +23,14 @@ class-name="text-sm"
     el-table-column(label="专辑")
         template(#default="{ row }")
             span(v-text="row.al.name" class=" w-32  text-ellipsis  whitespace-nowrap ")
-    el-table-column(label="时长")
-        template(#default="{ row }")
-            span(v-text="dayjs(row.dt).format('mm:ss')")
-    
-    el-table-column(label="播放时间" v-if="showPlayTime")
-        template(#default="{ $index}")
-            slot( :index="$index")
+    slot 
+        el-table-column(label="时长")
+            template(#default="{ row }")
+                span(v-text="dayjs(row.dt).format('mm:ss')")
+        
+        el-table-column(label="播放时间" v-if="showPlayTime")
+            template(#default="{ $index}")
+                slot( :index="$index" name="playtime")
            
     
     

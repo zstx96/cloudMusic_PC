@@ -16,7 +16,7 @@ div(ref="playlistPage")
                     play-all-button-vue(:songs="detail.tracks")
                     el-button( class="bg-app-red" icon="el-icon-foldAdd"  round) 收藏({{ formatNumber(detail.subscribedCount) }})
                     el-button( class="bg-app-red"   icon="el-icon-share" round) 分享 
-                    el-button( class="bg-app-red" icon="el-icon-download" round) 下载全部
+                    el-button( class="bg-app-red" icon="el-icon-download" round @click="downloadAll") 下载全部
                 div
                     span() 标签:
                     template(v-if="detail.tags.length")
@@ -50,6 +50,7 @@ import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'
 import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
+import { download } from '@/utils/download'
 
 const route = useRoute()
 
@@ -71,6 +72,12 @@ const reset = (id: number) => {
 		.catch((err) => {
 			console.log(err)
 		})
+}
+
+const downloadAll = () => {
+	detail.value?.tracks.forEach((song) => {
+		download(song)
+	})
 }
 
 onBeforeRouteUpdate((to) => {
