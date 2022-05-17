@@ -59,7 +59,7 @@ import type { Playlist, User } from '@/interface'
 import { useUserStore } from '@/store/userStore'
 import { onActivated, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
-import coverVue from '@/components/cover/cover.vue'
+import coverVue from '@/components/Cover.vue'
 
 const userStore = useUserStore()
 const route = useRoute()

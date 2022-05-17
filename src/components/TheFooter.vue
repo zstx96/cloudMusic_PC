@@ -1,18 +1,20 @@
 <template lang="pug">
 div(class="flex items-center justify-between" :style="{'height':'70px'}" )
 	div(class="flex-1  pl-4")
-		footer-left-vue(v-if="curSong" :cur-song="curSong")
+		the-footer-left-vue(v-if="curSong" :cur-song="curSong")
 	div
 		music-player-vue(v-if="curSong" :cur-song="curSong")
 		music-player-disable-vue(v-else class=" w-96")
 	div(class="flex-1 flex items-center justify-end")
-		footer-right-vue(v-if="curSong")
+		the-footer-right-vue(v-if="curSong")
 </template>
 
 <script lang="ts" setup>
 import MusicPlayerVue from './musicPlayer/MusicPlayer.vue'
-import FooterLeftVue from './FooterLeft.vue'
-import FooterRightVue from './FooterRight.vue'
+
+import TheFooterLeftVue from './TheFooterLeft'
+import TheFooterRightVue from './TheFooterRight'
+
 import MusicPlayerDisableVue from './musicPlayer/MusicPlayerDisable.vue'
 
 import { usePlayerStore } from '@/store/playerStore'

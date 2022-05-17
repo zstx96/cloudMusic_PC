@@ -35,7 +35,7 @@ import { getDailyPlaylist } from '@/api/songlist'
 import { ref } from 'vue'
 import type { Playlist } from '@/interface/interface'
 import playInnerRedVue from '@/components/iconButton/playInnerRed.vue'
-import coverVue from '@/components/cover/cover.vue'
+import coverVue from '@/components/Cover.vue'
 const appStore = useAppStore()
 
 const recommendList = ref<Playlist[]>()

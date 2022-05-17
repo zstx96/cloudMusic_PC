@@ -30,10 +30,10 @@ div
             div(v-if="mvCommentRes" class="text-sm  ")
                 p(class=" text-xl font-bold text-black") 精彩评论
                 div 
-                    comments-vue(:comments="mvCommentRes.hotComments")
+                    list-comment-vue(:comments="mvCommentRes.hotComments")
                 p 
                 div
-                    comments-vue(:comments="mvCommentRes.comments")
+                    list-comment-vue(:comments="mvCommentRes.comments")
 
 </template>
 
@@ -43,7 +43,7 @@ import type { Comment, Mv } from '@/interface'
 import Service from '@/utils/Service'
 import dayjs from 'dayjs'
 import { onActivated, ref } from 'vue'
-import commentsVue from '@/components/comment/comments.vue'
+import ListCommentVue from '@/components/ListComment.vue'
 import { useRoute } from 'vue-router'
 import headerVue from '@/views/layout/header/header.vue'
 

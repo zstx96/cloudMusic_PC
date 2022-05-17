@@ -44,7 +44,7 @@ import { useRecordStore } from '@/store/recordStore'
 import { useUserStore } from '@/store/userStore'
 import dayjs from 'dayjs'
 import { ref } from 'vue'
-import heartButtonVue from '../iconButton/heartButton.vue'
+import heartButtonVue from './iconButton/heartButton.vue'
 
 const props = defineProps<{ data: Song[]; showPlayTime?: boolean }>()
 

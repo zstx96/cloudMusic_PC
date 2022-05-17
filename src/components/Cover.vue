@@ -10,8 +10,8 @@ div(class="flex flex-col relative cursor-pointer " @mouseover="$emit('update:hov
 </template>
 
 <script lang="ts" setup>
-import playCountInnerVue from '../iconButton/playCountInner.vue'
-import playInnerRedVue from '../iconButton/playInnerRed.vue'
+import playCountInnerVue from './iconButton/playCountInner.vue'
+import playInnerRedVue from './iconButton/playInnerRed.vue'
 
 defineProps<{
 	picUrl: string

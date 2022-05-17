@@ -21,7 +21,7 @@ transition(name="scale")
 				p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
 				div
 					div(class="text-sm")
-						comments-vue(:comments="commentRes.comments")
+						list-comment-vue(:comments="commentRes.comments")
 					div(class="flex justify-center" v-if="commentRes.totalCount" )
 						el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
 					div(v-else)
@@ -30,11 +30,11 @@ transition(name="scale")
 
 <script lang="ts" setup>
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
+import ListCommentVue from '@/components/ListComment.vue'
 import type { CommentRes, Song } from '@/interface/interface'
 import headerVue from '@/views/layout/header/header.vue'
 import { useRouteQuery } from '@vueuse/router'
 import { ref, watch } from 'vue'
-import commentsVue from '@/components/comment/comments.vue'
 import { usePlayerStore } from '@/store/playerStore'
 import { withLoading } from '@/utils/withLoading'
 import { useRecordStore } from '@/store/recordStore'

@@ -35,16 +35,11 @@ import {
 
 import Router from '@/router'
 import { createPinia } from 'pinia'
-import { directives } from './directives'
 
 const app = createApp(App)
 
 const pinia = createPinia()
 app.use(ElementPlus).use(Router).use(pinia)
-
-app.use(directives)
-
-// ELimage 加载完成回调函数
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)

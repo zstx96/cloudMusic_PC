@@ -23,7 +23,7 @@ div
 import { getHighQualityTags, getHigQualityPlaylist } from '@/api/songlist'
 import { ref } from 'vue'
 import type { AxiosReturnType, Playlist } from '@/interface'
-import coverVue from '@/components/cover/cover.vue'
+import coverVue from '@/components/Cover.vue'
 
 const tags = ref<AxiosReturnType<typeof getHighQualityTags>['tags']>()
 const activeTag = ref('华语')
