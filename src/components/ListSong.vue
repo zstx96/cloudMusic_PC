@@ -5,7 +5,10 @@ v-if="processData"
 class-name="text-sm" 
 @row-dblclick="handleRowDblClick")
 
-    el-table-column(type="index" width="64")
+    el-table-column(type="index" width="64" v-if="startIndex === undefined")
+    el-table-column(type="index" width="64" v-else)
+        template(#default="{$index}")
+            span() {{startIndex+$index}} 
     el-table-column(label="操作" width="64")
         template(#default="{ row }")
             heart-button-vue(:is-like="row.isLiked" @like="like(row.id)" @dislike="disLike(row.id)"  class=" w-5 h-5")
@@ -46,7 +49,7 @@ import dayjs from 'dayjs'
 import { ref } from 'vue'
 import heartButtonVue from './iconButton/heartButton.vue'
 
-const props = defineProps<{ data: Song[]; showPlayTime?: boolean }>()
+const props = defineProps<{ data: Song[]; showPlayTime?: boolean; startIndex?: number }>()
 
 const recordStore = useRecordStore()
 const processData = ref<Song[]>()

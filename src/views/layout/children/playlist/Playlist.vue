@@ -1,6 +1,6 @@
 <template lang="pug">
 div(ref="playlistPage")
-    template(v-if="detail"  )
+    template(v-if="detail")
         div(class="flex gap-4")
             div
                 el-image(class="h-[185px] w-[185px] rounded" fit="cover" @click="$router.push({ name: 'editPlaylist', params: { detail: JSON.stringify(detail) } })" :src="detail?.coverImgUrl")
@@ -35,17 +35,35 @@ div(ref="playlistPage")
                 span(:class="[(1) ? ' font-bold text-xl' : '']"   ) 歌曲列表
                 span 评论(0)
                 span 收藏者
-        playlist-display-vue(:data="detail.tracks" :key="detail.id")
+                
+        div(:key="$route.fullPath")
+            list-song-vue(:data="currentSongs" 
+                v-if="currentSongs?.length"
+                :start-index="offset+1"
+                :key="currentSongs[0].id" 
+            )
+        div(class="flex justify-center mt-8 ")
+            el-pagination( 
+                :key="$route.fullPath"
+                v-model:currentPage="currentPage"
+                :default-current-page="1"
+                layout="total, prev, pager, next"
+                :total="detail.trackCount"
+                :page-size="pageSize"
+                :background="true"
+                :hide-on-single-page="true"
+                @current-change="handleCurrentChange"
+            )
 
 </template>
 
 <script lang="ts" setup>
 import { controller, getPlaylistDetail } from '@/api/songlist'
-import type { PlaylistDetail } from '@/interface'
+import type { PlaylistDetail, Song } from '@/interface'
 import { onActivated, onMounted, ref } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'
@@ -68,6 +86,9 @@ const reset = (id: number) => {
 	)(id)
 		.then((res) => {
 			detail.value = res.playlist
+			offset.value = 0
+			currentPage.value = 1
+			handleCurrentChange(1)
 		})
 		.catch((err) => {
 			console.log(err)
@@ -80,6 +101,16 @@ const downloadAll = () => {
 	})
 }
 
+const pageSize = 20
+const currentPage = ref(1)
+const offset = ref(0)
+const handleCurrentChange = (val: number) => {
+	console.log(val)
+
+	offset.value = pageSize * (val - 1)
+	currentSongs.value = detail.value?.tracks.slice(offset.value, offset.value + 20)
+}
+const currentSongs = ref<Song[]>()
 onBeforeRouteUpdate((to) => {
 	controller.abort('切换页面销毁之前的请求')
 	const id = parseInt(to.params.id as string)
