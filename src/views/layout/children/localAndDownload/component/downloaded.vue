@@ -2,7 +2,7 @@
 div
     p 已下载
     div(v-if="localList.length")
-        playlist-display-vue(:data="localList")
+        list-song-vue(:data="localList")
             template(#default)
                 el-table-column(label="大小")
                     template(#default="{row}")
@@ -14,7 +14,7 @@ div
 </template>
 
 <script lang="ts" setup>
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import { useDownloadStore } from '@/store/downloadStore'
 import dayjs from 'dayjs'
 import { computed } from 'vue'

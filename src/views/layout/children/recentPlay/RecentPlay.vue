@@ -1,13 +1,13 @@
 <template lang="pug">
 div(v-if="songs")
-    playlist-display-vue(:data="recentSong" :show-play-time="true")
+    list-song-vue(:data="recentSong" :show-play-time="true")
         template(#playtime="{ index }")
             span {{ dayjs(songs[index].playTime).from(dayjs()) }}
 </template>
 
 <script lang="ts" setup>
 import { getRecentSong } from '@/api/record'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import type { Song } from '@/interface'
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
@@ -28,7 +28,8 @@ const songs = ref<
 
 const recentSong = computed(() => (songs.value || []).map((v) => v.data))
 
-withLoading(getRecentSong, { target: '#subApp', fullscreen: false })().then(({ data: { list } }) => {
+const loadingOps = { target: '#subApp', fullscreen: false }
+withLoading(getRecentSong, loadingOps)().then(({ data: { list } }) => {
 	songs.value = list
 })
 </script>

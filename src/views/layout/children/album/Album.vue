@@ -29,7 +29,7 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
                 span(:class="[(1) ? ' font-bold text-xl' : '']"   ) 歌曲列表
                 span 评论(0)
                 span 收藏者
-        playlist-display-vue(:data="detail.songs" :key="detail.album.id")
+        list-song-vue(:data="detail.songs" :key="detail.album.id")
 
 </template>
 
@@ -37,7 +37,7 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'

@@ -1,11 +1,11 @@
 <template lang="pug">
 div(ref="loadingRef")
-	playlist-display-vue(v-if="songs" :data="songs")
+	list-song-vue(v-if="songs" :data="songs")
 </template>
 
 <script lang="ts" setup>
+import ListSongVue from '@/components/ListSong.vue'
 import { getSearchResult } from '@/api/search'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import { SearchType } from '@/enum'
 import type { Song } from '@/interface'
 import { withLoading } from '@/utils/withLoading'

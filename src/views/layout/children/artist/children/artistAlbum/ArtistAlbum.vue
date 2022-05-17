@@ -6,7 +6,7 @@ div
             p 50
         div
             p 热门50首
-            playlist-display-vue(:data="topSong.slice(0,10)")
+            list-song-vue(:data="topSong.slice(0,10)")
     div(v-if="albums" ) 
         div(v-for="item in albums" class="flex w-full gap-3 py-3 items-center ")
             div
@@ -23,7 +23,7 @@ div
 
 <script lang="ts" setup>
 import { getArtistAlbum, getArtistTopSong } from '@/api/artist'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import type { IHotAlbum, Song } from '@/interface'
 import Service from '@/utils/Service'
 import { ref } from 'vue'

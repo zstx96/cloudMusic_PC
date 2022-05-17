@@ -4,7 +4,6 @@ div
     el-tabs(v-model="activeName")
         el-tab-pane( label="已下载" name="downloaded")
         el-tab-pane( label="正在下载" name="isLoading")
-        el-tab-pane( label="test" name="test")
     component(:is="curComponent" )
 </template>
 

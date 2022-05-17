@@ -6,11 +6,11 @@ div
             p(class=" text-2xl font-bold py-1") 每日歌曲推荐
             p(class=" text-app-gray text-sm  pb-3") 根据你的音乐口味生成,每日6:00更新
     div(v-if="songs")
-        playlist-display-vue(:data="songs")
+        list-song-vue(:data="songs")
 </template>
 
 <script lang="ts" setup>
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import type { Song } from '@/interface'
 import Service from '@/utils/Service'
 import { ref } from 'vue'

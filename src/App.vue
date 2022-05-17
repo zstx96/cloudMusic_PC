@@ -80,7 +80,7 @@ div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  )
     keep-alive
       component(:is="Component")
 div(class="footer")
-    the-footer-vue
+    footer-vue
 </template>
 
 <style>
