@@ -3,7 +3,7 @@
 div
     div(class="flex flex-col gap-2 text-xs controller")
         div
-            span() 语种：
+            strong() 语种：
             span(v-text="'全部'" @click="selectArea(AreaType.all)" ) 
             span(v-text="'华语'" @click="selectArea(AreaType.CN)" ) 
             span(v-text="'欧美'" @click="selectArea(AreaType.EU)" ) 
@@ -11,17 +11,19 @@ div
             span(v-text="'韩国'" @click="selectArea(AreaType.KR)" ) 
             span(v-text="'其他'" @click="selectArea(AreaType.other)" ) 
         div
-            span() 分类：
+            strong() 分类：
             span(v-text="'全部'" @click="selectClass(ArtistType.all)" ) 
             span(v-text="'男歌手'" @click="selectClass(ArtistType.male)" ) 
             span(v-text="'女歌手'" @click="selectClass(ArtistType.female)" ) 
             span(v-text="'乐队组合'" @click="selectClass(ArtistType.band)" ) 
 
-        div
-            span() 筛选：
-            span(v-text="'热门'"   @click="selectInitial(-1)" )
-            span(v-for="item in 26" @click="selectInitial(String.fromCharCode(item + 64))") {{ String.fromCharCode(item + 64) }}
-            span(v-text="'#'"  @click="selectInitial(0)")
+        div.flex
+            div
+                strong(class=" whitespace-nowrap") 筛选：
+            div
+                span(v-text="'热门'"   @click="selectInitial(-1)" )
+                span(v-for="item in 26" @click="selectInitial(String.fromCharCode(item + 64))") {{ String.fromCharCode(item + 64) }}
+                span(v-text="'#'"  @click="selectInitial(0)")
     div(class="flex flex-wrap   gap-2 text-sm m-auto ")
         div(v-for="artist in artists" class="w-[15%]  ")
             el-image(:src="artist.picUrl + '?param=500y500'" 

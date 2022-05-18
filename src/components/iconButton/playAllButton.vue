@@ -1,6 +1,10 @@
 <template lang="pug">
 el-button-group(type="danger" class=" text-white")
-    el-button(class="bg-app-red" icon="el-icon-caretRight" type="danger" round @click="playAll(songs)") 播放全部
+    el-button(class="bg-app-red" 
+		icon="el-icon-caretRight" 
+		type="danger" round 
+		@click="playAll(songs)"
+	) 播放全部
     el-button(alt="wer" @click="playSong(songs)" round  icon="el-icon-plus")
 el-dialog(:modelValue="false")
     

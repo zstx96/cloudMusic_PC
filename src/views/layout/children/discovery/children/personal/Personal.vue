@@ -7,17 +7,7 @@ div()
         p(class=" font-bold text-xl") 推荐歌单>
         div(class="  xl:m-auto  grid  grid-cols-5  gap-2")
             div(class="flex flex-col break-words relative "  )
-                div(class="relative cursor-pointer overflow-hidden" 
-                    @mouseover="hoverDaily"
-                    @mouseleave="handleMouseLeave()"
-                )
-                    p(class="absolute z-10 text-white bg-slate-500 bg-opacity-40 p-2 text-sm -translate-y-full transition-transform duration-300" 
-                    :class="[dailyDescVisible&&' translate-y-0  ']" ) 根据你的音乐口味每日生成
-                    el-image(src="https://p2.music.126.net/6-ODonIQbSgK-h9TK-_jYw==/109951167191096963.jpg" 
-                    class="rounded"  
-                    @click="$router.push(`/dailyRecommendSongs`)"  )
-                    play-inner-red-vue(class="absolute bottom-2 right-2 z-[1000] transition  duration-500" :class="[hoverElIndex === -1 ? '' : ' hidden']")
-                p(v-text="'每日推荐歌曲'" class="text-sm") 
+                the-daily-cover-vue(:daily-desc-visible="dailyDescVisible" :hover-el-index="hoverElIndex" @mouseover="hoverDaily" @mouseleave="handleMouseLeave()")
             div( v-for="(item, index) in recommendList")
                 cover-vue(:pic-url="item.picUrl" 
                     v-model:hoverElIndex="hoverElIndex"
@@ -34,8 +24,9 @@ import { useAppStore } from '@/store/appStore'
 import { getDailyPlaylist } from '@/api/songlist'
 import { ref } from 'vue'
 import type { Playlist } from '@/interface/interface'
-import playInnerRedVue from '@/components/iconButton/playInnerRed.vue'
 import coverVue from '@/components/Cover.vue'
+import TheDailyCoverVue from '@/components/TheDailyCover.vue'
+
 const appStore = useAppStore()
 
 const recommendList = ref<Playlist[]>()

@@ -17,7 +17,7 @@ transition(name="scale")
 
 				div(class=" font-bold text-3xl")
 				| others
-			div(v-if="commentRes" class="w-[50vw] m-auto")
+			div(v-if="commentRes" class="w-1/2 m-auto")
 				p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
 				div
 					div(class="text-sm")
@@ -35,7 +35,7 @@ transition(name="scale")
 				icon="el-icon-edit" 
 				round 
 				@click="commentBoxVisible = true"
-				class="absolute left-[78vw] "
+				class="absolute left-[75%] "
 			) 写评论
 		// TODO 还要写一套滚动发生时的ui
 box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song.name"  )
