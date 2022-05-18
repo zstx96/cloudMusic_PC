@@ -5,10 +5,3 @@ parent
     - children
         - Children.vue
 
-## 优化
-
-### treeShaking
-### gzip
-### ugly
-### cdn
-### 缓存
