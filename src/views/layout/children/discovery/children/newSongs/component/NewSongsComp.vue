@@ -1,0 +1,41 @@
+<template lang="pug">
+div(v-if="result")
+    el-table(:data="result")
+        el-table-column(type="index")
+        el-table-column()
+            template(#default="{row}")
+                div(class="w-14 h-14 relative")
+                    el-image(:src="row.album.picUrl+'?param=200y200'")
+                    play-inner-red-vue(class=" absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2")
+        el-table-column()
+            template(#default="{row}")
+                p(class="ellipsis")
+                    span {{row.name}}
+                    span {{row.album.alias[0]}}
+        el-table-column()
+            template(#default="{row}")
+                span(class=" text-blue-600 cursor-pointer" @click="$router.push({name:'artist',params:{id:row.album.artists[0].id}})") {{row.album.artists[0].name}}
+        el-table-column()
+            template(#default="{row}")
+                span(class="ellipsis") {{row.album.name}} ({{row.album.alias[0]}})
+        el-table-column     
+            template(#default="{row}")
+                span {{dayjs(row.duration).format('mm:ss')}}
+</template>
+
+<script lang="ts" setup>
+import { getNewSongs } from '@/api/push'
+import playInnerRedVue from '@/components/iconButton/playInnerRed.vue'
+import { AreaType } from '@/enum'
+import dayjs from 'dayjs'
+import { ref } from 'vue'
+
+const props = defineProps<{ type: AreaType }>()
+const result = ref()
+
+getNewSongs(props.type).then((res) => {
+	result.value = res.data
+})
+</script>
+
+<style scoped lang="less"></style>

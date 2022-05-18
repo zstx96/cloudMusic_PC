@@ -1,7 +1,7 @@
 <template lang="pug">
 div( 
     v-if="recentSongs" 
-    class=" border  absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[10000] overflow-x-hidden overflow-y-scroll" 
+    class=" border  absolute bottom-0 right-0 -translate-y-20 text-app-gray text-sm p-2  bg-white z-[1000] overflow-x-hidden overflow-y-scroll" 
     :style="{ 'height': `${app_main_height - 80}px`, 'width': '400px' }"
 )
     p(class=" font-bold text-xl text-black") 当前播放

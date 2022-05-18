@@ -16,7 +16,7 @@ div()
                     el-image(src="https://p2.music.126.net/6-ODonIQbSgK-h9TK-_jYw==/109951167191096963.jpg" 
                     class="rounded"  
                     @click="$router.push(`/dailyRecommendSongs`)"  )
-                    play-inner-red-vue(class="absolute bottom-2 right-2 z-[10000] transition  duration-500" :class="[hoverElIndex === -1 ? '' : ' hidden']")
+                    play-inner-red-vue(class="absolute bottom-2 right-2 z-[1000] transition  duration-500" :class="[hoverElIndex === -1 ? '' : ' hidden']")
                 p(v-text="'每日推荐歌曲'" class="text-sm") 
             div( v-for="(item, index) in recommendList")
                 cover-vue(:pic-url="item.picUrl" 

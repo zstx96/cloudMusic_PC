@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="scale")
-	div(class="h-full flex flex-col ")
+	div(class="h-full flex flex-col relative")
 		div(class="h-[60px]")
 			header-vue(class="  bg-transparent " )
 		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
@@ -26,18 +26,36 @@ transition(name="scale")
 						el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
 					div(v-else)
 						p(class=" text-blue-500 text-center cursor-pointer mt-6") 尚未有人评论,点击评论
+		div(v-if="true" 
+			class=" fixed w-full" 
+			:style="{'transform':`translateY(${offsetY-40}px)`,'width':`${app_width}px`}"
+		)  
+			el-button(
+				type="info" 
+				icon="el-icon-edit" 
+				round 
+				@click="commentBoxVisible = true"
+				class="absolute left-[78vw] "
+			) 写评论
+		// TODO 还要写一套滚动发生时的ui
+box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song.name"  )
 </template>
 
 <script lang="ts" setup>
-import { getComment, getSongDetail, getSongLyric } from '@/api/song'
+import BoxNewCommentVue from '@/components/BoxNewComment.vue'
 import ListCommentVue from '@/components/ListComment.vue'
-import type { CommentRes, Song } from '@/interface/interface'
 import headerVue from '@/views/layout/header/header.vue'
+import { getComment, getSongDetail, getSongLyric } from '@/api/song'
+import type { CommentRes, Song } from '@/interface/interface'
 import { useRouteQuery } from '@vueuse/router'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { usePlayerStore } from '@/store/playerStore'
 import { withLoading } from '@/utils/withLoading'
 import { useRecordStore } from '@/store/recordStore'
+import { app_height, app_controller_height, app_width } from '@/config'
+
+const offsetY = computed(() => app_height.value - app_controller_height)
+const commentBoxVisible = ref(false)
 
 const id = useRouteQuery<string>('id')
 const playStore = usePlayerStore()

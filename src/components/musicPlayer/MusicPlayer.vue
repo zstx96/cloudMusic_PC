@@ -46,6 +46,9 @@ const handleJump = (per: number) => {
 
 const isPaused = ref(true) //音乐播放器是否是暂停状态
 const hasInteracted = ref(false) //禁止自动播放媒体文件，必须交互一次后才能播放
+setTimeout(() => {
+	hasInteracted.value = true
+}, 2000)
 watch(
 	() => isPaused.value,
 	(isPaused) => {

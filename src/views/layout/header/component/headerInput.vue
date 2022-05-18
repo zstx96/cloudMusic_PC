@@ -5,7 +5,7 @@ div(class="relative")
     el-icon(@click="$router.forward()" :size="28" color="white" class=" animate-pulse animation-delay  cursor-pointer rounded-full bg-black p-1 bg-opacity-20")
         el-icon-arrowRight
     el-input( 
-    class="z-[10002]"
+    class="z-[1002]"
     :placeholder="showKeyword" 
     v-model="realKeyword"
     @focus="handleFocus"
@@ -15,7 +15,7 @@ div(class="relative")
     )
     
     teleport(to="#app") 
-        div(v-show="suggestionVisible" @click.self="closeBox"  class="z-[10001]  h-full w-full absolute top-0 left-0")
+        div(v-show="suggestionVisible" @click.self="closeBox"  class="z-[1001]  h-full w-full absolute top-0 left-0")
             div(class=" bg-slate-200 p-5 overflow-y-auto overflow-x-hidden absolute left-[268px] top-[60px]  h-[500px] w-[350px]  " )
                 header-input-suggest-box-vue( @select-word="handleSelectWord" )
 </template>

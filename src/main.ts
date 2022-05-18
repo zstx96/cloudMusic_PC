@@ -20,6 +20,7 @@ import {
 	CopyDocument,
 	Delete,
 	Download,
+	Edit,
 	EditPen,
 	Fold,
 	FolderAdd,
@@ -65,5 +66,6 @@ app.component('ElIconClose', Close)
 	.component('el-icon-arrowUp', ArrowUp)
 	.component('el-icon-arrowDown', ArrowDown)
 	.component('el-icon-bottom', Bottom)
+	.component('el-icon-edit', Edit)
 
 app.mount('#app')

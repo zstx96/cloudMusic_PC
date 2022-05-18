@@ -73,7 +73,6 @@ span {
 	&:hover {
 		background-color: #afaaaa;
 		border-radius: 20px;
-		font-weight: 600;
 	}
 }
 </style>

@@ -11,7 +11,7 @@ div(class="app-header h-full flex items-center justify-between px-2.5 " :style="
         // avatar
         div(class="relative")
             el-avatar( @click="clickAvatar" :src="userStore.user?.profile.avatarUrl" ref="avatarEl" class="relative")
-            el-card(:body-style="{ height: '100%' }" v-show="loginBoxVisible"  class="absolute left-0 top-[60px]  h-[500px] w-[350px] bg-white  z-[10000] px-2" )
+            el-card(:body-style="{ height: '100%' }" v-show="loginBoxVisible"  class="absolute left-0 top-[60px]  h-[500px] w-[350px] bg-white  z-[1000] px-2" )
                 login-box-vue(v-if="qrimg" :qrimg="qrimg" :qr-key="qrKey" @close-login-box="closeLoginBox" )
         span(v-if="!userStore.user?.profile.nickname" class=" text-app-gray text-sm" ) 未登录
         el-dropdown()

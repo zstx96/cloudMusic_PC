@@ -4,7 +4,7 @@ div(class="flex flex-col relative cursor-pointer " @mouseover="$emit('update:hov
 		template(#placeholder)
 			span isLoading ...
 	play-inner-red-vue(
-		:class="[hoverElIndex === index ? ' opacity-100' : ' opacity-0','   absolute bottom-2 right-2 z-[10000] transition  duration-500']"
+		:class="[hoverElIndex === index ? ' opacity-100' : ' opacity-0','   absolute bottom-2 right-2 z-[1000] transition  duration-500']"
 	)
 	play-count-inner-vue(:count="playcount" class="absolute top-1 right-2  ")
 </template>
