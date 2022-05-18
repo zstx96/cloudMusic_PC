@@ -4,11 +4,9 @@
 import { onMounted, ref } from 'vue'
 import { resizeWindow } from '@/config'
 import { useRouter } from 'vue-router'
-import { getLoginStatus, getUserDetail } from './api/user'
+import { getLoginStatus } from './api/user'
 import { useAppStore } from '@/store/appStore'
-
-import { useUserStore } from './store/userStore'
-import { getLikelist } from './api/songlist'
+import { useUserStore } from '@/store/userStore'
 
 import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
@@ -39,17 +37,12 @@ const beforeEnterApp = async () => {
 		const timer = setTimeout(() => {
 			reject('请检查你的网络环境')
 		}, 5000)
-		getLoginStatus().then(({ data: { profile } }) => {
+		getLoginStatus().then(async ({ data: { profile } }) => {
 			if (profile) {
 				const userId = profile.userId
-				Promise.all([getUserDetail(userId), getLikelist(userId)]).then(([userInfo, res]) => {
-					userStore.setUser(userInfo)
-					userStore.$patch({
-						likedIds: res.ids,
-					})
-					clearTimeout(timer)
-					resolve()
-				})
+				await Promise.all([userStore.fetchUser(userId), userStore.fetchLikeIds(userId)])
+				clearTimeout(timer)
+				resolve()
 			} else {
 				ElMessage.info('未登录，部分功能受限')
 				reject('未登录，部分功能受限')
@@ -57,11 +50,6 @@ const beforeEnterApp = async () => {
 		})
 	})
 }
-console.log('parent setup')
-
-onMounted(() => {
-	console.log('parent onMounted')
-})
 
 const loaded = ref(false)
 withLoading(beforeEnterApp, { target: '#app' })()

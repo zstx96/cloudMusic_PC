@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import dayjs from 'dayjs'
 
-import {  
+import {
 	ArrowDown,
 	ArrowLeft,
 	ArrowRight,

@@ -3,7 +3,7 @@ div(v-if="result")
 	p.text-xl.font-bold 搜索 {{ keyword }}
 	h3(class=" text-app-gray text-sm py-2") 你可能感兴趣
 	div(class="flex  text-sm")
-		div(v-for="item in result.orders" class="bg-slate-200 h-16 m-4 rounded cursor-pointer  w-1/3 px-2 ") 
+		div(v-for="item in result.orders" class="bg-slate-200 h-16  rounded cursor-pointer  w-1/3 px-1 ") 
 			component(:is="loadComponent(item)" :data="result[item]" class="h-full flex items-center gap-2")
 	el-tabs(:active-name="activeName" @tab-change="handleTabChange")
 		el-tab-pane(v-for="item in tabs" :name="item.name" :label="item.label")

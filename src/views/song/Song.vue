@@ -2,19 +2,14 @@
 transition(name="scale")
 	div(class="h-full flex flex-col relative")
 		div(class="h-[60px]")
-			header-vue(class="  bg-transparent " )
+			header-vue(class="bg-transparent" v-if="$route.name==='song'" )
 		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
 			div(v-if="song" class=" flex gap-2 justify-around items-center")
 				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
 				div(class="text-center")
 					p(v-text="song.name" class=" text-2xl font-bold")
 					p(v-text="song.ar[0].name" class="pb-3")
-					div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth " v-if="lyric"   ref="lyricRef" )
-						p(v-for="([, text], index) in lyric" 
-						class="py-1"
-						:class="[(currentIndex == (index + 1)) ? 'font-bold text-black active-lyric-row' : 'text-app-gray']" 
-						) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  
-
+					the-lyric-parser-vue(:lyric="lyric" v-if="lyric")
 				div(class=" font-bold text-3xl")
 				| others
 			div(v-if="commentRes" class="w-1/2 m-auto")
@@ -44,7 +39,9 @@ box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song
 <script lang="ts" setup>
 import BoxNewCommentVue from '@/components/BoxNewComment.vue'
 import ListCommentVue from '@/components/ListComment.vue'
+import TheLyricParserVue from '@/components/TheLyricParser.vue';
 import headerVue from '@/views/layout/header/header.vue'
+
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
 import { useRouteQuery } from '@vueuse/router'
@@ -63,9 +60,8 @@ const recordStore = useRecordStore()
 
 const song = ref<Song>()
 // lyric
-const lyric = ref<[string, string][]>()
+const lyric = ref('')
 const lyricRef = ref<HTMLElement>()
-let timeArr: number[]
 const currentIndex = ref(0)
 
 // comment
@@ -80,28 +76,9 @@ const initSong = async (id: number) => {
 	const {
 		lrc: { lyric: lyricRes },
 	} = await getSongLyric(id)
-	const arr = lyricRes.split('[')
-	arr.shift()
-	lyric.value = arr.map((str, index) => str.split(']')) as [string, string][]
-	timeArr = lyric.value.map((v) => {
-		const [m, s] = v[0].split(':')
-		return +m * 60 + +s
-	})
-
+	lyric.value = lyricRes
 	const { data: CommentsRes } = await getComment(id, 1)
 	commentRes.value = CommentsRes
-	const el = document.querySelector('.active-lyric-row') as HTMLElement
-	watch(
-		() => playStore.currentTime,
-		(t) => {
-			if (t > +timeArr[currentIndex.value]) {
-				currentIndex.value++
-				if (el) {
-					lyricRef.value?.scrollBy({ top: 32 })
-				}
-			}
-		}
-	)
 }
 watch(
 	() => id.value,

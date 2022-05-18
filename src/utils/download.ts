@@ -19,7 +19,7 @@ const download = async (song: Song) => {
 
 			const response = await fetch(url)
 			const reader = response.body!.getReader()
-			const chunks = []
+			const chunks: any[] = []
 			let receivedLength = 0
 			const contentLength = response.headers.get('Content-Length')!
 

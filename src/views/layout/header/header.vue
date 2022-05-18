@@ -54,7 +54,7 @@ const handleLogout = () => {
 	logout().then((_) => {
 		refresh()
 	})
-	userStore.setUser(null)
+	userStore.$patch({ user: null })
 }
 
 /// 点击头像
