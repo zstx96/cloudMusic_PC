@@ -1,7 +1,7 @@
 <template lang="pug">
 transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 		div(v-if="$route.name !== 'song'" )
-			div( class="flex gap-2 ")
+			div(class="flex gap-2 ")
 				el-image(:src="curSong.al.picUrl + '?param=200y200'"  
 					class="rounded w-10  h-10  cover" 
 					@click="$router.push({ name: 'song', query: { id: curSong.id } })"
@@ -12,6 +12,7 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 						heart-button-vue(:is-like="curSong.isLiked || false" 
 							@like="likeSong(curSong.id, true)"
 							@dislike="likeSong(curSong.id, false)" 
+							:key="curSong.id"
 						)
 					div(class="text-sm")
 						span(v-for="item in curSong.ar"  v-text="item.name")
@@ -59,6 +60,7 @@ defineProps<{
 		left: 0;
 		backdrop-filter: blur(2px);
 		animation: pulse infinite ease 1.5s;
+		pointer-events: none;
 	}
 }
 @keyframes pulse {

@@ -6,7 +6,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 
-import {
+import dayjs from 'dayjs'
+
+import {  
 	ArrowDown,
 	ArrowLeft,
 	ArrowRight,
@@ -41,6 +43,8 @@ const app = createApp(App)
 
 const pinia = createPinia()
 app.use(ElementPlus).use(Router).use(pinia)
+
+app.config.globalProperties.$dayjs = dayjs
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)
