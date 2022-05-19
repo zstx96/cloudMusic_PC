@@ -31,7 +31,7 @@ div(
                         span(v-for="ar in row.ar" v-text="ar.name" class="mr-1")
             el-table-column()
                 template(#default="{ row }")
-                    span(v-text="dayjs(row.dt).format('mm:ss')")
+                    span(v-text="$dayjs(row.dt).format('mm:ss')")
     div(v-else class="h-full flex flex-col justify-center items-center")
         p.mb-4  你还没有添加任何歌曲!
         div
@@ -45,7 +45,6 @@ import { app_main_height } from '@/config'
 import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
-import dayjs from 'dayjs'
 import { throttle } from 'lodash'
 import { ref } from 'vue'
 

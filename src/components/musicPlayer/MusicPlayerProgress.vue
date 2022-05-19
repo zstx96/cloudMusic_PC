@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="flex gap-1 items-center ")
-    span(class="") {{ dayjs(currentTimeInSeconds * 1000).format('mm:ss') }}
+    span(class="") {{ $dayjs(currentTimeInSeconds * 1000).format('mm:ss') }}
     div(class="h-6 flex items-center cursor-pointer relative" 
     @click="handleClick"  
     @mousemove="throttle(showTime, 100, { trailing: true })($event)"  
@@ -11,7 +11,7 @@ div(class="flex gap-1 items-center ")
 		v-text="timeTipValue") 
         div(class=" relative h-0.5 bg-slate-600" :style="{'width':`${progressContainerLen}px`}")
             div(:style="{ 'width': `${percentage}%` }" class="rounded absolute  -top-[1px]  bg-app-red h-1")
-    span(v-text="dayjs(duration).format('mm:ss')")
+    span(v-text="$dayjs(duration).format('mm:ss')")
 </template>
 
 <script lang="ts" setup>

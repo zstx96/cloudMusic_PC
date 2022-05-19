@@ -8,7 +8,7 @@ div(v-if="mvs" class=" flex flex-wrap gap-2   text-sm "
             lazy 
             class="w-[305px] h-[171px] cursor-pointer" 
             @click="$router.push({name: 'mv',params:{id:item.id}})")
-            span(class=" absolute bottom-2 right-2 text-white") {{ dayjs(item.duration).format('mm:ss') }}
+            span(class=" absolute bottom-2 right-2 text-white") {{ $dayjs(item.duration).format('mm:ss') }}
             play-count-inner-vue(:count="item.playCount")
         div(class="w-[305px] whitespace-nowrap text-ellipsis overflow-hidden")
             span()  {{ item.name }}
@@ -18,10 +18,8 @@ div(v-if="mvs" class=" flex flex-wrap gap-2   text-sm "
 import { getArtistMv } from '@/api/artist'
 import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
 import type { Mv } from '@/interface'
-import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-dayjs
 
 const id = parseInt(useRoute().params.id as string)
 

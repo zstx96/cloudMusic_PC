@@ -20,14 +20,13 @@ div(v-if="result")
                 span(class="ellipsis") {{row.album.name}} ({{row.album.alias[0]}})
         el-table-column     
             template(#default="{row}")
-                span {{dayjs(row.duration).format('mm:ss')}}
+                span {{$dayjs(row.duration).format('mm:ss')}}
 </template>
 
 <script lang="ts" setup>
 import { getNewSongs } from '@/api/push'
 import playInnerRedVue from '@/components/iconButton/playInnerRed.vue'
 import { AreaType } from '@/enum'
-import dayjs from 'dayjs'
 import { ref } from 'vue'
 
 const props = defineProps<{ type: AreaType }>()

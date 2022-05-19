@@ -9,14 +9,13 @@ div
                         span {{transSize(row.size)}} 
                 el-table-column(label="下载时间")
                     template(#default="{row}")
-                        span {{dayjs(row.downloadTime).format('YYYY-MM-DD')}}
+                        span {{$dayjs(row.downloadTime).format('YYYY-MM-DD')}}
     el-empty(v-else)
 </template>
 
 <script lang="ts" setup>
 import ListSongVue from '@/components/ListSong.vue'
 import { useDownloadStore } from '@/store/downloadStore'
-import dayjs from 'dayjs'
 import { computed } from 'vue'
 
 const downloadStore = useDownloadStore()
@@ -26,8 +25,6 @@ const localList = computed(() => downloadStore.downloadedList)
 const transSize = (size: number) => {
 	return `${(size / 1e6).toFixed(1)}mb`
 }
-
-dayjs
 </script>
 
 <style scoped lang="less"></style>

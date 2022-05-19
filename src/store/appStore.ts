@@ -178,9 +178,6 @@ const asideData: Nav = [
 					id: true,
 				},
 			},
-			{
-				name: 'activePage',
-			},
 		],
 	},
 

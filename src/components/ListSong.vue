@@ -29,7 +29,7 @@ class-name="text-sm"
     slot 
         el-table-column(label="时长")
             template(#default="{ row }")
-                span(v-text="dayjs(row.dt).format('mm:ss')")
+                span(v-text="$dayjs(row.dt).format('mm:ss')")
         
         el-table-column(label="播放时间" v-if="showPlayTime")
             template(#default="{ $index}")
@@ -45,7 +45,6 @@ import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import { useUserStore } from '@/store/userStore'
-import dayjs from 'dayjs'
 import { ref } from 'vue'
 import heartButtonVue from './iconButton/heartButton.vue'
 

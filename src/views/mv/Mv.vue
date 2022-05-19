@@ -1,39 +1,39 @@
 <template lang="pug">
 div
-    teleport(to="#app")
-        header-vue(class=" h-[60px] absolute top-0 w-full")
-    div(class="flex justify-center pt-[70px]" v-if="mvDetail" :key="freshFlag")
-        div(class="w-[630px]")
-            div(class=" font-bold text-2xl py-3")  &it;视频详情
-            div()
-                video(:src="mvUrl" controls class="w-[612px] h-[354px]" )
-            div(class="flex  items-center gap-2")
-                el-avatar(:src="mvDetail.artists[0].img1v1Url")
-                span(v-for="ar in mvDetail.artists") {{ ar.name }} /
-            p(class="text-2xl font-bold ") {{ mvDetail.name }}
-            div(class=" text-xs text-app-gray" )
-                span 发布: {{ dayjs(mvDetail.publishTime).format('YYYY-MM-DD') }}
-                span.ml-3 播放：{{ mvDetail.playCount }}
-            div(class="flex gap-3" v-if="mvInfo")
-                el-button(v-if="mvInfo.liked" icon="el-icon-starFilled" @click="likeMv(false)" round) 已赞({{ mvInfo.likedCount }}) 
-                el-button(v-else icon="el-icon-star"  @click="likeMv(true)"  round)  赞({{ mvInfo.likedCount }}) 
-                el-button(icon="el-icon-foldAdd" round) 收藏({{ mvDetail.subCount }})
-                el-button(icon="" round) 分享({{ mvDetail.shareCount }})
-                el-button(round) 下载MV
-                span.flex-1
-                span 举报
-            div
-                span(class=" text-2xl font-bold ") 评论
-                span(class=" text-app-gray text-sm") ({{ mvDetail.commentCount }})
-            div
-                el-input(type="textarea" placeholder="请在此输入评论" :row="4")
-            div(v-if="mvCommentRes" class="text-sm  ")
-                p(class=" text-xl font-bold text-black") 精彩评论
-                div 
-                    list-comment-vue(:comments="mvCommentRes.hotComments")
-                p 
-                div
-                    list-comment-vue(:comments="mvCommentRes.comments")
+	teleport(to="#app")
+		header-vue(class=" h-[60px] absolute top-0 w-full")
+	div(class="flex justify-center pt-[70px]" v-if="mvDetail" :key="freshFlag")
+		div(class="w-[630px]")
+			div(class=" font-bold text-2xl py-3")  &it;视频详情
+			div()
+				video(:src="mvUrl" controls class="w-[612px] h-[354px]" )
+			div(class="flex  items-center gap-2")
+				el-avatar(:src="mvDetail.artists[0].img1v1Url")
+				span(v-for="ar in mvDetail.artists") {{ ar.name }} /
+			p(class="text-2xl font-bold ") {{ mvDetail.name }}
+			div(class=" text-xs text-app-gray" )
+				span 发布: {{ $dayjs(mvDetail.publishTime).format('YYYY-MM-DD') }}
+				span.ml-3 播放：{{ mvDetail.playCount }}
+			div(class="flex gap-3" v-if="mvInfo")
+				el-button(v-if="mvInfo.liked" icon="el-icon-starFilled" @click="likeMv(false)" round) 已赞({{ mvInfo.likedCount }}) 
+				el-button(v-else icon="el-icon-star"  @click="likeMv(true)"  round)  赞({{ mvInfo.likedCount }}) 
+				el-button(icon="el-icon-foldAdd" round) 收藏({{ mvDetail.subCount }})
+				el-button(icon="" round) 分享({{ mvDetail.shareCount }})
+				el-button(round) 下载MV
+				span.flex-1
+				span 举报
+			div
+				span(class=" text-2xl font-bold ") 评论
+				span(class=" text-app-gray text-sm") ({{ mvDetail.commentCount }})
+			div
+				el-input(type="textarea" placeholder="请在此输入评论" :row="4")
+			div(v-if="mvCommentRes" class="text-sm  ")
+				p(class=" text-xl font-bold text-black") 精彩评论
+				div 
+					list-comment-vue(:comments="mvCommentRes.hotComments")
+				p(class=" text-xl font-bold text-black") 最新评论
+				div
+					list-comment-vue(:comments="mvCommentRes.comments")
 
 </template>
 
@@ -41,7 +41,6 @@ div
 import { resourceLike, LikeResourceType } from '@/api/app'
 import type { Comment, Mv } from '@/interface'
 import Service from '@/utils/Service'
-import dayjs from 'dayjs'
 import { onActivated, ref } from 'vue'
 import ListCommentVue from '@/components/ListComment.vue'
 import { useRoute } from 'vue-router'

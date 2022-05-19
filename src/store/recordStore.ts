@@ -14,10 +14,11 @@ const useRecordStore = defineStore('record', () => {
 		if (songs.length === 1) {
 			if (isInPlayRecord(songs[0])) {
 				const index = playRecord.value.findIndex((item) => item.id === songs[0].id)
-				playRecord.value.splice(index, 1)
+				setCurSongIndex(index)
+			} else {
+				playRecord.value.unshift(songs[0])
+				setCurSongIndex(0)
 			}
-			playRecord.value.unshift(songs[0])
-			setCurSongIndex(0)
 		} else {
 			songs
 				.filter((song) => !playRecord.value.find((v) => v.id === song.id))

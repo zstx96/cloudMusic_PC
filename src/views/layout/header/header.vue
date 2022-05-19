@@ -7,7 +7,6 @@ div(class="app-header h-full flex items-center justify-between px-2.5 " :style="
     header-input-vue(class="flex items-center gap-2"  )
     div(:class="[' flex-1']")
     div(class="icon-groups w-[435px]  flex  justify-between items-center ")
-        span(@click="$router.push({name:'activePage'})") 使用中页面
         toggle-mode-vue 
         // avatar
         div(class="relative")

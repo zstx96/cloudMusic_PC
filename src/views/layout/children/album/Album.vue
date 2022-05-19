@@ -23,7 +23,7 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
                     p  歌手
                         span(v-text="detail.album.artist.name" class=" text-blue-600 cursor-pointer" @click="$router.push({name:'artist',params:{id:detail?.album.artist.id}})")
                     p 时间：
-                        span(v-text="dayjs(detail.album.publishTime).format('YYYY-MM-DD')")
+                        span(v-text="$dayjs(detail.album.publishTime).format('YYYY-MM-DD')")
         div
             div(class="flex gap-2 py-1")
                 span(:class="[(1) ? ' font-bold text-xl' : '']"   ) 歌曲列表
@@ -36,7 +36,6 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
-import dayjs from 'dayjs'
 import ListSongVue from '@/components/ListSong.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
