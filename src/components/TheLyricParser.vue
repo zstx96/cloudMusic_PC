@@ -27,7 +27,6 @@ const timeArr = lyric.value.map((v) => {
 	const [m, s] = v[0].split(':')
 	return +m * 60 + +s
 })
-
 watch(
 	() => playerStore.currentTime,
 	(t) => {

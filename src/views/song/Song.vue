@@ -9,7 +9,7 @@ transition(name="scale")
 				div(class="text-center")
 					p(v-text="song.name" class=" text-2xl font-bold")
 					p(v-text="song.ar[0].name" class="pb-3")
-					the-lyric-parser-vue(:lyric="lyric" v-if="lyric")
+					the-lyric-parser-vue(:lyric="lyric" v-if="lyric" :key="$route.fullPath")
 				div(class=" font-bold text-3xl")
 				| others
 			div(v-if="commentRes" class="w-1/2 m-auto")
@@ -39,14 +39,13 @@ box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song
 <script lang="ts" setup>
 import BoxNewCommentVue from '@/components/BoxNewComment.vue'
 import ListCommentVue from '@/components/ListComment.vue'
-import TheLyricParserVue from '@/components/TheLyricParser.vue';
+import TheLyricParserVue from '@/components/TheLyricParser.vue'
 import headerVue from '@/views/layout/header/header.vue'
 
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
 import { useRouteQuery } from '@vueuse/router'
 import { computed, ref, watch } from 'vue'
-import { usePlayerStore } from '@/store/playerStore'
 import { withLoading } from '@/utils/withLoading'
 import { useRecordStore } from '@/store/recordStore'
 import { app_height, app_controller_height, app_width } from '@/config'
@@ -55,7 +54,6 @@ const offsetY = computed(() => app_height.value - app_controller_height)
 const commentBoxVisible = ref(false)
 
 const id = useRouteQuery<string>('id')
-const playStore = usePlayerStore()
 const recordStore = useRecordStore()
 
 const song = ref<Song>()

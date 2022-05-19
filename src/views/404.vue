@@ -6,9 +6,10 @@ el-empty(description="404")
 
 <script lang="ts" setup>
 import { onActivated, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const delay = ref(3)
-
+const router = useRouter()
 const timeout = () => {
 	const id = setTimeout(() => {
 		delay.value--
@@ -17,7 +18,7 @@ const timeout = () => {
 			setTimeout(() => {
 				delay.value--
 				clearTimeout(id)
-				// router.back()
+				router.back()
 				setTimeout(() => {
 					delay.value = 3
 				})

@@ -10,15 +10,17 @@ div(
         span.flex-1
         span
         span(class=" text-blue-500 cursor-pointer" @click="clearList") 清空列表
-    div(v-if="recordStore.playRecord")
-        el-table(:data="recordStore.playRecord" 
-        :show-header="false" 
-        stripe
-        class="text-sm"
-        :row-class-name="computedRowClassName"
-        highlight-current-row
-        @row-click="handleRowClick"
+    div(v-if="recordStore.playRecord" 
+        @mouseover="throttle(handleMouseover)"
     )
+        el-table(:data="recordStore.playRecord" 
+            :show-header="false" 
+            stripe
+            class="text-sm"
+            :row-class-name="computedRowClassName"
+            highlight-current-row
+            @row-click="handleRowClick"
+        )
             el-table-column(type="index")
             el-table-column()
                 template(#default="{ row }")
@@ -44,6 +46,7 @@ import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import dayjs from 'dayjs'
+import { throttle } from 'lodash'
 import { ref } from 'vue'
 
 const recordStore = useRecordStore()
@@ -62,6 +65,9 @@ const handleRowClick = (song: Song) => {
 		currentSong: song,
 	})
 	recordStore.addPlayRecord([song])
+}
+const handleMouseover = (e: MouseEvent) => {
+	console.log(e)
 }
 const clearList = () => {
 	recordStore.clearPlayRecord()
