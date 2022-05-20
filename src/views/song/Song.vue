@@ -5,7 +5,7 @@ transition(name="scale")
 			header-vue(class="bg-transparent" v-if="$route.name==='song'" )
 		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
 			div(v-if="song" class=" flex gap-2 justify-around items-center")
-				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
+				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer animate-spin-slow border-[32px] border-black" fit="cover")
 				div(class="text-center")
 					p(v-text="song.name" class=" text-2xl font-bold")
 					p(v-text="song.ar[0].name" class="pb-3")
@@ -103,6 +103,6 @@ watch(
 
 .scale-enter-from,
 .scale-leave-to {
-	transform: scale(0);
+	transform: scale(0%);
 }
 </style>

@@ -46,3 +46,8 @@ export enum SearchType {
 	all = 1018,
 	voice = 2000,
 }
+
+export enum SubScribeType {
+	playlist = 'playlist',
+	mv = 'mv',
+}

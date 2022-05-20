@@ -3,6 +3,7 @@ div(v-if="songs")
     list-song-vue(:data="recentSong" :show-play-time="true")
         template(#playtime="{ index }")
             span {{ $dayjs(songs[index].playTime).from(dayjs()) }}
+el-empty
 </template>
 
 <script lang="ts" setup>

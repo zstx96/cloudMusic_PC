@@ -26,6 +26,7 @@ import {
 	EditPen,
 	Fold,
 	FolderAdd,
+	FolderChecked,
 	Headset,
 	Message,
 	Plus,
@@ -36,15 +37,13 @@ import {
 	StarFilled,
 } from '@element-plus/icons-vue'
 
-import Router from '@/router'
+import router from '@/router'
 import { createPinia } from 'pinia'
-
+import { globalProperties } from './plugin/globalProperties'
 const app = createApp(App)
 
 const pinia = createPinia()
-app.use(ElementPlus).use(Router).use(pinia)
-
-app.config.globalProperties.$dayjs = dayjs
+app.use(ElementPlus).use(router).use(pinia).use(globalProperties)
 
 app.component('ElIconClose', Close)
 	.component('el-icon-message', Message)
@@ -71,5 +70,6 @@ app.component('ElIconClose', Close)
 	.component('el-icon-arrowDown', ArrowDown)
 	.component('el-icon-bottom', Bottom)
 	.component('el-icon-edit', Edit)
+	.component('el-icon-foldChecked', FolderChecked)
 
 app.mount('#app')

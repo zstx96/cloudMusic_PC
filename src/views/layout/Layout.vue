@@ -24,4 +24,7 @@ import { app_main_height, app_header_height } from '@/config'
 .rb-page {
 	height: calc();
 }
+#subApp {
+	scrollbar-gutter: both;
+}
 </style>

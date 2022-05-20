@@ -1,9 +1,10 @@
 <template lang="pug">
 el-table(
-v-if="processData"
-:data="processData" 
-class-name="text-sm" 
-@row-dblclick="handleRowDblClick")
+    v-if="processData"
+    :data="processData" 
+    class-name="text-sm" 
+    @row-dblclick="handleRowDblClick"
+)
 
     el-table-column(type="index" width="64" v-if="startIndex === undefined")
     el-table-column(type="index" width="64" v-else)
@@ -16,8 +17,11 @@ class-name="text-sm"
         template(#default="{row}")
             p(class=" ") {{row.name}}
                 span(v-if="row.noCopyrightRcmd" class=" text-app-gray  text-xs")
-                    span(class=" border rounded ") 无音源
+                    span(class=" border rounded") 无音源
                     span( ) {{row.noCopyrightRcmd.typeDesc}}
+                span(v-else class="font-normal text-sm text-red-500")
+                    span(v-if="row.sq" class="border round mx-1 px-1 border-current" @click="$router.push({name:'mv',params:{id:row.mv}})") SQ
+                    span(v-if="row.mv" class="border round mx-1 px-1 border-current cursor-pointer" @click="$router.push({name:'mv',params:{id:row.mv}})") mv>
     el-table-column(label="歌手" :width="138" )
         template(#default="{ row }")
             div(class=" w-32  text-ellipsis text-blue-500  whitespace-nowrap")
@@ -46,7 +50,7 @@ import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import { useUserStore } from '@/store/userStore'
 import { ref } from 'vue'
-import heartButtonVue from './iconButton/heartButton.vue'
+import heartButtonVue from './iconButton/ButtonHeart.vue'
 
 const props = defineProps<{ data: Song[]; showPlayTime?: boolean; startIndex?: number }>()
 

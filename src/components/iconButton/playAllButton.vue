@@ -1,6 +1,6 @@
 <template lang="pug">
 el-button-group(type="danger" class=" text-white")
-    el-button(class="bg-app-red" 
+    el-button(
 		icon="el-icon-caretRight" 
 		type="danger" round 
 		@click="playAll(songs)"
@@ -29,8 +29,4 @@ const playSong = (songs: Song[]) => {
 defineProps<{ songs: Song[] }>()
 </script>
 
-<style scoped lang="less">
-:deep(.el-button [class*='el-icon'] svg) {
-	color: white !important;
-}
-</style>
+<style scoped lang="less"></style>

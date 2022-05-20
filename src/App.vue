@@ -13,6 +13,7 @@ import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
 import FooterVue from '@/components/TheFooter.vue'
 import { ElMessage } from 'element-plus'
+import Service from './utils/Service'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
@@ -25,9 +26,7 @@ const lastPage = useLocalStorage('lastPage', '/')
 router.afterEach((to) => {
 	lastPage.value = to.fullPath
 })
-router.beforeResolve((to) => {
-	console.log(to.name)
-})
+
 onMounted(() => {
 	resizeWindow()
 })
@@ -50,7 +49,7 @@ const beforeEnterApp = async () => {
 		})
 	})
 }
-
+// Service.get('/login/refresh', { params: { timestamps: +new Date() } })
 const loaded = ref(false)
 withLoading(beforeEnterApp, { target: '#app' })()
 	.catch((reason) => {
@@ -63,12 +62,12 @@ withLoading(beforeEnterApp, { target: '#app' })()
 </script>
 
 <template lang="pug">
-div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  )
+div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  v-if="loaded")
   router-view(#default="{ Component }"  )
     keep-alive
       component(:is="Component")
 div(class="footer")
-    footer-vue
+    footer-vue(v-if="$route.name !== 'mv'")
 </template>
 
 <style>
@@ -87,8 +86,6 @@ body {
 
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	position: relative;
 	display: flex;
 	background: var(--el-bg-color);

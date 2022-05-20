@@ -14,7 +14,13 @@ div(ref="playlistPage")
                     span(v-text="'创建'")
                 div(class=" flex gap-2")
                     play-all-button-vue(:songs="detail.tracks")
-                    el-button( class="bg-app-red" icon="el-icon-foldAdd"  round) 收藏({{ formatNumber(detail.subscribedCount) }})
+                    button-subscribe-vue(:id="detail.id" 
+                        :type="SubScribeType.playlist" 
+                        :count="detail.subscribedCount"
+                        v-model:subscribed="detail.subscribed"
+                        :disabled="detail.userId ==  $user.profile.userId"
+
+                    )
                     el-button( class="bg-app-red"   icon="el-icon-share" round) 分享 
                     el-button( class="bg-app-red" icon="el-icon-download" round @click="downloadAll") 下载全部
                 div
@@ -60,19 +66,21 @@ div(ref="playlistPage")
 <script lang="ts" setup>
 import { controller, getPlaylistDetail } from '@/api/songlist'
 import type { PlaylistDetail, Song } from '@/interface'
+import { SubScribeType } from '@/enum'
 import { onActivated, onMounted, ref } from 'vue'
+import ListSongVue from '@/components/ListSong.vue'
+import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
+import ButtonSubscribeVue from '@/components/ButtonSubscribe.vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
-import ListSongVue from '@/components/ListSong.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'
-import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
 import { download } from '@/utils/download'
 
 const route = useRoute()
-
 const id = parseInt(route.params.id as string)
+
 const detail = ref<PlaylistDetail>()
 const playlistPage = ref<HTMLElement>()
 const reset = (id: number) => {

@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { User } from './interface'
 
 import dayjs from 'dayjs'
 
@@ -11,6 +12,14 @@ declare module '*.vue' {
 declare module 'vue' {
 	interface ComponentCustomProperties {
 		$dayjs: typeof dayjs
+		$goto: (
+			name: string,
+			params?: {
+				id?: number
+				keyword?: string
+			}
+		) => void
+		$user: User
 	}
 }
 

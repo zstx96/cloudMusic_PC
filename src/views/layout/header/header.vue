@@ -5,6 +5,7 @@ div(class="app-header h-full flex items-center justify-between px-2.5 " :style="
             el-icon-arrowDown
     div( v-else class=" text-lg cursor-pointer w-[200px] " @click="$router.push({ name: 'discovery' })") 网易云音乐
     header-input-vue(class="flex items-center gap-2"  )
+    //- flex 占位符 
     div(:class="[' flex-1']")
     div(class="icon-groups w-[435px]  flex  justify-between items-center ")
         toggle-mode-vue 

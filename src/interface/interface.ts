@@ -59,15 +59,16 @@ export interface PlaylistDetail {
 	enlistTitle: string
 	subscribers: []
 	tracks: Song[]
+	subscribed: boolean
 }
 export interface PlaylistDynamic {
 	bookedCount: number
 	commentCount: number
-	followed: false
+	followed: boolean
 	playCount: number
 	remarkName: string
 	sharedCount: number
-	subscribed: false
+	subscribed: boolean
 }
 export interface Subscriber {
 	userId: number

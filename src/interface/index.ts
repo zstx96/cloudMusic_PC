@@ -3,6 +3,7 @@ export * from './user'
 export * from '../enum'
 export * from './Artist'
 export * from './Album'
+export * from './mv'
 
 export type PlayMode = 'loop' | 'single' | 'shuffle'
 
@@ -26,3 +27,8 @@ export interface NavGroup {
 	children: NavItem[]
 }
 export type Nav = NavItem[]
+
+export interface GotoParams {
+	id?: number
+	keyword?: string
+}

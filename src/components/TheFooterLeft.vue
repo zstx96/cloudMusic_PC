@@ -34,7 +34,7 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 import { likeSong } from '@/api/song'
 import type { Song } from '@/interface'
 import buttonDownloadVue from './iconButton/buttonDownload.vue'
-import heartButtonVue from './iconButton/heartButton.vue'
+import heartButtonVue from './iconButton/ButtonHeart.vue'
 defineProps<{
 	curSong: Song
 }>()

@@ -10,16 +10,20 @@ div(class="pt-2 font-normal text-[15px]")
             span(v-text="navItem.title" class="pl-1" )
 
     aside-playlist-item-vue(
-    v-model:visible="createByMeVisible" 
-    v-model:active-nav="focusNav"  
-    title="创建的歌单"
-    :list="createByMe")
+		v-if="createByMe"
+		v-model:visible="createByMeVisible" 
+		v-model:active-nav="focusNav"  
+		title="创建的歌单"
+		:list="createByMe"
+	)
 
     aside-playlist-item-vue(
-    v-model:visible="createByOthersVisible" 
-    title='收藏的歌单'  
-    v-model:active-nav="focusNav"  
-    :list="createByOthers")
+		v-if="createByOthers"
+		v-model:visible="createByOthersVisible" 
+		title='收藏的歌单'  
+		v-model:active-nav="focusNav"  
+		:list="createByOthers"
+	)
 </template>
 
 <script lang="ts" setup>
@@ -27,14 +31,17 @@ import { getPlaylist } from '@/api/songlist'
 import type { Nav, Playlist } from '@/interface'
 import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
-import { nextTick, onActivated, ref, watch } from 'vue'
+import { computed, nextTick, onActivated, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import asidePlaylistItemVue from './asidePlaylistItem.vue'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData[0].children!.filter((v) => v.title)
+
+// 根据group分组
 const groups = ref<Record<string, Nav>>({})
 const tabSet = new Set()
+
 asideData.forEach((v) => {
 	if (v.group === undefined) v.group = ''
 	if (!Object.hasOwn(groups.value, v.group as string)) {
@@ -60,8 +67,8 @@ const handelClick = (groupName: string, name: string) => {
 }
 
 const userStore = useUserStore()
-const createByMe = ref<Playlist[]>([])
-const createByOthers = ref<Playlist[]>([])
+const createByMe = computed(() => userStore.playlist?.filter((v) => v.userId === userStore.user?.profile.userId))
+const createByOthers = computed(() => userStore.playlist?.filter((v) => v.userId !== userStore.user?.profile.userId))
 const createByMeVisible = ref(false)
 const createByOthersVisible = ref(false)
 
@@ -71,14 +78,12 @@ watch(
 		if (user) {
 			let id = user.profile.userId
 			getPlaylist(id).then((res) => {
+				// 我喜欢的音乐列表
 				localStorage.setItem('favoriteId', res.playlist[0].id.toString())
-				res.playlist.forEach((v) => {
-					if (id === v.creator.userId) {
-						createByMe.value.push(v)
-					} else {
-						createByOthers.value.push(v)
-					}
+				userStore.$patch({
+					playlist: res.playlist,
 				})
+
 				if (route.name === 'playlist') {
 					let pid = route.params.id as string
 					res.playlist.some((v) => {

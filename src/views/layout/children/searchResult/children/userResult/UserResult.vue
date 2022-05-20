@@ -1,11 +1,10 @@
 <template lang="pug">
-div(v-if="users?.length")
+div(v-if="users?.length" v-loading)
     div(v-for="item in users" class="flex h-20 hover:bg-slate-200 cursor-pointer items-center justify-between gap-3 p-2")
         el-avatar(:src="item.avatarUrl" size="large"  @click="$router.push(`/user/${item.userId}`)")
         span(v-text="item.nickname")
         span.flex-1
         span(class="text-sm text-app-gray" v-text="item.signature")
-el-empty(description="没有相关搜索结果")
 </template>
 
 <script lang="ts" setup>

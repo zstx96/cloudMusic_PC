@@ -1,5 +1,5 @@
 <template>
-	<div class="absolute right-2 top-2 flex scale-75 items-center gap-1">
+	<div class="absolute right-2 top-2 flex scale-75 items-center gap-1 font-semibold">
 		<el-icon>
 			<svg
 				:width="18"
@@ -18,7 +18,7 @@
 			</svg>
 		</el-icon>
 
-		<span class="  ">
+		<span>
 			{{ formatNumber(count) }}
 		</span>
 	</div>
