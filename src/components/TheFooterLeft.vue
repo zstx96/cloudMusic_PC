@@ -6,15 +6,23 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 					class="rounded w-10  h-10  cover" 
 					@click="$router.push({ name: 'song', query: { id: curSong.id } })"
 				)
-				div(class="flex flex-col items-start")
+				div(class="flex flex-col items-start text-sm")
 					div.flex.items-center.gap-2
-						span( v-text="curSong.name")
-						heart-button-vue(:is-like="curSong.isLiked || false" 
+						div(class="max-w-60 overflow-hidden")
+							div(v-text="curSong.name" 
+								class='whitespace-nowrap'
+								:style="{'animationDuration':`${animationDuration}s`,'transition-property':'transform'}"
+								@mouseover="handleTransitionstart($event)"
+								@transitionend="handleTransitioned"
+							)
+						//-FIXME :is-like="userStore.likedIds?.includes(curSong.id)" 
+						heart-button-vue(
+							v-model:is-like="curSong.isLiked"
 							@like="likeSong(curSong.id, true)"
 							@dislike="likeSong(curSong.id, false)" 
 							:key="curSong.id"
 						)
-					div(class="text-sm")
+					div(class="")
 						span(v-for="item in curSong.ar"  v-text="item.name")
 		div(v-else  class="flex  items-center gap-3" :data-is-song-page="true") 
 			el-icon(
@@ -33,11 +41,35 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 <script lang="ts" setup>
 import { likeSong } from '@/api/song'
 import type { Song } from '@/interface'
+
+import { ref } from 'vue'
 import buttonDownloadVue from './iconButton/buttonDownload.vue'
 import heartButtonVue from './iconButton/ButtonHeart.vue'
 defineProps<{
 	curSong: Song
 }>()
+
+// 滚动字幕
+const scrolling = ref(false)
+const animationDuration = ref(0)
+const handleTransitionstart = (event: MouseEvent) => {
+	if (!scrolling.value) {
+		scrolling.value = true
+		const el = event.target as HTMLElement
+		console.log(el)
+		el.style.transform = 'translateX(-80%)'
+		el.style.transition = 'all 4s'
+	}
+}
+const handleTransitioned = (event: TransitionEvent) => {
+	const el = event.target as HTMLElement
+	animationDuration.value = 0
+	el.style.transitionDuration = '0s'
+	setTimeout(() => {
+		el.style.transform = 'translateX(0)'
+		scrolling.value = false
+	})
+}
 </script>
 
 <style scoped lang="less">

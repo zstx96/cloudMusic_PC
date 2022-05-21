@@ -14,11 +14,16 @@ el-dialog(:modelValue="false")
 import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
+import { useUserStore } from '@/store/userStore'
 
 const recordStore = useRecordStore()
 const playerStore = usePlayerStore()
+const ids = useUserStore().likedIds
 const playAll = (songs: Song[]) => {
 	recordStore.clearPlayRecord()
+	songs.forEach((song) => {
+		song.isLiked = ids?.includes(song.id)
+	})
 	recordStore.addPlayRecord(songs)
 	playerStore.setCurrentSong(songs[0])
 }

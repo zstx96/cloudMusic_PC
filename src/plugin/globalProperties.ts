@@ -4,6 +4,7 @@ import { useUserStore } from '@/store/userStore'
 import type { GotoParams } from '@/interface'
 import { useRouter } from 'vue-router'
 import { watchOnce } from '@vueuse/core'
+import { usePlayerStore } from '@/store/playerStore'
 
 const configDayjs = (app: App) => {
 	app.config.globalProperties.$dayjs = dayjs
@@ -32,10 +33,14 @@ const configGoto = (app: App) => {
 	}
 	app.config.globalProperties.$goto = goto
 }
+const configPlayer = (app: App) => {
+	const player = usePlayerStore()
+	app.config.globalProperties.$player = player
+}
 
 const globalProperties: Plugin = {
 	install(app) {
-		;[configDayjs, configUser, configGoto].forEach((fn) => {
+		;[configDayjs, configUser, configGoto, configPlayer].forEach((fn) => {
 			fn(app)
 		})
 	},

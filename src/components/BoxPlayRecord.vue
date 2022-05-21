@@ -66,7 +66,7 @@ const handleRowClick = (song: Song) => {
 	recordStore.addPlayRecord([song])
 }
 const handleMouseover = (e: MouseEvent) => {
-	console.log(e)
+	// TODO 这里打算做1个列表上下拖拽滑动
 }
 const clearList = () => {
 	recordStore.clearPlayRecord()

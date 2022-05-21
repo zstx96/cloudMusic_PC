@@ -2,11 +2,10 @@
 div(class="flex justify-around items-center w-full")
     img(:src="stepPic"  )
     img(:src="prePic" @click="$emit('prev')")
-    img(:src="playPic"  v-show="isPaused" class=" scale-150" @click="play")
-    img(:src="pausePic" v-show="!isPaused" class=" scale-150" @click="pause")
-    img(:src="nextPic" title="下一首" @click="$emit('next')")
+    img(:src="playPic"  v-show="isPaused" class=" scale-150" @click="$player.play")
+    img(:src="pausePic" v-show="!isPaused" class=" scale-150" @click="$player.pause")
+    img(:src="nextPic" title="下一首" @click="$player.next")
     player-mode-vue.icon(:mode="mode" @click="changePlayMode")
-
 </template>
 
 <script lang="ts" setup>
@@ -23,8 +22,6 @@ const props = defineProps<{ isPaused: boolean; mode: PlayMode; player: HTMLAudio
 const emit = defineEmits<{
 	(event: 'update:isPaused', flag: boolean): void
 	(event: 'update:mode', mode: string): void
-	(event: 'update:hasInteracted', flag: boolean): void
-	(event: 'next'): void
 	(event: 'prev'): void
 }>()
 
@@ -33,16 +30,6 @@ const modeIndex = ref(toggleList.findIndex((v) => v === props.mode))
 const changePlayMode = () => {
 	modeIndex.value++
 	emit('update:mode', toggleList[modeIndex.value % 3])
-}
-
-const play = () => {
-	if (!props.hasInteracted) {
-		emit('update:hasInteracted', true)
-	}
-	emit('update:isPaused', false)
-}
-const pause = () => {
-	emit('update:isPaused', true)
 }
 </script>
 

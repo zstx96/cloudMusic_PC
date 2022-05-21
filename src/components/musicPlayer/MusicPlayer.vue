@@ -6,7 +6,6 @@ div(class="inline-flex flex-col gap-1 items-center")
         v-model:is-paused="isPaused"
 		v-model:hasInteracted="hasInteracted"
 		:player="player"
-        @next="next"
     )
     music-player-progress-vue(
         v-model:timeTipVisible="timeTipVisible"
@@ -22,7 +21,6 @@ import { getSongUrl } from '@/api/song'
 import type { PlayMode, Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import MusicPlayerControllerVue from './MusicPlayerController.vue'
@@ -44,7 +42,7 @@ const handleJump = (per: number) => {
 	player.value!.currentTime = (playerStore.currentSong!.dt * per) / 1000
 }
 
-const isPaused = ref(true) //音乐播放器是否是暂停状态
+const isPaused = computed(() => playerStore.isPaused) //音乐播放器是否是暂停状态
 const hasInteracted = ref(false) //禁止自动播放媒体文件，必须交互一次后才能播放
 setTimeout(() => {
 	hasInteracted.value = true
@@ -60,25 +58,17 @@ watch(
 	}
 )
 
-const next = () => {
-	const index = recordStore.curSongIndex + 1
-	const song = recordStore.playRecord[index]
-	if (song) {
-		playerStore.setCurrentSong(song)
-		recordStore.setCurSongIndex(index)
-	} else {
-		ElMessage.info('到底了')
-	}
-}
-
 const currentTime = ref(0)
 const mode = ref<PlayMode>('loop')
 onMounted(() => {
 	const mp = player.value!
+	playerStore.initPlayer(mp)
 	mp.oncanplay = () => {
 		if (hasInteracted.value) {
 			mp.play()
-			isPaused.value = false
+			playerStore.$patch({
+				isPaused: false,
+			})
 		}
 	}
 	mp.ontimeupdate = () => {
@@ -86,7 +76,9 @@ onMounted(() => {
 		playerStore.setCurrentTime(mp.currentTime)
 	}
 	mp.onended = () => {
-		isPaused.value = false
+		playerStore.$patch({
+			isPaused: false,
+		})
 		mp.currentTime = 0
 
 		switch (mode.value) {

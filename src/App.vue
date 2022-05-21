@@ -13,7 +13,6 @@ import { useDynamicRouter } from './utils/dynamicRouter'
 import { useLocalStorage } from '@vueuse/core'
 import FooterVue from '@/components/TheFooter.vue'
 import { ElMessage } from 'element-plus'
-import Service from './utils/Service'
 
 const appStore = useAppStore()
 const asideData = appStore.asideData
@@ -31,6 +30,7 @@ onMounted(() => {
 	resizeWindow()
 })
 
+// 开场加载（user，ids） 最多等5s
 const beforeEnterApp = async () => {
 	return new Promise<void>((resolve, reject) => {
 		const timer = setTimeout(() => {
@@ -53,7 +53,7 @@ const beforeEnterApp = async () => {
 const loaded = ref(false)
 withLoading(beforeEnterApp, { target: '#app' })()
 	.catch((reason) => {
-		console.log(reason)
+		throw new TypeError(reason)
 	})
 	.finally(() => {
 		router.replace(lastPage.value || '/')

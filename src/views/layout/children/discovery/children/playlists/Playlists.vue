@@ -35,7 +35,6 @@ getHighQualityTags().then((res) => {
 const handleClick = (tag: string) => {
 	activeTag.value = tag
 	getHigQualityPlaylist(tag).then((res) => {
-		console.log(res)
 		currentPlaylists.value = res.playlists
 	})
 }

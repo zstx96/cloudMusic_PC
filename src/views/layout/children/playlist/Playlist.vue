@@ -17,9 +17,8 @@ div(ref="playlistPage")
                     button-subscribe-vue(:id="detail.id" 
                         :type="SubScribeType.playlist" 
                         :count="detail.subscribedCount"
-                        v-model:subscribed="detail.subscribed"
+                        :subscribed="detail.subscribed"
                         :disabled="detail.userId ==  $user.profile.userId"
-
                     )
                     el-button( class="bg-app-red"   icon="el-icon-share" round) 分享 
                     el-button( class="bg-app-red" icon="el-icon-download" round @click="downloadAll") 下载全部
@@ -99,7 +98,7 @@ const reset = (id: number) => {
 			handleCurrentChange(1)
 		})
 		.catch((err) => {
-			console.log(err)
+			throw new TypeError(err)
 		})
 }
 
@@ -112,9 +111,9 @@ const downloadAll = () => {
 const pageSize = 20
 const currentPage = ref(1)
 const offset = ref(0)
-const handleCurrentChange = (val: number) => {
-	console.log(val)
 
+// 当前页面变化
+const handleCurrentChange = (val: number) => {
 	offset.value = pageSize * (val - 1)
 	currentSongs.value = detail.value?.tracks.slice(offset.value, offset.value + 20)
 }

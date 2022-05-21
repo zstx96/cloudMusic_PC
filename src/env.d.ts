@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 import { User } from './interface'
-
+import { usePlayerStore } from '@/store/playerStore'
 import dayjs from 'dayjs'
 
 declare module '*.vue' {
@@ -9,6 +9,7 @@ declare module '*.vue' {
 	const component: DefineComponent<{}, {}, any>
 	export default component
 }
+
 declare module 'vue' {
 	interface ComponentCustomProperties {
 		$dayjs: typeof dayjs
@@ -20,6 +21,7 @@ declare module 'vue' {
 			}
 		) => void
 		$user: User
+		$player: ReturnType<typeof usePlayerStore>
 	}
 }
 

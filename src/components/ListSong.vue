@@ -12,16 +12,19 @@ el-table(
             span() {{startIndex+$index}} 
     el-table-column(label="操作" width="64")
         template(#default="{ row }")
-            heart-button-vue(:is-like="row.isLiked" @like="like(row.id)" @dislike="disLike(row.id)"  class=" w-5 h-5")
+            heart-button-vue(:is-like="row.isLiked" @like="handleLike(row)" @dislike="handleDislike(row)"  class=" w-5 h-5")
     el-table-column(label="标题" :min-width="200" prop="name")
         template(#default="{row}")
-            p(class=" ") {{row.name}}
-                span(v-if="row.noCopyrightRcmd" class=" text-app-gray  text-xs")
-                    span(class=" border rounded") 无音源
-                    span( ) {{row.noCopyrightRcmd.typeDesc}}
-                span(v-else class="font-normal text-sm text-red-500")
-                    span(v-if="row.sq" class="border round mx-1 px-1 border-current" @click="$router.push({name:'mv',params:{id:row.mv}})") SQ
-                    span(v-if="row.mv" class="border round mx-1 px-1 border-current cursor-pointer" @click="$router.push({name:'mv',params:{id:row.mv}})") mv>
+            p(class="flex items-center whitespace-nowrap")
+                //- TODO 超长文本省略，最大长度为flex-1
+                span(class="ellipsis  select-all" :title="row.name") {{row.name}}
+                span.flex-1
+                    span(v-if="row.noCopyrightRcmd" class=" ellipsis text-app-gray  text-xs ")
+                        span(class="border rounded  m-1") 无音源
+                        span( ) {{row.noCopyrightRcmd.typeDesc}}
+                    span(v-else class="font-normal text-xs text-red-500")
+                        span(v-if="row.sq" class="border round mx-1 px-1 border-current" @click="$router.push({name:'mv',params:{id:row.mv}})") SQ
+                        span(v-if="row.mv" class="border round mx-1 px-1 border-current cursor-pointer" @click="$router.push({name:'mv',params:{id:row.mv}})") mv>
     el-table-column(label="歌手" :width="138" )
         template(#default="{ row }")
             div(class=" w-32  text-ellipsis text-blue-500  whitespace-nowrap")
@@ -49,6 +52,7 @@ import type { Song } from '@/interface'
 import { usePlayerStore } from '@/store/playerStore'
 import { useRecordStore } from '@/store/recordStore'
 import { useUserStore } from '@/store/userStore'
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import heartButtonVue from './iconButton/ButtonHeart.vue'
 
@@ -57,31 +61,61 @@ const props = defineProps<{ data: Song[]; showPlayTime?: boolean; startIndex?: n
 const recordStore = useRecordStore()
 const processData = ref<Song[]>()
 const userStore = useUserStore()
+const playerStore = usePlayerStore()
 const ids = userStore.likedIds
 
 props.data.forEach((v) => {
-	if (ids?.includes(v.id)) {
-		v.isLiked = true
-	}
+	v.isLiked = ids?.includes(v.id) ? true : false
 })
 
 // eslint-disable-next-line vue/no-setup-props-destructure
 processData.value = props.data
 
-const playerStore = usePlayerStore()
 const handleRowDblClick = async (row: Song) => {
-	recordStore.addPlayRecord([row])
-	playerStore.$patch({
-		currentSong: row,
-	})
+	if (!playerStore.currentSong || playerStore.currentSong!.id !== row.id) {
+		recordStore.addPlayRecord([row])
+		playerStore.$patch({
+			currentSong: row,
+		})
+	}
 }
-const like = (id: number) => {
-	likeSong(id, true)
-	userStore.addLikeSong(id)
+const handleLike = async (song: Song) => {
+	song.isLiked = true
+	userStore.addLikeSong(song.id)
+	const isSameWithCurrentSong = playerStore.currentSong?.id === song.id
+
+	if (isSameWithCurrentSong) {
+		playerStore.currentSong!.isLiked = true
+	}
+
+	const { code } = await likeSong(song.id, true)
+	if (code !== 200) {
+		ElMessage.error('网络发生了些错误,喜欢失败')
+		song.isLiked = false
+		userStore.removeLikeSong(song.id)
+		if (isSameWithCurrentSong) {
+			playerStore.currentSong!.isLiked = false
+		}
+	}
 }
-const disLike = (id: number) => {
-	likeSong(id, false)
-	userStore.deleteLikeSong(id)
+const handleDislike = async (song: Song) => {
+	song.isLiked = false
+	userStore.removeLikeSong(song.id)
+	const isSameWithCurrentSong = playerStore.currentSong?.id === song.id
+
+	if (isSameWithCurrentSong) {
+		playerStore.currentSong!.isLiked = false
+	}
+	const { code } = await likeSong(song.id, false)
+	if (code !== 200) {
+		ElMessage.error('网络发生了些错误,取消喜欢失败')
+
+		song.isLiked = true
+		userStore.addLikeSong(song.id)
+		if (isSameWithCurrentSong) {
+			playerStore.currentSong!.isLiked = true
+		}
+	}
 }
 </script>
 

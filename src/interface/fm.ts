@@ -1,6 +1,6 @@
 export interface FMResponse {
 	popAdjust: boolean
-	data: FMResponse[]
+	data: FM[]
 	code: number
 }
 
@@ -55,6 +55,7 @@ export interface FM {
 	reason: string
 	privilege: IPrivilege
 	alg: string
+	isLike?: boolean
 }
 
 interface IPrivilege {

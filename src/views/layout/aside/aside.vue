@@ -28,7 +28,7 @@ div(class="pt-2 font-normal text-[15px]")
 
 <script lang="ts" setup>
 import { getPlaylist } from '@/api/songlist'
-import type { Nav, Playlist } from '@/interface'
+import type { Nav } from '@/interface'
 import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
 import { computed, nextTick, onActivated, ref, watch } from 'vue'

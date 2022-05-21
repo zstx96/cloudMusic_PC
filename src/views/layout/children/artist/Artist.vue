@@ -63,7 +63,6 @@ const handleTabClick = async (name: TabPanelName) => {
 onBeforeRouteUpdate((to) => {
 	activeName.value = to.name as string
 	if (to.name === 'artistAlbum' && to.params.id !== route.params.id) {
-		console.log(to.name)
 		activeName.value = to.name as string
 		if (to.params.id !== id.toString()) {
 			id = parseInt(to.params.id as string)
