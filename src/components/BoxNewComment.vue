@@ -2,8 +2,8 @@
 el-dialog(
     v-model="visible"
     :before-close="handleClose"
-)
-    template(#title)
+)   
+    template(#header)
         p(class=" text-center") 
             span 当前歌曲:
             span(class="font-normal text-xl") {{title}}

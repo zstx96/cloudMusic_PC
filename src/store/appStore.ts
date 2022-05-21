@@ -1,3 +1,4 @@
+import { getBanners } from '@/api/app'
 import type { Nav } from '@/interface'
 import { Banner } from '@/interface/interface'
 import { defineStore } from 'pinia'
@@ -189,6 +190,9 @@ const asideData: Nav = [
 		params: { id: true },
 	},
 ]
+
+getBanners()
+
 const useAppStore = defineStore('app', () => {
 	const banners = ref<Banner[]>([])
 	const isDarkMode = ref(true)
@@ -201,6 +205,10 @@ const useAppStore = defineStore('app', () => {
 	const setBanners = (value: Banner[]) => {
 		banners.value = value
 	}
+	const fetchBanners = async () => {
+		const res = await getBanners()
+		banners.value = res.banners
+	}
 
 	return {
 		asideData,
@@ -208,6 +216,7 @@ const useAppStore = defineStore('app', () => {
 		setBanners,
 		isDarkMode,
 		toggleMode,
+		fetchBanners,
 	}
 })
 

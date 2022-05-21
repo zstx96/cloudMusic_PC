@@ -17,12 +17,11 @@ const lyricRef = ref<HTMLDivElement>()
 const lyric = ref()
 const currentIndex = ref(0)
 // FIXME 暂时不用正则（不会）
-const formatLyric = () => {
-	const arr = props.lyric.split('[')
-	arr.shift()
-	lyric.value = arr.map((str, index) => str.split(']')) as [string, string][]
+const formatLyric = (lyric: string) => {
+	const arr = lyric.split('[')
+	return arr.map((str, index) => str.split(']')) as [time: string, word: string][]
 }
-formatLyric()
+lyric.value = formatLyric(props.lyric)
 const timeArr = lyric.value.map((v) => {
 	const [m, s] = v[0].split(':')
 	return +m * 60 + +s

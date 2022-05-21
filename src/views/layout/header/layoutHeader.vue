@@ -46,14 +46,14 @@ import { ElMessage } from 'element-plus'
 import { getQrimg, getQrKey } from '@/api/login'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'vue-router'
-import { logout, refresh } from '@/api/user'
+import { logout, refreshLogin } from '@/api/login'
 import toggleModeVue from '@/components/iconButton/toggleMode.vue'
 // 处理顶部按钮组事件
 const userStore = useUserStore()
 
 const handleLogout = () => {
 	logout().then((_) => {
-		refresh()
+		refreshLogin()
 	})
 	userStore.$patch({ user: null })
 }

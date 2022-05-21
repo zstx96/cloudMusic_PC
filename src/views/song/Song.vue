@@ -2,7 +2,7 @@
 transition(name="scale")
 	div(class="h-full flex flex-col relative")
 		div(class="h-[60px]")
-			header-vue(class="bg-transparent" v-if="$route.name==='song'" )
+			layout-header-vue(class="bg-transparent" v-if="$route.name==='song'" )
 		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
 			div(v-if="song" class=" flex gap-2 justify-around items-center")
 				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer animate-spin-slow border-[32px] border-black" fit="cover")
@@ -40,7 +40,6 @@ box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song
 import BoxNewCommentVue from '@/components/BoxNewComment.vue'
 import ListCommentVue from '@/components/ListComment.vue'
 import TheLyricParserVue from '@/components/TheLyricParser.vue'
-import headerVue from '@/views/layout/header/header.vue'
 
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
@@ -49,6 +48,7 @@ import { computed, ref, watch } from 'vue'
 import { withLoading } from '@/utils/withLoading'
 import { useRecordStore } from '@/store/recordStore'
 import { app_height, app_controller_height, app_width } from '@/config'
+import layoutHeaderVue from '../layout/header/layoutHeader.vue'
 
 const offsetY = computed(() => app_height.value - app_controller_height)
 const commentBoxVisible = ref(false)
@@ -71,9 +71,7 @@ const initSong = async (id: number) => {
 	} = await getSongDetail(id)
 	song.value = songRes
 	recordStore.addPlayRecord([song.value])
-	const {
-		lrc: { lyric: lyricRes },
-	} = await getSongLyric(id)
+	const lyricRes = await getSongLyric(id)
 	lyric.value = lyricRes
 	const { data: CommentsRes } = await getComment(id, 1)
 	commentRes.value = CommentsRes

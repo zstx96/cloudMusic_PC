@@ -19,6 +19,7 @@ export interface Song {
 	dt: number
 	fee: Fee
 	copyright: number
+	privilege: any
 }
 
 export interface SongRecord {

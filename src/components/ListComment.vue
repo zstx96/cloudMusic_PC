@@ -4,7 +4,7 @@ div(v-for="comment in comments" class="flex gap-3 py-3 ")
         div(class="relative inline-block")
             el-avatar(:src="comment.user.avatarUrl" class=" cursor-pointer" @click="$router.push({name:'user',params:{id:comment.user.userId}})" )
             img(v-if="comment.user.avatarDetail?.identityIconUrl" 
-                :src="comment.user.avatarDetail?.identityIconUrl"
+                :src="comment.user.avatarDetail?.identityIconUrl + '?param=30y30'"
                 class="absolute w-4  left-[60%] top-[60%]"
             )
     div(class="border-b  pb-3  flex-1 ")

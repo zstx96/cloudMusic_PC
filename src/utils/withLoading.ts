@@ -5,6 +5,11 @@ const withLoading = <T>(callback: (...args: any[]) => Promise<T>, options: Loadi
 	let instance: LoadingInstance | null
 	const newFn = (...args: any[]): Promise<T> => {
 		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				reject(new Error('timeout'))
+				instance?.close()
+			}, 5000)
+
 			try {
 				instance = ElLoading.service(options)
 				callback(...args)

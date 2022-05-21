@@ -10,7 +10,6 @@ const useUserStore = defineStore('user', () => {
 	const isLogin = ref(false)
 	const likedIds = ref<number[]>()
 	const playlist = ref<Playlist[]>()
-
 	const playerStore = usePlayerStore()
 
 	const fetchUser = async (id: number) => {
