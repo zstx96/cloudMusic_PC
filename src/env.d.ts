@@ -22,6 +22,7 @@ declare module 'vue' {
 		) => void
 		$user: User
 		$player: ReturnType<typeof usePlayerStore>
+		$resizeImg: (url: string, width: number, height?: number) => string
 	}
 }
 

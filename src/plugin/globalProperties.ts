@@ -37,10 +37,15 @@ const configPlayer = (app: App) => {
 	const player = usePlayerStore()
 	app.config.globalProperties.$player = player
 }
+const configResizeImg = (app: App) => {
+	app.config.globalProperties.$resizeImg = (url: string, width: number, height?: number) => {
+		return `${url}?param=${width}y${height ?? width}`
+	}
+}
 
 const globalProperties: Plugin = {
 	install(app) {
-		;[configDayjs, configUser, configGoto, configPlayer].forEach((fn) => {
+		;[configDayjs, configUser, configGoto, configPlayer, configResizeImg].forEach((fn) => {
 			fn(app)
 		})
 	},
