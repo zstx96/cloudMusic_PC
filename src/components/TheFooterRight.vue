@@ -5,7 +5,7 @@ div(class="flex items-center gap-2 pr-3 text-sm")
 	el-icon(:size="30" v-show="$route.name !=='fm'" @click="recordVisible = !recordVisible")
 		i-ep-expand
 	teleport(to="#app")
-		box-play-record(v-show="recordVisible" class="z-[2001]")
+		box-play-record(v-show="recordVisible && $route.name !=='fm'" class="z-[2001]")
 </template>
 
 <script lang="ts" setup>
