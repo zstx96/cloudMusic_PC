@@ -4,16 +4,18 @@ div
     div(class="flex items-center" v-if="curSong" :key="curSongIndex")
         div(class=" w-72  h-72 m-auto")
             el-image(:src="curSong.al.picUrl + '?param=500y500'")
-            div(class="flex justify-between items-center mt-3 py-3 icon-group")
+                template(#placeholder)
+                    img(:src="placeholder" )
+            div(class="flex justify-between items-center mt-3 py-3  icon-group")
                 //- TODO 处理列表， 当有更新时候 通知更新？
                 button-heart(
                     :is-like="curSong.isLiked" 
-                    @like="handleLike(curSong!,true)"
-                    @dislike="handleLike(curSong!,false)" 
+                    @like="handleLike(curSong,true)"
+                    @dislike="handleLike(curSong,false)" 
                     :key="curSong.id"
                 )
                 button-play(:is-paused="$player.isPaused" @play="$player.play" @pause="$player.pause")
-                el-icon(@click="next" :size="40"  ) 
+                el-icon(@click="next" :size="40") 
                     i-ep-caretRight
         div
             the-lyric-parser(:lyric="lyric" v-if="lyric !== undefined" :key="lyric")
@@ -26,7 +28,12 @@ import type { Song } from '@/interface'
 import type { FMResponse } from '@/interface/fm'
 import { usePlayerStore } from '@/store/playerStore'
 import { useUserStore } from '@/store/userStore'
+import placeholder from '@/assets/img/placeholder.png'
 import { ElMessage } from 'element-plus'
+import 'element-plus/es/components/message/style/css'
+
+// FIXME 不能进入就自动播放，也不能直接把fm[0]赋值给curSong
+
 const userStore = useUserStore()
 type Fms = FMResponse['data']
 const fms = ref<Fms>()
@@ -62,7 +69,7 @@ watch(
 	}
 )
 
-const curSong = computed(() => playerStore.currentSong)
+const curSong = computed(() => playerStore.currentSong!)
 
 const handleLike = async (song: Song, t: boolean) => {
 	song.isLiked = t

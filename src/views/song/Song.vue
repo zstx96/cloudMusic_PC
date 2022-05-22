@@ -8,7 +8,7 @@ transition(name="scale")
     div(class="h-full flex-1 overflow-y-auto px-[5vw]")
       // cover & lyric
       .flex.items-center.justify-around.gap-2(v-if="song" :key="$route.query.id?.toString()")
-        el-image(class="aspect-square max-w-xs shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black" :src="song.al.picUrl + '?param=500y500'" fit="cover")
+        el-image(class="w-80 h-80 shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black" :src="song.al.picUrl + '?param=500y500'" fit="cover")
         .text-center
           p.text-2xl.font-bold(v-text="song.name")
           p.pb-3(v-text="song.ar[0].name")

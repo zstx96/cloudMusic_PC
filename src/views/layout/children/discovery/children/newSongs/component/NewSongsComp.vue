@@ -1,6 +1,6 @@
 <template lang="pug">
-div(v-if="result")
-    el-table(:data="result")
+div(v-if="realData")
+    el-table(:data="realData")
         el-table-column(type="index")
         el-table-column()
             template(#default="{row}")
@@ -30,10 +30,27 @@ import { AreaType } from '@/enum'
 import { ref } from 'vue'
 
 const props = defineProps<{ type: AreaType }>()
-const result = ref()
+
+const realData = ref()
+const curPage = ref(0)
+const size = 20
+// 懒加载数据
+const lazyLoad = async (page: number, list: any = []) => {
+	realData.value = list.slice(0, (page + 1) * size)
+	const raf = requestAnimationFrame(() => {
+		page++
+		if (page === list.length / size - 1) {
+			window.cancelAnimationFrame(raf)
+			return
+		}
+		lazyLoad(page, list)
+	})
+}
 
 getNewSongs(props.type).then((res) => {
-	result.value = res.data
+	requestAnimationFrame(() => {
+		lazyLoad(curPage.value, res.data)
+	})
 })
 </script>
 

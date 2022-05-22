@@ -22,7 +22,8 @@ div
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
-const detail = JSON.parse(route.params.detail as string)
+// FIXME 传参有问题
+const detail = JSON.parse(useLocalStorage('editPlaylistDetail', (route.params.detail as string) || '{}').value)
 </script>
 
 <style scoped lang="less"></style>

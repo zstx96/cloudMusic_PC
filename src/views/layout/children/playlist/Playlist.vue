@@ -3,7 +3,11 @@ div(ref="playlistPage")
     template(v-if="detail")
         div(class="flex gap-4")
             div
-                el-image(class="h-[185px] w-[185px] rounded" fit="cover" @click="$router.push({ name: 'editPlaylist', params: { detail: JSON.stringify(detail) } })" :src="detail?.coverImgUrl")
+                el-image(class="h-[185px] w-[185px] rounded" 
+                    fit="cover" 
+                    :src="$resizeImg(detail?.coverImgUrl,400)"
+                    @click="$router.push({ name: 'editPlaylist', params: { detail: JSON.stringify(detail) } })" 
+                )
             div(class="flex-1 flex flex-col gap-2 text-sm overflow-hidden")
                 div(class="flex items-center")
                     span(class=" text-app-red border-app-red border px-1 rounded" v-text="'歌单'") 
@@ -50,8 +54,8 @@ div(ref="playlistPage")
         div(:key="$route.fullPath")
             list-song(:data="currentSongs" 
                 v-if="currentSongs?.length"
-                :start-index="offset+1"
                 :key="currentSongs[0].id" 
+                :start-index="offset+1"
             )
         div(class="flex justify-center mt-8 ")
             el-pagination( 
