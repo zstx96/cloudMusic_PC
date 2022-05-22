@@ -1,17 +1,14 @@
 <template lang="pug">
 div(class="flex items-center gap-2 pr-3 text-sm")
-	svg-volume-vue
+	svg-volume
 	span(class=" px-1 py-0.5 text-app-red border-app-red border" v-text="'极高'")
 	el-icon(:size="30" v-show="$route.name !=='fm'" @click="recordVisible = !recordVisible")
-		el-icon-fold
+		i-ep-expand
 	teleport(to="#app")
-		box-play-record-vue(v-show="recordVisible ")
+		box-play-record(v-show="recordVisible" class="z-[2001]")
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import BoxPlayRecordVue from './BoxPlayRecord.vue'
-import SvgVolumeVue from './iconButton/SvgVolume.vue'
 const recordVisible = ref(false)
 </script>
 

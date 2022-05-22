@@ -13,15 +13,21 @@ div(ref="playlistPage")
                     span(v-text="dayjs(detail.createTime).format('YYYY-MM-DD')")
                     span(v-text="'创建'")
                 div(class=" flex gap-2")
-                    play-all-button-vue(:songs="detail.tracks")
-                    button-subscribe-vue(:id="detail.id" 
+                    button-play-all(:songs="detail.tracks")
+                    button-subscribe(:id="detail.id" 
+                        v-model:subscribed="detail.subscribed"
                         :type="SubScribeType.playlist" 
                         :count="detail.subscribedCount"
-                        :subscribed="detail.subscribed"
                         :disabled="detail.userId ==  $user.profile.userId"
                     )
-                    el-button( class="bg-app-red"   icon="el-icon-share" round) 分享 
-                    el-button( class="bg-app-red" icon="el-icon-download" round @click="downloadAll") 下载全部
+                    el-button( class="bg-app-red" round) 
+                        template(#icon)
+                            i-ep-share
+                        | 分享 
+                    el-button( class="bg-app-red" round @click="downloadAll") 
+                        template(#icon)
+                            i-ep-download
+                        | 下载全部
                 div
                     span() 标签:
                     template(v-if="detail.tags.length")
@@ -42,7 +48,7 @@ div(ref="playlistPage")
                 span 收藏者
                 
         div(:key="$route.fullPath")
-            list-song-vue(:data="currentSongs" 
+            list-song(:data="currentSongs" 
                 v-if="currentSongs?.length"
                 :start-index="offset+1"
                 :key="currentSongs[0].id" 
@@ -66,10 +72,7 @@ div(ref="playlistPage")
 import { controller, getPlaylistDetail } from '@/api/songlist'
 import type { PlaylistDetail, Song } from '@/interface'
 import { SubScribeType } from '@/enum'
-import { onActivated, onMounted, ref } from 'vue'
-import ListSongVue from '@/components/ListSong.vue'
-import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
-import ButtonSubscribeVue from '@/components/ButtonSubscribe.vue'
+
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import { formatNumber } from '@/utils/format'

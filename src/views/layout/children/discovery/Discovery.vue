@@ -1,6 +1,6 @@
 <template lang="pug">
 div(class="flex overflow-x-hidden  flex-col")
-    el-tabs( v-model="activeName" class="text-inherit"    @tab-click="handelClick")
+    el-tabs( v-model="activeName" class="text-inherit"  @tab-click="handelClick")
         el-tab-pane(v-for="(subNav) in subNavs" 
         :class="[(activeName == subNav.name) && 'is-active','text-inherit']"
         :name="subNav.name"
@@ -16,8 +16,6 @@ div(class="flex overflow-x-hidden  flex-col")
 import { getBanners } from '@/api/app'
 import { app_width } from '@/config'
 import { useAppStore } from '@/store/appStore'
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 
 const appStore = useAppStore()
 const subNavs = appStore.asideData![0].children![0].children!
@@ -33,7 +31,9 @@ const activeName = ref(route.path.split('/').at(-1))
 const router = useRouter()
 interface Pane {
 	uid: number
-	instance: import('vue').ShallowReactive<import('vue').ComponentInternalInstance>
+	slots: {
+		[x: string]: import('vue').Slot | undefined
+	}
 	props: {
 		readonly disabled: boolean
 		readonly name: import('element-plus/es/utils').BuildPropType<

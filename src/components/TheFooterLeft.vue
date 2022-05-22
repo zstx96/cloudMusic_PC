@@ -3,7 +3,7 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 		div(v-if="$route.name !== 'song'" )
 			div(class="flex gap-2 ")
 				el-image(:src="curSong.al.picUrl + '?param=200y200'"  
-					class="rounded w-10  h-10  cover" 
+					class=" shrink-0 rounded w-10  h-10  cover" 
 					@click="$router.push({ name: 'song', query: { id: curSong.id } })"
 				)
 				div(class="flex flex-col items-start text-sm")
@@ -16,7 +16,7 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 								@transitionend="handleTransitioned"
 							)
 						//-FIXME :is-like="userStore.likedIds?.includes(curSong.id)" 
-						heart-button-vue(
+						button-heart(
 							v-model:is-like="curSong.isLiked"
 							@like="likeSong(curSong.id, true)"
 							@dislike="likeSong(curSong.id, false)" 
@@ -30,21 +30,18 @@ transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
 				:size="20" 
 				@click="$router.push('/')" 
 			)
-				el-icon-arrowDown
+				i-ep-arrowDown
 			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300" :size="20")
-				el-icon-foldAdd
-			button-download-vue( :song="curSong")
+				i-ep-folder-add
+			button-download( :song="curSong")
 			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
-				el-icon-share
+				i-ep-share
 </template>
 
 <script lang="ts" setup>
 import { likeSong } from '@/api/song'
 import type { Song } from '@/interface'
 
-import { ref } from 'vue'
-import buttonDownloadVue from './iconButton/buttonDownload.vue'
-import heartButtonVue from './iconButton/ButtonHeart.vue'
 defineProps<{
 	curSong: Song
 }>()

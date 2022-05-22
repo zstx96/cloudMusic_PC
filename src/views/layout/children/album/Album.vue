@@ -15,10 +15,10 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
                                 span(v-for="alias in detail.album.alias") {{alias}}
                                 | )
                 div(class=" flex gap-2")
-                    play-all-button-vue(:songs="detail.songs")
-                    el-button( class="bg-app-red" icon="el-icon-foldAdd"  round) 收藏({{ formatNumber(detail.album.size) }})
-                    el-button( class="bg-app-red"   icon="el-icon-share" round) 分享 
-                    el-button( class="bg-app-red" icon="el-icon-download" round) 下载全部
+                    button-play-all(:songs="detail.songs")
+                    el-button( class="bg-app-red" icon="i-ep-foldAdd"  round) 收藏({{ formatNumber(detail.album.size) }})
+                    el-button( class="bg-app-red"   icon="i-ep-share" round) 分享 
+                    el-button( class="bg-app-red" icon="i-ep-download" round) 下载全部
                 div(class=" text-xs")
                     p  歌手
                         span(v-text="detail.album.artist.name" class=" text-blue-600 cursor-pointer" @click="$router.push({name:'artist',params:{id:detail?.album.artist.id}})")
@@ -34,14 +34,12 @@ div(  class="overflow-y-auto overflow-x-hidden relative h-full" ref="playlistPag
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import ListSongVue from '@/components/ListSong.vue'
 import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'
-import playAllButtonVue from '@/components/iconButton/playAllButton.vue'
-import { getAlbumDetail } from '@/api/album'
+import { getAlbumDetail } from '@/api/song'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)

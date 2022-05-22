@@ -2,7 +2,7 @@
 div(class="app-header h-full flex items-center justify-between px-2.5 " :style="{'background-color':'var(--app-header-background-color)'}")
     div(v-if="$route.path === '/song'" class="w-[200px] pl-6 " @click="$router.push('/')") 
         el-icon
-            el-icon-arrowDown
+            i-ep-arrowDown
     div( v-else class=" text-lg cursor-pointer w-[200px] " @click="$router.push({ name: 'discovery' })") 网易云音乐
     header-input-vue(class="flex items-center gap-2"  )
     //- flex 占位符 
@@ -23,17 +23,17 @@ div(class="app-header h-full flex items-center justify-between px-2.5 " :style="
         span(ref="nicknameEl")
         // setting
         el-icon(   class="cursor-pointer" :size="25"  )
-            el-icon-setting
+            i-ep-setting
         el-icon(  class="cursor-pointer" :size="25" )
-            el-icon-message
+            i-ep-message
         div(class="h-[25px] w-[25px] px-[4px] flex items-center" )
-            div(class=" h-[2px]  w-full   bg-white ")
+            div(class=" h-[2px]  w-full   bg-current" )
         div(class="h-[25px] w-[25px] p-[4px]" v-if="!isFullScreen" @click="fullScreen")
-            div(class="h-[16px]  border  border-white ")
+            div(class="h-[16px]  border  border-current ")
         el-icon(v-else    class="cursor-pointer" @click="restoreScreen" :size="25")
-            el-icon-copyDocument
+            i-ep-copyDocument
         el-icon(  class="cursor-pointer"  :size="28")
-            el-icon-close
+            i-ep-close
 
 </template>
 

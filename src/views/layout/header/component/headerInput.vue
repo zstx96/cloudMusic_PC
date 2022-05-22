@@ -1,9 +1,9 @@
 <template lang="pug">
 div(class="relative")
     el-icon(@click="$router.back()" :size="28" color="white"  class="animate-pulse cursor-pointer  rounded-full bg-black p-1 bg-opacity-20" )
-        el-icon-arrowLeft
+        i-ep-arrowLeft
     el-icon(@click="$router.forward()" :size="28" color="white" class=" animate-pulse animation-delay  cursor-pointer rounded-full bg-black p-1 bg-opacity-20")
-        el-icon-arrowRight
+        i-ep-arrowRight
     el-input( 
     class="z-[1002]"
     :placeholder="showKeyword" 

@@ -6,8 +6,8 @@ div()
         div
             p {{ artistDetail.artist.name }}
             div(class="my-3")
-                el-button(icon="el-icon-foldAdd" round) 收藏
-                el-button(icon="el-icon-avatar" 
+                el-button(icon="i-ep-foldAdd" round) 收藏
+                el-button(icon="i-ep-avatar" 
                 v-if="artistDetail.user" 
                 round
                 @click="$router.push(`/user/${artistDetail?.user?.userId}`)"
@@ -23,7 +23,7 @@ div()
             el-tab-pane(label="歌手详情" name="artistDesc")
             el-tab-pane(label="相似歌手" name="artistSimi")
         div
-            router-view(v-model:voidPage="voidPage" #default="{Component}" :key="$route.params.id"    v-if="!voidPage")
+            router-view(v-model:voidPage="voidPage" #default="{Component}" :key="$route.params.id.toString()"    v-if="!voidPage")
                 keep-alive
                     component(:is="Component")
             el-empty(v-else)

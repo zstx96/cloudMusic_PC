@@ -12,10 +12,9 @@ el-container(class="h-full font-sans")
 </template>
 
 <script lang="ts" setup>
+import { app_main_height, app_header_height } from '@/config'
 import layoutAsideVue from './aside/layoutAside.vue'
 import layoutHeaderVue from './header/layoutHeader.vue'
-
-import { app_main_height, app_header_height } from '@/config'
 </script>
 
 <style scoped lang="less">

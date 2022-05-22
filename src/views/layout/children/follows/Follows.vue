@@ -14,7 +14,7 @@ div(v-if="follows")
                     span |
                     span 粉丝: {{item.follows}}
             div
-                el-button(icon="el-icon-message" round) 私信
+                el-button(icon="i-ep-message" round) 私信
 
 </template>
 

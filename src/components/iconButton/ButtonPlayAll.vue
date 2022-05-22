@@ -1,11 +1,14 @@
 <template lang="pug">
 el-button-group(type="danger" class=" text-white")
     el-button(
-		icon="el-icon-caretRight" 
-		type="danger" round 
-		@click="playAll(songs)"
-	) 播放全部
-    el-button(alt="wer" @click="playSong(songs)" round  icon="el-icon-plus")
+        type="danger" round 
+        @click="playAll(songs)"
+    ) 
+        i-ep-caretRight
+        span 播放全部
+
+    el-button(alt="wer" @click="playSong(songs)" round)
+        i-ep-plus
 el-dialog(:modelValue="false")
     
 </template>

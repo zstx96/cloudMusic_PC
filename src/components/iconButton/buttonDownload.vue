@@ -1,11 +1,10 @@
 <template lang="pug">
 el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20" @click="download(song)")
-    el-icon-download
+    i-ep-download
 </template>
 
 <script lang="ts" setup>
 import type { Song } from '@/interface'
-
 import { download } from '@/utils/download'
 
 defineProps<{

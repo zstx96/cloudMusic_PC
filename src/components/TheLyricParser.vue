@@ -9,7 +9,6 @@ div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth"  ref="lyricRef"
 
 <script lang="ts" setup>
 import { usePlayerStore } from '@/store/playerStore'
-import { ref, watch } from 'vue'
 
 const props = defineProps<{ lyric: string }>()
 const playerStore = usePlayerStore()

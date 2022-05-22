@@ -3,7 +3,7 @@ div(class="suggest-box text-black")
     div(class="flex gap-2 items-center text-sm text-app-gray")
         span 搜索历史
         el-icon(@click="deleteAll")
-            el-icon-delete
+            i-ep-delete
         span.flex-1
         span 查看全部
     div(class="py-3 max-h-24 overflow-hidden") 
@@ -11,7 +11,7 @@ div(class="suggest-box text-black")
         el-button(v-for="word in searchRecord" round class="mb-1 border " size="small"   )
             span(@click="$emit('selectWord', word)") {{ word }}
             el-icon(@click="deleteSingle(word)")
-                el-icon-close
+                i-ep-close
     p(class="text-sm text-app-gray pb-3") 热搜榜
     div
         div(v-for="(item, index) in hotSearch" 

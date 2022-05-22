@@ -1,16 +1,17 @@
 <template lang="pug">
 div(v-if="songs")
-    list-song-vue(:data="recentSong" :show-play-time="true")
-        template(#playtime="{ index }")
-            span {{ $dayjs(songs[index].playTime).from(dayjs()) }}
-el-empty
+	list-song(:data="recentSong" :show-play-time="true")
+		template(#playtime="{ index }")
+			span {{ $dayjs(songs[index].playTime).from(dayjs()) }}
+el-empty(v-else) 
+	div(class="text-center")
+		i-ep-empty
+		| 暂无播放记录
 </template>
 
 <script lang="ts" setup>
 import { getRecentSong } from '@/api/record'
-import ListSongVue from '@/components/ListSong.vue'
 import type { Song } from '@/interface'
-import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'

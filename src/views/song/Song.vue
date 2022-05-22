@@ -1,54 +1,45 @@
 <template lang="pug">
 transition(name="scale")
-	div(class="h-full flex flex-col relative")
-		div(class="h-[60px]")
-			layout-header-vue(class="bg-transparent" v-if="$route.name==='song'" )
-		div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
-			div(v-if="song" class=" flex gap-2 justify-around items-center")
-				el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer animate-spin-slow border-[32px] border-black" fit="cover")
-				div(class="text-center")
-					p(v-text="song.name" class=" text-2xl font-bold")
-					p(v-text="song.ar[0].name" class="pb-3")
-					the-lyric-parser-vue(:lyric="lyric" v-if="lyric" :key="$route.fullPath")
-				div(class=" font-bold text-3xl")
-				| others
-			div(v-if="commentRes" class="w-1/2 m-auto")
-				p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
-				div
-					div(class="text-sm")
-						list-comment-vue(:comments="commentRes.comments")
-					div(class="flex justify-center" v-if="commentRes.totalCount" )
-						el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
-					div(v-else)
-						p(class=" text-blue-500 text-center cursor-pointer mt-6") 尚未有人评论,点击评论
-		div(v-if="true" 
-			class=" fixed w-full" 
-			:style="{'transform':`translateY(${offsetY-40}px)`,'width':`${app_width}px`}"
-		)  
-			el-button(
-				type="info" 
-				icon="el-icon-edit" 
-				round 
-				@click="commentBoxVisible = true"
-				class="absolute left-[75%] "
-			) 写评论
-		// TODO 还要写一套滚动发生时的ui
-box-new-comment-vue(v-if="song" v-model:visible="commentBoxVisible" :title="song.name"  )
+  .relative.flex.h-full.flex-col
+    // header
+    div(class="h-[60px]")
+      layout-header(v-if="$route.name === 'song'")
+    // main
+    div(class="h-full flex-1 overflow-y-auto px-[5vw]")
+      // cover & lyric
+      .flex.items-center.justify-around.gap-2(v-if="song" :key="$route.query.id?.toString()")
+        el-image(class="aspect-square max-w-xs shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black" :src="song.al.picUrl + '?param=500y500'" fit="cover")
+        .text-center
+          p.text-2xl.font-bold(v-text="song.name")
+          p.pb-3(v-text="song.ar[0].name")
+          the-lyric-parser(:key="song.lyric" :lyric="song.lyric")
+        .text-3xl.font-bold
+        | others
+      // comments
+      div(class="m-auto w-1/2" v-if="commentRes" v-loading="isLoading")
+        p.text-xl.font-bold {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
+        div
+          .text-sm
+            list-comment(:comments="commentRes.comments")
+          .flex.justify-center(v-if="commentRes.totalCount")
+            el-pagination.m-auto.text-center(layout="prev, pager, next" :total="50")
+          div(v-else)
+            p.mt-6.cursor-pointer.text-center.text-blue-500 尚未有人评论,点击评论
+    .fixed.w-full(v-if="true" :style="{ transform: `translateY(${offsetY - 40}px)`, width: `${app_width}px` }")
+      el-button(class="absolute left-[75%]" type="info" icon="i-ep-edit" round @click="commentBoxVisible = true")
+        | 写评论
+    // TODO 还要写一套滚动发生时的ui
+box-new-comment(v-if="song" v-model:visible="commentBoxVisible" :title="song.name")
 </template>
 
 <script lang="ts" setup>
-import BoxNewCommentVue from '@/components/BoxNewComment.vue'
-import ListCommentVue from '@/components/ListComment.vue'
-import TheLyricParserVue from '@/components/TheLyricParser.vue'
+import layoutHeader from '../layout/header/layoutHeader.vue'
 
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
-import { useRouteQuery } from '@vueuse/router'
-import { computed, ref, watch } from 'vue'
-import { withLoading } from '@/utils/withLoading'
 import { useRecordStore } from '@/store/recordStore'
 import { app_height, app_controller_height, app_width } from '@/config'
-import layoutHeaderVue from '../layout/header/layoutHeader.vue'
+import { useRouteQuery } from '@vueuse/router'
 
 const offsetY = computed(() => app_height.value - app_controller_height)
 const commentBoxVisible = ref(false)
@@ -56,33 +47,34 @@ const commentBoxVisible = ref(false)
 const id = useRouteQuery<string>('id')
 const recordStore = useRecordStore()
 
-const song = ref<Song>()
+const song = ref<Song & { lyric: string }>()
 // lyric
-const lyric = ref('')
 const lyricRef = ref<HTMLElement>()
-const currentIndex = ref(0)
-
 // comment
 const commentRes = ref<CommentRes>()
+const isLoading = ref(false)
 
 const initSong = async (id: number) => {
 	const {
 		songs: [songRes],
 	} = await getSongDetail(id)
-	song.value = songRes
-	recordStore.addPlayRecord([song.value])
+	recordStore.addPlayRecord([songRes])
 	const lyricRes = await getSongLyric(id)
-	lyric.value = lyricRes
+	song.value = {
+		...songRes,
+		lyric: lyricRes,
+	}
 	const { data: CommentsRes } = await getComment(id, 1)
 	commentRes.value = CommentsRes
 }
 watch(
 	() => id.value,
 	(v, old) => {
+		isLoading.value = true
 		if (!isNaN(parseInt(v))) {
-			withLoading(initSong, { target: '#app' })(parseInt(v)).then((_) => {
-				currentIndex.value = 0
+			initSong(parseInt(v)).then((_) => {
 				lyricRef.value?.scroll({ top: 0 })
+				isLoading.value = false
 			})
 		}
 	},

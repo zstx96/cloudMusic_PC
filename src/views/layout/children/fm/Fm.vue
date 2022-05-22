@@ -6,30 +6,26 @@ div
             el-image(:src="fm.album.picUrl + '?param=500y500'")
             div(class="flex justify-between items-center mt-3 py-3 icon-group")
                 //- TODO 处理列表， 当有更新时候 通知更新？
-                button-heart-vue(
-                    :is-like="fm.isLike" 
+                button-heart(
+                    v-model:is-like="fm.isLike" 
                     @like="(likeSong(fm.id, true),userStore.addLikeSong(fm.id))"
                     @dislike="(likeSong(fm.id, false),userStore.removeLikeSong(fm.id))" 
                     :key="fm.id"
                 )
-                button-play-vue(:is-paused="$player.isPaused" @play="$player.play" @pause="$player.pause")
+                button-play(:is-paused="$player.isPaused" @play="$player.play" @pause="$player.pause")
                 el-icon(@click="next" :size="40"  ) 
-                    el-icon-caretRight
+                    i-ep-caretRight
         div
-            the-lyric-parser-vue(:lyric="lyric")
+            the-lyric-parser(:lyric="lyric")
 </template>
 
 <script lang="ts" setup>
 import { getSongLyric, likeSong } from '@/api/song'
 import { getPersonalFm } from '@/api/user'
-import ButtonPlayVue from '@/components/ButtonPlay.vue'
-import ButtonHeartVue from '@/components/iconButton/ButtonHeart.vue'
-import TheLyricParserVue from '@/components/TheLyricParser.vue'
 import type { Song } from '@/interface'
 import type { FMResponse } from '@/interface/fm'
 import { usePlayerStore } from '@/store/playerStore'
 import { useUserStore } from '@/store/userStore'
-import { computed, ref, watch } from 'vue'
 
 const userStore = useUserStore()
 type Fms = FMResponse['data']
@@ -61,7 +57,7 @@ watch(
 
 		const id = fms.value![index].id
 		getSongLyric(id).then((res) => {
-			lyric.value = res.lrc.lyric
+			lyric.value = res
 		})
 	}
 )

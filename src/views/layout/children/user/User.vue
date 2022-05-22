@@ -17,7 +17,7 @@ div(v-if="userDetail")
                     span(v-if="userDetail.profile.gender === 1" class=" font-medium rounded-full") ♂
                     span(v-if="userDetail.profile.gender === 2" class="h-5 w-5 flex justify-center items-center rotate-45  text-pink-600  font-bold rounded-full bg-pink-300" )  ♀
                 div(v-if="userDetail.profile.userId === userStore.user?.profile.userId")
-                    el-button( icon="el-icon-editPen" round @click="$router.push({name:'editSelf'})") 编辑个人资料    
+                    el-button( icon="i-ep-editPen" round @click="$router.push({name:'editSelf'})") 编辑个人资料    
                 div(v-if="userDetail.profile.artistId")
                     el-button(round @click="$router.push(`/artist/${userDetail?.profile.artistId}`)" ) 歌手页
             div(class="flex")

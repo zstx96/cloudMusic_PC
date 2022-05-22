@@ -1,7 +1,7 @@
 <template lang="pug">
 div(class=" text-right")
     el-icon
-        el-icon-close(@click="$emit('closeLoginBox', false)")
+        i-ep-close(@click="$emit('closeLoginBox', false)")
 div(class=" h-full flex flex-col items-center justify-between")
     div(class=" text-2xl font-bold") 扫码登录
     div(class="flex-1 flex items-center justify-center")

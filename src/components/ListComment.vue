@@ -20,18 +20,17 @@ div(v-for="comment in comments" class="flex gap-3 py-3 ")
             div(class="flex items-center gap-2")
                 span 举报
                 | |
-                thumb-up-button(:width="20" :height="20" :liked="comment.liked" @thumb-up="thumbUpComment(comment.commentId,1)" @not-thumb-up="") 
+                button-thumb-up(:width="20" :height="20" :liked="comment.liked" @thumb-up="thumbUpComment(comment.commentId,1)" @not-thumb-up="") 
                 span {{ comment.likedCount }}
                 | |
                 el-icon()
-                    el-icon-share 
+                    i-ep-share 
                 | |
                
 </template>
 
 <script lang="ts" setup>
 import type { Comment } from '@/interface'
-import thumbUpButton from '@/components/iconButton/thumbUpButton.vue'
 import { likeComment } from '@/api/song'
 
 defineProps<{ comments: Comment[] }>()

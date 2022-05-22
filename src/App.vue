@@ -1,17 +1,13 @@
 <script setup lang="ts">
 // 根据config设置#app的宽高
 
-import { onMounted, ref } from 'vue'
 import { resizeWindow } from '@/config'
-import { useRouter } from 'vue-router'
 import { getLoginStatus } from './api/user'
 import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
 
 import { withLoading } from './utils/withLoading'
 import { useDynamicRouter } from './utils/dynamicRouter'
-import { useLocalStorage } from '@vueuse/core'
-import FooterVue from '@/components/TheFooter.vue'
 import { ElMessage } from 'element-plus'
 
 const appStore = useAppStore()
@@ -67,7 +63,7 @@ div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  v-if="loaded")
     keep-alive
       component(:is="Component")
 div(class="footer")
-    footer-vue(v-if="$route.name !== 'mv'")
+    the-footer(v-if="$route.name !== 'mv'")
 </template>
 
 <style>
@@ -91,6 +87,8 @@ body {
 	background: var(--el-bg-color);
 	flex-direction: column;
 	overflow: hidden;
+	transition: all 0.3s;
+	transform-origin: 50% 50%;
 	@apply antialiased;
 }
 

@@ -2,9 +2,9 @@
 p(class=" text-sm text-app-gray pt-2 cursor-pointer" @click="$emit('update:visible', !visible)" ) 
     span {{title}}
     el-icon(v-if="!visible")
-        el-icon-caretRight()
+        i-ep-caretRight()
     el-icon(v-else)
-        el-icon-caretBottom
+        i-ep-caretBottom
 div(v-if="list.length" class="pl-1" v-show="visible")
     p(v-for="item in list" 
     :data-pid="item.id"
@@ -13,7 +13,7 @@ div(v-if="list.length" class="pl-1" v-show="visible")
     @click="($emit('update:activeNav',item.id.toString()),$router.push({name:'playlist',params:{id:item.id}}))"
     ) 
         el-icon
-            el-icon-headset
+            i-ep-headset
         span {{ item.name }}
 </template>
 
