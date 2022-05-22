@@ -12,7 +12,11 @@ el-table(
             span() {{startIndex+$index}} 
     el-table-column(label="操作" width="64")
         template(#default="{ row }")
-            heart-button-vue(:is-like="row.isLiked" @like="handleLike(row)" @dislike="handleDislike(row)"  class=" w-5 h-5")
+            heart-button-vue(:is-like="row.isLiked" 
+                @like="handleLike(row,true)" 
+                @dislike="handleLike(row,false)"  
+                class=" w-5 h-5"
+            )
     el-table-column(label="标题" :min-width="200" prop="name")
         template(#default="{row}")
             p(class="flex items-center whitespace-nowrap")
@@ -79,41 +83,22 @@ const handleRowDblClick = async (row: Song) => {
 		})
 	}
 }
-const handleLike = async (song: Song) => {
-	song.isLiked = true
+const handleLike = async (song: Song, t: boolean) => {
+	song.isLiked = t
 	userStore.addLikeSong(song.id)
 	const isSameWithCurrentSong = playerStore.currentSong?.id === song.id
 
 	if (isSameWithCurrentSong) {
-		playerStore.currentSong!.isLiked = true
+		playerStore.currentSong!.isLiked = t
 	}
 
-	const { code } = await likeSong(song.id, true)
+	const { code } = await likeSong(song.id, t)
 	if (code !== 200) {
 		ElMessage.error('网络发生了些错误,喜欢失败')
-		song.isLiked = false
+		song.isLiked = !t
 		userStore.removeLikeSong(song.id)
 		if (isSameWithCurrentSong) {
-			playerStore.currentSong!.isLiked = false
-		}
-	}
-}
-const handleDislike = async (song: Song) => {
-	song.isLiked = false
-	userStore.removeLikeSong(song.id)
-	const isSameWithCurrentSong = playerStore.currentSong?.id === song.id
-
-	if (isSameWithCurrentSong) {
-		playerStore.currentSong!.isLiked = false
-	}
-	const { code } = await likeSong(song.id, false)
-	if (code !== 200) {
-		ElMessage.error('网络发生了些错误,取消喜欢失败')
-
-		song.isLiked = true
-		userStore.addLikeSong(song.id)
-		if (isSameWithCurrentSong) {
-			playerStore.currentSong!.isLiked = true
+			playerStore.currentSong!.isLiked = !t
 		}
 	}
 }

@@ -24,7 +24,7 @@ div(v-if="result")
 </template>
 
 <script lang="ts" setup>
-import { getNewSongs } from '@/api/push'
+import { getNewSongs } from '@/api/song'
 import playInnerRedVue from '@/components/iconButton/playInnerRed.vue'
 import { AreaType } from '@/enum'
 import { ref } from 'vue'

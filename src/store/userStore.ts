@@ -3,14 +3,12 @@ import { getUserDetail } from '@/api/user'
 import type { Playlist, User } from '@/interface'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { usePlayerStore } from './playerStore'
 
 const useUserStore = defineStore('user', () => {
 	const user = ref<User | null>()
 	const isLogin = ref(false)
 	const likedIds = ref<number[]>()
 	const playlist = ref<Playlist[]>()
-	const playerStore = usePlayerStore()
 
 	const fetchUser = async (id: number) => {
 		const userResponse = await getUserDetail(id)

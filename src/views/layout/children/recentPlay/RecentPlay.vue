@@ -1,11 +1,11 @@
 <template lang="pug">
-div(v-if="songs")
+div(v-if="songs?.length")
 	list-song(:data="recentSong" :show-play-time="true")
 		template(#playtime="{ index }")
 			span {{ $dayjs(songs[index].playTime).from(dayjs()) }}
 el-empty(v-else) 
 	div(class="text-center")
-		i-ep-empty
+		el-empty
 		| 暂无播放记录
 </template>
 

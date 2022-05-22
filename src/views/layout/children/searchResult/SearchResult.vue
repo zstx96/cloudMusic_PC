@@ -9,7 +9,7 @@ div(v-if="result")
 		el-tab-pane(v-for="item in tabs" :name="item.name" :label="item.label")
 	div()
 		//FIXME 切换页面因为scrollbar消失重新出现,导致页面一瞬间变形,并且有闪烁
-		router-view(:key="$route.query.keyword")
+		router-view(:key="$route.query.keyword?.toString()")
 </template>
 
 <script lang="ts" setup>

@@ -54,13 +54,10 @@ div()
 
 <script lang="ts" setup>
 import type { Comment, Mv, PersonalizedMv } from '@/interface'
-import ListCommentVue from '@/components/ListComment.vue'
-import layoutHeaderVue from '@/views/layout/header/layoutHeader.vue'
-import CoverVue from '@/components/Cover.vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import Service from '@/utils/Service'
 import { getPersonalizedMv } from '@/api/user'
 import { resourceLike, LikeResourceType } from '@/api/app'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
