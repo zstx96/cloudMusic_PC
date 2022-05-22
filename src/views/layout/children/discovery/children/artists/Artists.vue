@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 <template lang="pug">
 div
     div(class="flex flex-col gap-2 text-xs controller")
@@ -25,13 +24,15 @@ div
                 span(v-for="item in 26" @click="selectInitial(String.fromCharCode(item + 64))") {{ String.fromCharCode(item + 64) }}
                 span(v-text="'#'"  @click="selectInitial(0)")
     div(class="flex flex-wrap   gap-2 text-sm m-auto ")
-        div(v-for="artist in artists" class="w-[15%]  ")
-            el-image(:src="artist.picUrl + '?param=500y500'" 
-            lazy
-            @click="$router.push(`/artist/${artist.id}`)" 
-            class="rounded cursor-pointer  flex-shrink " )
+        div(v-for="(artist,index) in artists" :key="index" class="w-[15%]")
+            el-image(
+                class="rounded cursor-pointer  flex-shrink " 
+                :src="$resizeImg(artist.picUrl,300)"
+                lazy
+                @click="$router.push(`/artist/${artist.id}`)" 
+            )
                 template(#placeholder)
-                    span isLoading
+                    img(:src="placeholder")
             div {{ artist.name }}
 
 </template>
@@ -41,6 +42,7 @@ import { getArtistList } from '@/api/artist'
 import { AreaType, ArtistType } from '@/enum'
 import type { Artist } from '@/interface/interface'
 import { ref, watchEffect } from 'vue'
+import placeholder from '@/assets/img/placeholder.png'
 
 const selectedArea = ref(AreaType.all)
 const selectedClass = ref(ArtistType.all)

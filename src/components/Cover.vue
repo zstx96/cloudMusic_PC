@@ -1,8 +1,8 @@
 <template lang="pug">
 div(class="flex flex-col relative cursor-pointer " @mouseover="$emit('update:hoverElIndex',index)")
-	el-image(:src="picUrl+'?param=500y500'" fit="cover" class="rounded w-full aspect-square" lazy)
+	el-image(:src="picUrl" fit="cover" class="rounded w-full aspect-square" lazy)
 		template(#placeholder)
-			span isLoading ...
+			img(:src="placeholder" )/
 	play-inner-red-vue(
 		v-if="hoverElIndex"
 		:class="[hoverElIndex === index ? ' opacity-100' : ' opacity-0','   absolute bottom-2 right-2 z-[1000] transition  duration-500']"
@@ -13,6 +13,7 @@ div(class="flex flex-col relative cursor-pointer " @mouseover="$emit('update:hov
 <script lang="ts" setup>
 import playCountInnerVue from './iconButton/playCountInner.vue'
 import playInnerRedVue from './iconButton/playInnerRed.vue'
+import placeholder from '@/assets/img/placeholder.png'
 
 defineProps<{
 	picUrl: string

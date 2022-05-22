@@ -9,11 +9,11 @@ div
             ) {{tag.name}}
     div(v-if="currentPlaylists" class="grid grid-cols-5 gap-2 py-2")
         cover-vue(v-for="(item,index) in currentPlaylists" 
-        v-model:hover-el-index="hoverElIndex"
-        :pic-url="item.coverImgUrl" 
-        :playcount="item.playCount" 
-        :index="index" 
-        @click="$router.push({name:'playlist',params:{id:item.id}})"
+            v-model:hover-el-index="hoverElIndex"
+            :pic-url="$resizeImg(item.coverImgUrl,400)" 
+            :playcount="item.playCount" 
+            :index="index" 
+            @click="$router.push({name:'playlist',params:{id:item.id}})"
         )
 
 

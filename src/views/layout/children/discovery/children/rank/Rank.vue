@@ -17,23 +17,19 @@ div(class="overflow-auto"  )
     div(class=" grid grid-cols-5 gap-3"  v-if="global")
         div(v-for="item in global")
             div(class="relative")
-                el-image(:src="item.coverImgUrl" 
-                lazy
-                class=" rounded cursor-pointer"
-                @click="$router.push(`/playlist/${item.id}`)"
-                fit="fill")
-                    template(#placeholder)
-                        span isLoading ...
-                play-count-inner-vue(:count="item.playCount")
+                cover(
+                    :playcount="item.playCount"
+                    :pic-url="$resizeImg(item.coverImgUrl,400)"
+                    @click="$router.push(`/playlist/${item.id}`)"
+                )
             p(class="text-sm w-[138px]") {{ item.name }}
 
 </template>
 
 <script lang="ts" setup>
 import { getPlaylistDetail, getTopList } from '@/api/songlist'
-import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
 import type { Playlist, Song } from '@/interface/interface'
-import { ref } from 'vue'
+
 const official = ref<(Playlist & { tracks?: Song[] })[]>()
 const global = ref<Playlist[]>()
 
