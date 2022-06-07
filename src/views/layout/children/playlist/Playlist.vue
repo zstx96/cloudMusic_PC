@@ -69,7 +69,7 @@
 			<div :key="$route.fullPath">
 				<list-song
 					v-if="currentSongs?.length"
-					:key="currentSongs[0].id"
+					:key="offset"
 					:data="currentSongs"
 					:start-index="offset + 1"
 				></list-song>
@@ -101,12 +101,14 @@ import { formatNumber } from '@/utils/format'
 import type { LoadingOptions } from 'element-plus'
 import { withLoading } from '@/utils/withLoading'
 import { download } from '@/utils/download'
+import { getSongDetail } from '@/api/song'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 
 const detail = ref<PlaylistDetail>()
 const playlistPage = ref<HTMLElement>()
+const songs = ref<Song[]>()
 const reset = (id: number) => {
 	const loadingOptions: LoadingOptions = {
 		target: playlistPage.value,
@@ -117,10 +119,14 @@ const reset = (id: number) => {
 		loadingOptions
 	)(id)
 		.then((res) => {
+			const ids = res.playlist.trackIds.map((v) => v.id)
 			detail.value = res.playlist
-			offset.value = 0
-			currentPage.value = 1
-			handleCurrentChange(1)
+			getSongDetail(ids).then((res) => {
+				songs.value = res.songs
+				offset.value = 0
+				currentPage.value = 1
+				handleCurrentChange(1)
+			})
 		})
 		.catch((err) => {
 			throw new TypeError(err)
@@ -140,7 +146,7 @@ const offset = ref(0)
 // 当前页面变化
 const handleCurrentChange = (val: number) => {
 	offset.value = pageSize * (val - 1)
-	currentSongs.value = detail.value?.tracks.slice(offset.value, offset.value + 20)
+	currentSongs.value = songs.value?.slice(offset.value, offset.value + pageSize)
 }
 const currentSongs = ref<Song[]>()
 onBeforeRouteUpdate((to) => {
