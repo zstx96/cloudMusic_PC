@@ -33,7 +33,7 @@ export async function getSongLyric<
 		}
 	})
 }
-export function getSongDetail<T extends { songs: Song[] }>(...ids: number[]) {
+export function getSongDetail<T extends { songs: Song[] }>(ids: number[]) {
 	const fetchSongDetail = async () => {
 		const { songs } = await Service.get<T>('/song/detail', {
 			params: {

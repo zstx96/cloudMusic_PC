@@ -60,6 +60,7 @@ export interface PlaylistDetail {
 	enlistTitle: string
 	subscribers: []
 	tracks: Song[]
+	trackIds: { id: number }[]
 	subscribed: boolean
 }
 export interface PlaylistDynamic {
