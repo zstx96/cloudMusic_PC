@@ -57,13 +57,13 @@ withLoading(beforeEnterApp, { target: '#app' })()
 	})
 </script>
 
-<template lang="pug">
-div(class=" flex-1 overflow-y-auto overflow-x-hidden font-light"  v-if="loaded")
-  router-view(#default="{ Component }"  )
-    keep-alive
-      component(:is="Component")
-div(class="footer")
-    the-footer(v-if="$route.name !== 'mv'")
+<template>
+	<div v-if="loaded" class="flex-1 overflow-y-auto overflow-x-hidden font-light">
+		<router-view v-slot="{ Component }"
+			><keep-alive><component :is="Component"></component></keep-alive
+		></router-view>
+	</div>
+	<div class="footer"><the-footer v-if="$route.name !== 'mv'"></the-footer></div>
 </template>
 
 <style>

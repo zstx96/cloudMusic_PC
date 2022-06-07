@@ -1,7 +1,8 @@
-<template lang="pug">
-div(v-if="desc")
-    h2.font-bold 歌手描述
-    p(class=" indent-[2rem] font-light") {{desc.briefDesc}}
+<template>
+	<div v-if="desc">
+		<h2 class="font-bold">歌手描述</h2>
+		<p class="indent-[2rem] font-light">{{ desc.briefDesc }}</p>
+	</div>
 </template>
 
 <script lang="ts" setup>

@@ -1,6 +1,5 @@
-<template lang="pug">
-div(ref="loadingRef")
-	list-song-vue(v-if="songs" :data="songs")
+<template>
+	<div ref="loadingRef"><list-song-vue v-if="songs" :data="songs"></list-song-vue></div>
 </template>
 
 <script lang="ts" setup>

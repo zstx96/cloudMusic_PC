@@ -1,12 +1,12 @@
-<template lang="pug">
-div(class="flex items-center justify-between" :style="{'height':'70px'}" )
-	div(class="flex-1  pl-4")
-		footer-left-vue(v-if="curSong" :cur-song="curSong")
-	div
-		music-player-vue(v-if="curSong" :cur-song="curSong")
-		music-player-disable-vue(v-else class=" w-96")
-	div(class="flex-1 flex items-center justify-end")
-		footer-right-vue(v-if="curSong")
+<template>
+	<div class="flex items-center justify-between" :style="{ height: '70px' }">
+		<div class="flex-1 pl-4"><footer-left-vue v-if="curSong" :cur-song="curSong"></footer-left-vue></div>
+		<div>
+			<music-player-vue v-if="curSong" :cur-song="curSong"></music-player-vue
+			><music-player-disable-vue v-else class="w-96"></music-player-disable-vue>
+		</div>
+		<div class="flex flex-1 items-center justify-end"><footer-right-vue v-if="curSong"></footer-right-vue></div>
+	</div>
 </template>
 
 <script lang="ts" setup>

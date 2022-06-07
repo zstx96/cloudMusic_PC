@@ -1,40 +1,44 @@
-<template lang="pug">
-div
-    div(class="flex flex-col gap-2 text-xs controller")
-        div
-            strong() 语种：
-            span(v-text="'全部'" @click="selectArea(AreaType.all)" ) 
-            span(v-text="'华语'" @click="selectArea(AreaType.CN)" ) 
-            span(v-text="'欧美'" @click="selectArea(AreaType.EU)" ) 
-            span(v-text="'日本'" @click="selectArea(AreaType.JP)" ) 
-            span(v-text="'韩国'" @click="selectArea(AreaType.KR)" ) 
-            span(v-text="'其他'" @click="selectArea(AreaType.other)" ) 
-        div
-            strong() 分类：
-            span(v-text="'全部'" @click="selectClass(ArtistType.all)" ) 
-            span(v-text="'男歌手'" @click="selectClass(ArtistType.male)" ) 
-            span(v-text="'女歌手'" @click="selectClass(ArtistType.female)" ) 
-            span(v-text="'乐队组合'" @click="selectClass(ArtistType.band)" ) 
-
-        div.flex
-            div
-                strong(class=" whitespace-nowrap") 筛选：
-            div
-                span(v-text="'热门'"   @click="selectInitial(-1)" )
-                span(v-for="item in 26" @click="selectInitial(String.fromCharCode(item + 64))") {{ String.fromCharCode(item + 64) }}
-                span(v-text="'#'"  @click="selectInitial(0)")
-    div(class="flex flex-wrap   gap-2 text-sm m-auto ")
-        div(v-for="(artist,index) in artists" :key="index" class="w-[15%]")
-            el-image(
-                class="rounded cursor-pointer  flex-shrink " 
-                :src="$resizeImg(artist.picUrl,300)"
-                lazy
-                @click="$router.push(`/artist/${artist.id}`)" 
-            )
-                template(#placeholder)
-                    img(:src="placeholder")
-            div {{ artist.name }}
-
+<template>
+	<div>
+		<div class="controller flex flex-col gap-2 text-xs">
+			<div>
+				<strong>语种：</strong><span @click="selectArea(AreaType.all)" v-text="'全部'"> </span
+				><span @click="selectArea(AreaType.CN)" v-text="'华语'"> </span
+				><span @click="selectArea(AreaType.EU)" v-text="'欧美'"> </span
+				><span @click="selectArea(AreaType.JP)" v-text="'日本'"> </span
+				><span @click="selectArea(AreaType.KR)" v-text="'韩国'"> </span
+				><span @click="selectArea(AreaType.other)" v-text="'其他'"> </span>
+			</div>
+			<div>
+				<strong>分类：</strong><span @click="selectClass(ArtistType.all)" v-text="'全部'"> </span
+				><span @click="selectClass(ArtistType.male)" v-text="'男歌手'"> </span
+				><span @click="selectClass(ArtistType.female)" v-text="'女歌手'"> </span
+				><span @click="selectClass(ArtistType.band)" v-text="'乐队组合'"> </span>
+			</div>
+			<div class="flex">
+				<div><strong class="whitespace-nowrap">筛选：</strong></div>
+				<div>
+					<span @click="selectInitial(-1)" v-text="'热门'"></span
+					><span v-for="item in 26" :key="item" @click="selectInitial(String.fromCharCode(item + 64))">{{
+						String.fromCharCode(item + 64)
+					}}</span
+					><span @click="selectInitial(0)" v-text="'#'"></span>
+				</div>
+			</div>
+		</div>
+		<div class="m-auto flex flex-wrap gap-2 text-sm">
+			<div v-for="(artist, index) in artists" :key="index" class="w-[15%]">
+				<el-image
+					class="flex-shrink cursor-pointer rounded"
+					:src="$resizeImg(artist.picUrl, 300)"
+					lazy
+					@click="$router.push(`/artist/${artist.id}`)"
+					><template #placeholder><img :src="placeholder" /></template
+				></el-image>
+				<div>{{ artist.name }}</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

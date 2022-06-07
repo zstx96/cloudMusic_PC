@@ -1,26 +1,40 @@
-<template lang="pug">
-div(v-if="realData")
-    el-table(:data="realData")
-        el-table-column(type="index")
-        el-table-column()
-            template(#default="{row}")
-                div(class="w-14 h-14 relative")
-                    el-image(:src="row.album.picUrl+'?param=200y200'")
-                    play-inner-red-vue(class=" absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2")
-        el-table-column()
-            template(#default="{row}")
-                p(class="ellipsis")
-                    span {{row.name}}
-                    span {{row.album.alias[0]}}
-        el-table-column()
-            template(#default="{row}")
-                span(class=" text-blue-600 cursor-pointer" @click="$router.push({name:'artist',params:{id:row.album.artists[0].id}})") {{row.album.artists[0].name}}
-        el-table-column()
-            template(#default="{row}")
-                span(class="ellipsis") {{row.album.name}} ({{row.album.alias[0]}})
-        el-table-column     
-            template(#default="{row}")
-                span {{$dayjs(row.duration).format('mm:ss')}}
+<template>
+	<div v-if="realData">
+		<el-table :data="realData"
+			><el-table-column type="index"></el-table-column
+			><el-table-column
+				><template #default="{ row }"
+					><div class="relative h-14 w-14">
+						<el-image :src="row.album.picUrl + '?param=200y200'"></el-image
+						><play-inner-red-vue
+							class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+						></play-inner-red-vue></div></template></el-table-column
+			><el-table-column
+				><template #default="{ row }"
+					><p class="ellipsis">
+						<span>{{ row.name }}</span
+						><span>{{ row.album.alias[0] }}</span>
+					</p></template
+				></el-table-column
+			><el-table-column
+				><template #default="{ row }"
+					><span
+						class="cursor-pointer text-blue-600"
+						@click="$router.push({ name: 'artist', params: { id: row.album.artists[0].id } })"
+						>{{ row.album.artists[0].name }}</span
+					></template
+				></el-table-column
+			><el-table-column
+				><template #default="{ row }"
+					><span class="ellipsis">{{ row.album.name }} ({{ row.album.alias[0] }})</span></template
+				></el-table-column
+			><el-table-column>
+				<template #default="{ row }"
+					><span>{{ $dayjs(row.duration).format('mm:ss') }}</span></template
+				></el-table-column
+			></el-table
+		>
+	</div>
 </template>
 
 <script lang="ts" setup>

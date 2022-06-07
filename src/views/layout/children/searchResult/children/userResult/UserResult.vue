@@ -1,10 +1,14 @@
-<template lang="pug">
-div(v-if="users?.length" v-loading)
-    div(v-for="item in users" class="flex h-20 hover:bg-slate-200 cursor-pointer items-center justify-between gap-3 p-2")
-        el-avatar(:src="item.avatarUrl" size="large"  @click="$router.push(`/user/${item.userId}`)")
-        span(v-text="item.nickname")
-        span.flex-1
-        span(class="text-sm text-app-gray" v-text="item.signature")
+<template>
+	<div v-if="users?.length" v-loading>
+		<div
+			v-for="item in users"
+			class="flex h-20 cursor-pointer items-center justify-between gap-3 p-2 hover:bg-slate-200"
+		>
+			<el-avatar :src="item.avatarUrl" size="large" @click="$router.push(`/user/${item.userId}`)"></el-avatar
+			><span v-text="item.nickname"></span><span class="flex-1"></span
+			><span class="text-sm text-app-gray" v-text="item.signature"></span>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

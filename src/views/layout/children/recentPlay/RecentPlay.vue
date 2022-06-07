@@ -1,10 +1,12 @@
-<template lang="pug">
-div(v-if="songs?.length")
-  list-song(:data="recentSong" :show-play-time="true")
-    template(#playtime="{ index }")
-      span {{ $dayjs(songs[index].playTime).from(dayjs()) }}
-el-empty.text-center(v-else)
-  | 暂无播放记录
+<template>
+	<div v-if="songs?.length">
+		<list-song :data="recentSong" :show-play-time="true"
+			><template #playtime="{ index }"
+				><span>{{ $dayjs(songs[index].playTime).from(dayjs()) }}</span></template
+			></list-song
+		>
+	</div>
+	<el-empty v-else class="text-center">暂无播放记录</el-empty>
 </template>
 
 <script lang="ts" setup>

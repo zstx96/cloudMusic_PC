@@ -1,10 +1,14 @@
-<template lang="pug">
-div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth"  ref="lyricRef" )
-    p(v-for="([, text], index) in lyric" 
-    class="py-1 h-8"
-    :class="[(currentRow == (index + 1)) ? 'font-bold text-black active-lyric-row' : 'text-app-gray']" 
-    ) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  
-
+<template>
+	<div ref="lyricRef" class="h-80 w-96 overflow-y-auto scroll-smooth text-center">
+		<p
+			v-for="([, text], index) in lyric"
+			:key="index"
+			class="h-8 py-1"
+			:class="[currentRow == index + 1 ? 'active-lyric-row font-bold text-black' : 'text-app-gray']"
+		>
+			{{ text !== '\n' ? text : '~~~~~~~~~~~~~~~~~' }}
+		</p>
+	</div>
 </template>
 
 <script lang="ts" setup>

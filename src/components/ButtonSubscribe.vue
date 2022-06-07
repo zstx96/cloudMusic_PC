@@ -1,27 +1,14 @@
-<template lang="pug">
-el-button( 
-    round 
-    :disabled="disabled"
-    @click="handleClick()"
-    v-if="subscribed"
-) 
-    template(#icon)
-         i-ep-folder-checked
-    span 已收藏({{ formatNumber(count) }}) 
-el-button( 
-    round 
-    :disabled="disabled"
-    @click="handleClick()"
-    v-else 
-) 
-    template(#icon)
-         i-ep-folder-add 
-    span 收藏({{ formatNumber(count) }})
-
-el-dialog(v-model="dialogVisible")  
-    p(class="text-center text-lg font-medium") 确定不再收藏该歌单 
-    template(#footer) 
-        el-button(type="danger" @click="handleEnter") 确认
+<template>
+	<el-button v-if="subscribed" round :disabled="disabled" @click="handleClick()">
+		<template #icon><i-ep-folder-checked></i-ep-folder-checked></template
+		><span>已收藏({{ formatNumber(count) }}) </span></el-button
+	><el-button v-else round :disabled="disabled" @click="handleClick()">
+		<template #icon><i-ep-folder-add> </i-ep-folder-add></template
+		><span>收藏({{ formatNumber(count) }})</span></el-button
+	><el-dialog v-model="dialogVisible">
+		<p class="text-center text-lg font-medium">确定不再收藏该歌单</p>
+		<template #footer> <el-button type="danger" @click="handleEnter">确认</el-button></template></el-dialog
+	>
 </template>
 
 <script lang="ts" setup>

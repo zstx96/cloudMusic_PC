@@ -1,40 +1,59 @@
-<template lang="pug">
-div(class="app-header h-full flex items-center justify-between px-2.5 " :style="{'background-color':'var(--app-header-background-color)'}")
-    div(v-if="$route.path === '/song'" class="w-[200px] pl-6 " @click="$router.push('/')") 
-        el-icon
-            i-ep-arrowDown
-    div( v-else class=" text-lg cursor-pointer w-[200px] " @click="$router.push({ name: 'discovery' })") 网易云音乐
-    header-input-vue(class="flex items-center gap-2"  )
-    //- flex 占位符 
-    div(:class="[' flex-1']")
-    div(class="icon-groups w-[435px]  flex  justify-between items-center ")
-        toggle-mode-vue 
-        // avatar
-        div(class="relative")
-            el-avatar( @click="clickAvatar" :src="userStore.user?.profile.avatarUrl" ref="avatarEl" class="relative")
-            el-card(:body-style="{ height: '100%' }" v-show="loginBoxVisible"  class="absolute left-0 top-[60px]  h-[500px] w-[350px] bg-white  z-[1000] px-2" )
-                login-box-vue(v-if="qrimg" :qrimg="qrimg" :qr-key="qrKey" @close-login-box="closeLoginBox" )
-        span(v-if="!userStore.user?.profile.nickname" class=" text-app-gray text-sm" ) 未登录
-        el-dropdown()
-            span(class=" text-sm" v-text="userStore.user?.profile.nickname")
-            template(#dropdown)
-                el-dropdown-item(@click="handleLogout") logout
-
-        span(ref="nicknameEl")
-        // setting
-        el-icon(   class="cursor-pointer" :size="25"  )
-            i-ep-setting
-        el-icon(  class="cursor-pointer" :size="25" )
-            i-ep-message
-        div(class="h-[25px] w-[25px] px-[4px] flex items-center" )
-            div(class=" h-[2px]  w-full   bg-current" )
-        div(class="h-[25px] w-[25px] p-[4px]" v-if="!isFullScreen" @click="fullScreen")
-            div(class="h-[16px]  border  border-current ")
-        el-icon(v-else    class="cursor-pointer" @click="restoreScreen" :size="25")
-            i-ep-copyDocument
-        el-icon(  class="cursor-pointer"  :size="28")
-            i-ep-close
-
+<template>
+	<div
+		class="app-header flex h-full items-center justify-between px-2.5"
+		:style="{ 'background-color': 'var(--app-header-background-color)' }"
+	>
+		<div v-if="$route.path === '/song'" class="w-[200px] pl-6" @click="$router.push('/')">
+			<el-icon><i-ep-arrowDown></i-ep-arrowDown></el-icon>
+		</div>
+		<div v-else class="w-[200px] cursor-pointer text-lg" @click="$router.push({ name: 'discovery' })">
+			网易云音乐
+		</div>
+		<header-input-vue class="flex items-center gap-2"></header-input-vue
+		><!--  flex 占位符  -->
+		<div :class="[' flex-1']"></div>
+		<div class="icon-groups flex w-[435px] items-center justify-between">
+			<toggle-mode-vue> </toggle-mode-vue
+			><!-- avatar -->
+			<div class="relative">
+				<el-avatar
+					ref="avatarEl"
+					class="relative"
+					:src="userStore.user?.profile.avatarUrl"
+					@click="clickAvatar"
+				></el-avatar
+				><el-card
+					v-show="loginBoxVisible"
+					class="absolute left-0 top-[60px] z-[1000] h-[500px] w-[350px] bg-white px-2"
+					:body-style="{ height: '100%' }"
+					><login-box-vue
+						v-if="qrimg"
+						:qrimg="qrimg"
+						:qr-key="qrKey"
+						@close-login-box="closeLoginBox"
+					></login-box-vue
+				></el-card>
+			</div>
+			<span v-if="!userStore.isLogin" class="text-sm text-app-gray">未登录</span
+			><el-dropdown
+				><span class="text-sm" v-text="userStore.user?.profile.nickname"></span
+				><template #dropdown
+					><el-dropdown-item @click="handleLogout">logout</el-dropdown-item></template
+				></el-dropdown
+			><span ref="nicknameEl"></span
+			><!-- setting --><el-icon class="cursor-pointer" :size="25"><i-ep-setting></i-ep-setting></el-icon
+			><el-icon class="cursor-pointer" :size="25"><i-ep-message></i-ep-message></el-icon>
+			<div class="flex h-[25px] w-[25px] items-center px-[4px]">
+				<div class="h-[2px] w-full bg-current"></div>
+			</div>
+			<div v-if="!isFullScreen" class="h-[25px] w-[25px] p-[4px]" @click="fullScreen">
+				<div class="h-[16px] border border-current"></div>
+			</div>
+			<el-icon v-else class="cursor-pointer" :size="25" @click="restoreScreen"
+				><i-ep-copyDocument></i-ep-copyDocument></el-icon
+			><el-icon class="cursor-pointer" :size="28"><i-ep-close></i-ep-close></el-icon>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

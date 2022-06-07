@@ -1,6 +1,7 @@
-<template lang="pug">
-el-empty(description="404")
-    span {{ delay }}s后自动返回
+<template>
+	<el-empty description="404"
+		><span>{{ delay }}s后自动返回</span></el-empty
+	>
 </template>
 
 <script lang="ts" setup>

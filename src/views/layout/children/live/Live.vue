@@ -1,5 +1,5 @@
-<template lang="pug">
-
+<template>
+	<p>live</p>
 </template>
 
 <script lang="ts" setup></script>

@@ -1,22 +1,13 @@
-<template lang="pug">
-el-dialog(
-    v-model="visible"
-    :before-close="handleClose"
-)   
-    template(#header)
-        p(class=" text-center") 
-            span 当前歌曲:
-            span(class="font-normal text-xl") {{title}}
-    el-input(
-        v-model="text" 
-        type="textarea" 
-        :rows="5"
-        placeholder="发表评论"
-    )
-    p(class=" font-normal text-xl") ☺ @ #
-    .text-right 
-        el-button(type="primary") 评论
-
+<template>
+	<el-dialog v-model="visible" :before-close="handleClose">
+		<template #header
+			><p class="text-center">
+				<span>当前歌曲:</span><span class="text-xl font-normal">{{ title }}</span>
+			</p></template
+		><el-input v-model="text" type="textarea" :rows="5" placeholder="发表评论"></el-input>
+		<p class="text-xl font-normal">☺ @ #</p>
+		<div class="text-right"><el-button type="primary">评论</el-button></div></el-dialog
+	>
 </template>
 
 <script lang="ts" setup>

@@ -18,7 +18,7 @@ Service.interceptors.request.use((request) => {
 
 Service.interceptors.response.use(
 	(res) => {
-		if (res.data.code === 200 || res.data.data.code === 200) {
+		if (res.data?.code === 200 || res.data?.data?.code === 200) {
 			return res.data
 		} else {
 			throw res.data

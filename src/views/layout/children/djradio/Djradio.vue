@@ -1,5 +1,5 @@
-<template lang="pug">
-p radio dj
+<template>
+	<p>radio dj</p>
 </template>
 
 <script lang="ts" setup></script>

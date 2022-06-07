@@ -1,6 +1,7 @@
-<template lang="pug">
-el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20" @click="download(song)")
-    i-ep-download
+<template>
+	<el-icon class="box-content rounded-full border p-2 hover:bg-slate-300" :size="20" @click="download(song)"
+		><i-ep-download></i-ep-download
+	></el-icon>
 </template>
 
 <script lang="ts" setup>

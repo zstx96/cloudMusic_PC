@@ -1,6 +1,7 @@
-<template lang="pug">
-div(class=" w-7 h-7 rounded-full bg-white flex items-center justify-center")
-    img(:src="playInnerPic" class="ml-1" :height="14" :width="14" )
+<template>
+	<div class="flex h-7 w-7 items-center justify-center rounded-full bg-white">
+		<img class="ml-1" :src="playInnerPic" :height="14" :width="14" />
+	</div>
 </template>
 
 <script lang="ts" setup>

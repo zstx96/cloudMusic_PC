@@ -1,24 +1,29 @@
-<template lang="pug">
-div
-    p(type="") fm
-    div(class="flex items-center" v-if="curSong" :key="curSongIndex")
-        div(class=" w-72  h-72 m-auto")
-            el-image(:src="curSong.al.picUrl + '?param=500y500'")
-                template(#placeholder)
-                    img(:src="placeholder" )
-            div(class="flex justify-between items-center mt-3 py-3  icon-group")
-                //- TODO 处理列表， 当有更新时候 通知更新？
-                button-heart(
-                    :is-like="curSong.isLiked" 
-                    @like="handleLike(curSong,true)"
-                    @dislike="handleLike(curSong,false)" 
-                    :key="curSong.id"
-                )
-                button-play(:is-paused="$player.isPaused" @play="$player.play" @pause="$player.pause")
-                el-icon(@click="next" :size="40") 
-                    i-ep-caretRight
-        div
-            the-lyric-parser(:lyric="lyric" v-if="lyric !== undefined" :key="lyric")
+<template>
+	<div>
+		<p type="">fm</p>
+		<div v-if="curSong" :key="curSongIndex" class="flex items-center">
+			<div class="m-auto h-72 w-72">
+				<el-image :src="curSong.al.picUrl + '?param=500y500'"
+					><template #placeholder><img :src="placeholder" /></template
+				></el-image>
+				<div class="icon-group mt-3 flex items-center justify-between py-3">
+					<!--  TODO 处理列表， 当有更新时候 通知更新？ --><button-heart
+						:key="curSong.id"
+						:is-like="curSong.isLiked"
+						@like="handleLike(curSong, true)"
+						@dislike="handleLike(curSong, false)"
+					></button-heart
+					><button-play
+						:is-paused="$player.isPaused"
+						@play="$player.play"
+						@pause="$player.pause"
+					></button-play
+					><el-icon :size="40" @click="next"> <i-ep-caretRight></i-ep-caretRight></el-icon>
+				</div>
+			</div>
+			<div><the-lyric-parser v-if="lyric !== undefined" :key="lyric" :lyric="lyric"></the-lyric-parser></div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

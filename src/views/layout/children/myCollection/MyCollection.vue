@@ -1,5 +1,5 @@
-<template lang="pug">
-p 我的收藏
+<template>
+	<p>我的收藏</p>
 </template>
 
 <script lang="ts" setup></script>

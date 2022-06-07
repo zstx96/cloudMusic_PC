@@ -1,29 +1,35 @@
-<template lang="pug">
-div(class="pt-2 font-normal text-[15px]")
-    div(v-for="[groupTitle, group] in Object.entries(groups)")
-        p(class=" text-sm text-app-gray py-2") {{ groupTitle }}
-        div(v-for="(navItem) in group" 
-        class="flex items-center mb-1 py-1  hover:bg-app-gray hover:bg-opacity-30 rounded " 
-        :class="[navItem.name === focusNav ? 'bg-app-gray bg-opacity-30 font-bold  text-xl' : '']"
-        @click="handelClick(groupTitle, navItem.name)")
-            img(v-if="navItem.iconUrl" class=" w-5 h-5 " :src="navItem.iconUrl")
-            span(v-text="navItem.title" class="pl-1" )
-
-    aside-playlist-item-vue(
-		v-if="createByMe"
-		v-model:visible="createByMeVisible" 
-		v-model:active-nav="focusNav"  
-		title="创建的歌单"
-		:list="createByMe"
-	)
-
-    aside-playlist-item-vue(
-		v-if="createByOthers"
-		v-model:visible="createByOthersVisible" 
-		title='收藏的歌单'  
-		v-model:active-nav="focusNav"  
-		:list="createByOthers"
-	)
+<template>
+	<div class="pt-2 text-[15px] font-normal">
+		<div v-for="([groupTitle, group], index) in Object.entries(groups)" :key="index">
+			<p class="py-2 text-sm text-app-gray">{{ groupTitle }}</p>
+			<div
+				v-for="navItem in group"
+				:key="navItem.name"
+				class="mb-1 flex items-center rounded py-1 hover:bg-app-gray hover:bg-opacity-30"
+				:class="[navItem.name === focusNav ? 'bg-app-gray bg-opacity-30 text-xl  font-bold' : '']"
+				@click="handelClick(groupTitle, navItem.name)"
+			>
+				<img v-if="navItem.iconUrl" class="h-5 w-5" :src="navItem.iconUrl" /><span
+					class="pl-1"
+					v-text="navItem.title"
+				></span>
+			</div>
+		</div>
+		<aside-playlist-item-vue
+			v-if="createByMe"
+			v-model:visible="createByMeVisible"
+			v-model:active-nav="focusNav"
+			title="创建的歌单"
+			:list="createByMe"
+		></aside-playlist-item-vue
+		><aside-playlist-item-vue
+			v-if="createByOthers"
+			v-model:visible="createByOthersVisible"
+			v-model:active-nav="focusNav"
+			title="收藏的歌单"
+			:list="createByOthers"
+		></aside-playlist-item-vue>
+	</div>
 </template>
 
 <script lang="ts" setup>

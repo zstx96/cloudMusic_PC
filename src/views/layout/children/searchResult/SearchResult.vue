@@ -1,15 +1,29 @@
-<template lang="pug">
-div(v-if="result")
-	p.text-xl.font-bold 搜索 {{ keyword }}
-	h3(class=" text-app-gray text-sm py-2") 你可能感兴趣
-	div(class="flex  text-sm")
-		div(v-for="item in result.orders.filter(v=>searchResult.includes(v))" class="bg-slate-200 h-16  rounded cursor-pointer  w-1/3 px-2 mx-2 ") 
-			component(:is="loadComponent(item)" :data="result[item]" class="h-full flex items-center gap-2")
-	el-tabs(:active-name="activeName" @tab-change="handleTabChange")
-		el-tab-pane(v-for="item in tabs" :name="item.name" :label="item.label")
-	div()
-		//FIXME 切换页面因为scrollbar消失重新出现,导致页面一瞬间变形,并且有闪烁
-		router-view(:key="$route.query.keyword?.toString()")
+<template>
+	<div v-if="result">
+		<p class="text-xl font-bold">搜索 {{ keyword }}</p>
+		<h3 class="py-2 text-sm text-app-gray">你可能感兴趣</h3>
+		<div class="flex text-sm">
+			<div
+				v-for="item in result.orders.filter((v) => searchResult.includes(v))"
+				:key="item"
+				class="mx-2 h-16 w-1/3 cursor-pointer rounded bg-slate-200 px-2"
+			>
+				<component
+					:is="loadComponent(item)"
+					class="flex h-full items-center gap-2"
+					:data="result[item]"
+				></component>
+			</div>
+		</div>
+		<el-tabs :active-name="activeName" @tab-change="handleTabChange"
+			><el-tab-pane v-for="item in tabs" :key="item.label" :name="item.name" :label="item.label"></el-tab-pane
+		></el-tabs>
+		<div>
+			<!--FIXME 切换页面因为scrollbar消失重新出现,导致页面一瞬间变形,并且有闪烁 --><router-view
+				:key="$route.query.keyword?.toString()"
+			></router-view>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

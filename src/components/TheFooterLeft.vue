@@ -1,41 +1,50 @@
-<template lang="pug">
-transition(name="swiper"   mode="out-in" class="w-80 justify-start" )
-		div(v-if="$route.name !== 'song'" )
-			div(class="flex gap-2 ")
-				el-image(:src="curSong.al.picUrl + '?param=200y200'"  
-					class=" shrink-0 rounded w-10  h-10  cover" 
+<template>
+	<transition class="w-80 justify-start" name="swiper" mode="out-in"
+		><div v-if="$route.name !== 'song'">
+			<div class="flex gap-2">
+				<el-image
+					class="cover h-10 w-10 shrink-0 rounded"
+					:src="curSong.al.picUrl + '?param=200y200'"
 					@click="$router.push({ name: 'song', query: { id: curSong.id } })"
-				)
-				div(class="flex flex-col items-start text-sm")
-					div.flex.items-center.gap-2
-						div(class="max-w-60 overflow-hidden")
-							div(v-text="curSong.name" 
-								class='whitespace-nowrap'
-								:style="{'animationDuration':`${animationDuration}s`,'transition-property':'transform'}"
+				></el-image>
+				<div class="flex flex-col items-start text-sm">
+					<div class="flex items-center gap-2">
+						<div class="max-w-60 overflow-hidden">
+							<div
+								class="whitespace-nowrap"
+								:style="{
+									animationDuration: `${animationDuration}s`,
+									'transition-property': 'transform',
+								}"
 								@mouseover="handleTransitionstart($event)"
 								@transitionend="handleTransitioned"
-							)
-						//-FIXME :is-like="userStore.likedIds?.includes(curSong.id)" 
-						button-heart(
-							v-model:is-like="curSong.isLiked"
-							@like="likeSong(curSong.id, true)"
-							@dislike="likeSong(curSong.id, false)" 
+								v-text="curSong.name"
+							></div>
+						</div>
+						<!-- FIXME :is-like="userStore.likedIds?.includes(curSong.id)"  --><button-heart
 							:key="curSong.id"
-						)
-					div(class="")
-						span(v-for="item in curSong.ar"  v-text="item.name")
-		div(v-else  class="flex  items-center gap-3" :data-is-song-page="true") 
-			el-icon(
-				class="border rounded-full p-2 mr-12  box-content hover:bg-slate-300 scale " 
-				:size="20" 
-				@click="$router.push('/')" 
-			)
-				i-ep-arrowDown
-			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300" :size="20")
-				i-ep-folder-add
-			button-download( :song="curSong")
-			el-icon(class=" rounded-full p-2  box-content border  hover:bg-slate-300 " :size="20")
-				i-ep-share
+							:is-like="curSong.isLiked"
+							@like="likeSong(curSong.id, true)"
+							@dislike="likeSong(curSong.id, false)"
+						></button-heart>
+					</div>
+					<div><span v-for="item in curSong.ar" :key="item.id" v-text="item.name"></span></div>
+				</div>
+			</div>
+		</div>
+		<div v-else class="flex items-center gap-3" :data-is-song-page="true">
+			<el-icon
+				class="scale mr-12 box-content rounded-full border p-2 hover:bg-slate-300"
+				:size="20"
+				@click="$router.push('/')"
+				><i-ep-arrowDown></i-ep-arrowDown></el-icon
+			><el-icon class="box-content rounded-full border p-2 hover:bg-slate-300" :size="20"
+				><i-ep-folder-add></i-ep-folder-add></el-icon
+			><button-download :song="curSong"></button-download
+			><el-icon class="box-content rounded-full border p-2 hover:bg-slate-300" :size="20"
+				><i-ep-share></i-ep-share
+			></el-icon></div
+	></transition>
 </template>
 
 <script lang="ts" setup>

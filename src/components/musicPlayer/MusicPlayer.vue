@@ -1,19 +1,20 @@
-<template lang="pug">
-div(class="inline-flex flex-col gap-1 items-center")
-    music-player-controller-vue(
-		v-if="player"
-		v-model:mode="mode"
-        v-model:is-paused="isPaused"
-		v-model:hasInteracted="hasInteracted"
-		:player="player"
-    )
-    music-player-progress-vue(
-        v-model:timeTipVisible="timeTipVisible"
-        :duration="curSong.dt"
-        :current-time-in-seconds="currentTime"
-		@jumps="handleJump"
-    )
-audio(ref="player")
+<template>
+	<div class="inline-flex flex-col items-center gap-1">
+		<music-player-controller-vue
+			v-if="player"
+			v-model:mode="mode"
+			v-model:is-paused="isPaused"
+			v-model:hasInteracted="hasInteracted"
+			:player="player"
+		></music-player-controller-vue
+		><music-player-progress-vue
+			v-model:timeTipVisible="timeTipVisible"
+			:duration="curSong.dt"
+			:current-time-in-seconds="currentTime"
+			@jumps="handleJump"
+		></music-player-progress-vue>
+	</div>
+	<audio ref="player"></audio>
 </template>
 
 <script lang="ts" setup>
