@@ -6,14 +6,13 @@ import { ref } from 'vue'
 
 const useUserStore = defineStore('user', () => {
 	const user = ref<User | null>()
-	const isLogin = ref(false)
+	const isLogin = computed(() => !!user.value)
 	const likedIds = ref<number[]>()
 	const playlist = ref<Playlist[]>()
 
 	const fetchUser = async (id: number) => {
 		const userResponse = await getUserDetail(id)
 		user.value = userResponse
-		isLogin.value = true
 	}
 	const fetchLikeIds = async (id: number) => {
 		const { ids } = await getLikelist(id)

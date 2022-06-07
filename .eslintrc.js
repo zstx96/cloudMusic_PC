@@ -9,7 +9,7 @@ module.exports = {
 		'plugin:vue/vue3-recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
-		'./.eslintrc-auto-import.json'
+		'./.eslintrc-auto-import.json',
 	],
 	parser: 'vue-eslint-parser',
 	parserOptions: {
@@ -21,8 +21,8 @@ module.exports = {
 	rules: {
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
-		'no-console': process.env.NODE_ENV === 'production' ? 'error':'off' ,
-		'no-debugger': process.env.NODE_ENV === 'production' ? 'error':'off' ,
+		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'vue/multi-word-component-names': 'off',
 		'@typescript-eslint/no-non-null-assertion': 'off',
 
@@ -37,5 +37,7 @@ module.exports = {
 				ignoreRestArgs: true,
 			},
 		],
+		// 对于不需要改变的iterator和generator，可以不用担心
+		'vue/require-v-for-key': 'off',
 	},
 }

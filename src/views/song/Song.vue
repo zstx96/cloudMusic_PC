@@ -1,35 +1,61 @@
-<template lang="pug">
-transition(name="scale")
-  .relative.flex.h-full.flex-col
-    // header
-    div(class="h-[60px]")
-      layout-header(v-if="$route.name === 'song'")
-    // main
-    div(class="h-full flex-1 overflow-y-auto px-[5vw]")
-      // cover & lyric
-      .flex.items-center.justify-around.gap-2(v-if="song" :key="$route.query.id?.toString()")
-        el-image(class="w-80 h-80 shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black" :src="song.al.picUrl + '?param=500y500'" fit="cover")
-        .text-center
-          p.text-2xl.font-bold(v-text="song.name")
-          p.pb-3(v-text="song.ar[0].name")
-          the-lyric-parser(:key="song.lyric" :lyric="song.lyric")
-        .text-3xl.font-bold
-        | others
-      // comments
-      div(class="m-auto w-1/2" v-if="commentRes" v-loading="isLoading")
-        p.text-xl.font-bold {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
-        div
-          .text-sm
-            list-comment(:comments="commentRes.comments")
-          .flex.justify-center(v-if="commentRes.totalCount")
-            el-pagination.m-auto.text-center(layout="prev, pager, next" :total="50")
-          div(v-else)
-            p.mt-6.cursor-pointer.text-center.text-blue-500 尚未有人评论,点击评论
-    .fixed.w-full(v-if="true" :style="{ transform: `translateY(${offsetY - 40}px)`, width: `${app_width}px` }")
-      el-button(class="absolute left-[75%]" type="info" icon="i-ep-edit" round @click="commentBoxVisible = true")
-        | 写评论
-    // TODO 还要写一套滚动发生时的ui
-box-new-comment(v-if="song" v-model:visible="commentBoxVisible" :title="song.name")
+<template>
+	<transition name="scale">
+		<div class="relative flex h-full flex-col">
+			<!-- header -->
+			<div class="h-[60px]"><layout-header v-if="$route.name === 'song'"></layout-header></div>
+			<!-- main -->
+			<div class="h-full flex-1 overflow-y-auto px-[5vw]">
+				<!-- cover & lyric -->
+				<div v-if="song" :key="$route.query.id?.toString()" class="flex items-center justify-around gap-2">
+					<el-image
+						class="h-80 w-80 shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black"
+						:src="song.al.picUrl + '?param=500y500'"
+						fit="cover"
+					></el-image>
+					<div class="text-center">
+						<p class="text-2xl font-bold" v-text="song.name"></p>
+						<p class="pb-3" v-text="song.ar[0].name"></p>
+						<the-lyric-parser :key="song.lyric" :lyric="song.lyric"></the-lyric-parser>
+					</div>
+					<div class="text-3xl font-bold"></div>
+					others
+				</div>
+				<!-- comments -->
+				<div v-if="commentRes" v-loading="isLoading" class="m-auto w-1/2">
+					<p class="text-xl font-bold">{{ commentRes.commentsTitle }}({{ commentRes.totalCount }})</p>
+					<div>
+						<div class="text-sm"><list-comment :comments="commentRes.comments"></list-comment></div>
+						<div v-if="commentRes.totalCount" class="flex justify-center">
+							<el-pagination
+								class="m-auto text-center"
+								layout="prev, pager, next"
+								:total="50"
+							></el-pagination>
+						</div>
+						<div v-else>
+							<p class="mt-6 cursor-pointer text-center text-blue-500">尚未有人评论,点击评论</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				v-if="true"
+				class="fixed w-full"
+				:style="{ transform: `translateY(${offsetY - 40}px)`, width: `${app_width}px` }"
+			>
+				<el-button
+					class="absolute left-[75%]"
+					type="info"
+					icon="i-ep-edit"
+					round
+					@click="commentBoxVisible = true"
+					>写评论</el-button
+				>
+			</div>
+			<!-- TODO 还要写一套滚动发生时的ui -->
+		</div></transition
+	>
+	<box-new-comment v-if="song" v-model:visible="commentBoxVisible" :title="song.name"></box-new-comment>
 </template>
 
 <script lang="ts" setup>

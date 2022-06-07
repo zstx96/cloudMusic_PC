@@ -1,22 +1,34 @@
-<template lang="pug">
-div()
-    el-carousel( v-if="appStore.banners.length" type="card"  height="200px" indicator-position="none")
-        el-carousel-item(v-for="item in appStore.banners" class="rounded overflow-hidden")
-            img(:src="item.pic")
-    div(v-if="recommendList")
-        p(class=" font-bold text-xl") 推荐歌单>
-        div(class="  xl:m-auto  grid  grid-cols-5  gap-2")
-            div(class="flex flex-col break-words relative "  )
-                the-daily-cover-vue(:daily-desc-visible="dailyDescVisible" :hover-el-index="hoverElIndex" @mouseover="hoverDaily" @mouseleave="handleMouseLeave()")
-            div( v-for="(item, index) in recommendList")
-                cover-vue(:pic-url="item.picUrl" 
-                    v-model:hoverElIndex="hoverElIndex"
-                    :playcount="item.playcount" 
-                    :index="index"
-                    @click="$router.push({name:'playlist',params:{id:item.id}})" 
-                    @mouseleave="handleMouseLeave(index)"
-                )
-                p(v-text="item.name" class="text-sm") 
+<template>
+	<div>
+		<el-carousel v-if="appStore.banners.length" type="card" height="200px" indicator-position="none"
+			><el-carousel-item v-for="item in appStore.banners" :key="item.bannerId" class="overflow-hidden rounded"
+				><img :src="item.pic" /></el-carousel-item
+		></el-carousel>
+		<div v-if="recommendList">
+			<p class="text-xl font-bold">推荐歌单></p>
+			<div class="grid grid-cols-5 gap-2 xl:m-auto">
+				<div class="relative flex flex-col break-words">
+					<the-daily-cover-vue
+						:daily-desc-visible="dailyDescVisible"
+						:hover-el-index="hoverElIndex"
+						@mouseover="hoverDaily"
+						@mouseleave="handleMouseLeave()"
+					></the-daily-cover-vue>
+				</div>
+				<div v-for="(item, index) in recommendList" :key="index">
+					<cover-vue
+						v-model:hoverElIndex="hoverElIndex"
+						:pic-url="item.picUrl"
+						:playcount="item.playcount"
+						:index="index"
+						@click="$router.push({ name: 'playlist', params: { id: item.id } })"
+						@mouseleave="handleMouseLeave(index)"
+					></cover-vue>
+					<p class="text-sm" v-text="item.name"></p>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

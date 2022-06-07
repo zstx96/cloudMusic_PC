@@ -1,5 +1,5 @@
-<template lang="pug">
-
+<template>
+	<p>album result</p>
 </template>
 
 <script lang="ts" setup></script>

@@ -1,10 +1,11 @@
-<template lang="pug">
-div
-    p 下载管理
-    el-tabs(v-model="activeName")
-        el-tab-pane( label="已下载" name="downloaded")
-        el-tab-pane( label="正在下载" name="isLoading")
-    component(:is="curComponent" )
+<template>
+	<div>
+		<p>下载管理</p>
+		<el-tabs v-model="activeName"
+			><el-tab-pane label="已下载" name="downloaded"></el-tab-pane
+			><el-tab-pane label="正在下载" name="isLoading"></el-tab-pane></el-tabs
+		><component :is="curComponent"></component>
+	</div>
 </template>
 
 <script lang="ts" setup>

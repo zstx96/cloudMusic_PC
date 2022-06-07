@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { useUserStore } from '@/store/userStore'
 import type { GotoParams } from '@/interface'
 import { useRouter } from 'vue-router'
-import { watchOnce } from '@vueuse/core'
 import { usePlayerStore } from '@/store/playerStore'
 
 const configDayjs = (app: App) => {
@@ -11,12 +10,13 @@ const configDayjs = (app: App) => {
 }
 
 const configUser = (app: App) => {
-	watchOnce(
+	/* watchOnce(
 		() => useUserStore().user,
 		(user) => {
 			app.config.globalProperties.$user = user
 		}
-	)
+	) */
+	app.config.globalProperties.$user = useUserStore().user
 }
 const configGoto = (app: App) => {
 	const router = useRouter()

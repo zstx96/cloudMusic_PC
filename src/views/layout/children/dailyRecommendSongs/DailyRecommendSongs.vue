@@ -1,13 +1,14 @@
-<template lang="pug">
-div
-    div
-        div(class="flex items-center gap-2 mb-2")
-            svg-date(color="#ff0000")
-            p(class=" text-2xl font-bold py-1") 每日歌曲推荐
-        div 
-            p(class=" text-app-gray text-sm  pb-3") 根据你的音乐口味生成,每日6:00更新
-    div(v-if="songs")
-        list-song(:data="songs")
+<template>
+	<div>
+		<div>
+			<div class="mb-2 flex items-center gap-2">
+				<svg-date color="#ff0000"></svg-date>
+				<p class="py-1 text-2xl font-bold">每日歌曲推荐</p>
+			</div>
+			<div><p class="pb-3 text-sm text-app-gray">根据你的音乐口味生成,每日6:00更新</p></div>
+		</div>
+		<div v-if="songs"><list-song :data="songs"></list-song></div>
+	</div>
 </template>
 
 <script lang="ts" setup>

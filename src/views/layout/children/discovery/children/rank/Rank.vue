@@ -1,29 +1,33 @@
-<template lang="pug">
-div(class="overflow-auto"  )
-    p() 官方榜
-    div(v-if="official")
-        div(v-for="item in official" class="flex items-center justify-between gap-3 mb-2")
-            div
-                el-image(:src="item.coverImgUrl" :style="{ 'height': '175px', 'width': '175px' }")
-            el-table(v-if="item.tracks" 
-            :data="item.tracks" 
-            :row-class-name="({rowIndex})=>(rowIndex%2===0)?'':'stripe'"
-            :show-header="false")
-                el-table-column(type="index" )
-                el-table-column(prop="name" )
-                el-table-column(prop="ar[0][name]")
-            el-skeleton(v-else :rows="5")
-    p 全球榜
-    div(class=" grid grid-cols-5 gap-3"  v-if="global")
-        div(v-for="item in global")
-            div(class="relative")
-                cover(
-                    :playcount="item.playCount"
-                    :pic-url="$resizeImg(item.coverImgUrl,400)"
-                    @click="$router.push(`/playlist/${item.id}`)"
-                )
-            p(class="text-sm w-[138px]") {{ item.name }}
-
+<template>
+	<div class="overflow-auto">
+		<p>官方榜</p>
+		<div v-if="official">
+			<div v-for="item in official" :key="item.id" class="mb-2 flex items-center justify-between gap-3">
+				<div><el-image :src="item.coverImgUrl" :style="{ height: '175px', width: '175px' }"></el-image></div>
+				<el-table
+					v-if="item.tracks"
+					:data="item.tracks"
+					:row-class-name="({ rowIndex }) => (rowIndex % 2 === 0 ? '' : 'stripe')"
+					:show-header="false"
+					><el-table-column type="index"></el-table-column><el-table-column prop="name"></el-table-column
+					><el-table-column prop="ar[0][name]"></el-table-column></el-table
+				><el-skeleton v-else :rows="5"></el-skeleton>
+			</div>
+		</div>
+		<p>全球榜</p>
+		<div v-if="global" class="grid grid-cols-5 gap-3">
+			<div v-for="item in global" :key="item.id">
+				<div class="relative">
+					<cover
+						:playcount="item.playCount"
+						:pic-url="$resizeImg(item.coverImgUrl, 400)"
+						@click="$router.push(`/playlist/${item.id}`)"
+					></cover>
+				</div>
+				<p class="w-[138px] text-sm">{{ item.name }}</p>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>

@@ -1,23 +1,35 @@
-<template lang="pug">
-div(class="relative")
-    el-icon(@click="$router.back()" :size="28" color="white"  class="animate-pulse cursor-pointer  rounded-full bg-black p-1 bg-opacity-20" )
-        i-ep-arrowLeft
-    el-icon(@click="$router.forward()" :size="28" color="white" class=" animate-pulse animation-delay  cursor-pointer rounded-full bg-black p-1 bg-opacity-20")
-        i-ep-arrowRight
-    el-input( 
-    class="z-[1002]"
-    :placeholder="showKeyword" 
-    v-model="realKeyword"
-    @focus="handleFocus"
-    @change="handleSelectWord"
-    @keyup.enter="handleSelectWord(realKeyword)"
-    ref="searchEl"
-    )
-    
-    teleport(to="#app") 
-        div(v-show="suggestionVisible" @click.self="closeBox"  class="z-[1001]  h-full w-full absolute top-0 left-0")
-            div(class=" bg-slate-200 p-5 overflow-y-auto overflow-x-hidden absolute left-[268px] top-[60px]  h-[500px] w-[350px]  " )
-                header-input-suggest-box-vue( @select-word="handleSelectWord" )
+<template>
+	<div class="relative">
+		<el-icon
+			class="animate-pulse cursor-pointer rounded-full bg-black bg-opacity-20 p-1"
+			:size="28"
+			color="white"
+			@click="$router.back()"
+			><i-ep-arrowLeft></i-ep-arrowLeft></el-icon
+		><el-icon
+			class="animation-delay animate-pulse cursor-pointer rounded-full bg-black bg-opacity-20 p-1"
+			:size="28"
+			color="white"
+			@click="$router.forward()"
+			><i-ep-arrowRight></i-ep-arrowRight></el-icon
+		><el-input
+			ref="searchEl"
+			v-model="realKeyword"
+			class="z-[1002]"
+			:placeholder="showKeyword"
+			@focus="handleFocus"
+			@change="handleSelectWord"
+			@keyup.enter="handleSelectWord(realKeyword)"
+		></el-input
+		><teleport to="#app">
+			<div v-show="suggestionVisible" class="absolute top-0 left-0 z-[1001] h-full w-full" @click.self="closeBox">
+				<div
+					class="absolute left-[268px] top-[60px] h-[500px] w-[350px] overflow-y-auto overflow-x-hidden bg-slate-200 p-5"
+				>
+					<header-input-suggest-box-vue @select-word="handleSelectWord"></header-input-suggest-box-vue>
+				</div></div
+		></teleport>
+	</div>
 </template>
 
 <script lang="ts" setup>

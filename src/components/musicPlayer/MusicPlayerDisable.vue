@@ -1,12 +1,13 @@
-<template lang="pug">
-div(class="inline-flex flex-col gap-1 items-center")
-    div(class="flex justify-around items-center w-full")
-        img(:src="stepPic"  )
-        img(:src="prePic" @click="$emit('prev')")
-        img(:src="playPic"   class=" scale-150" )
-        img(:src="nextPic" title="下一首"  )
-        player-mode-vue.icon(mode="single" )
-    div()
+<template>
+	<div class="inline-flex flex-col items-center gap-1">
+		<div class="flex w-full items-center justify-around">
+			<img :src="stepPic" /><img :src="prePic" @click="$emit('prev')" /><img
+				class="scale-150"
+				:src="playPic"
+			/><img :src="nextPic" title="下一首" /><player-mode-vue class="icon" mode="single"></player-mode-vue>
+		</div>
+		<div></div>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -15,6 +16,8 @@ import nextPic from '@/assets/icon/next.png'
 import prePic from '@/assets/icon/pre.png'
 import stepPic from '@/assets/icon/step.png'
 import playerModeVue from '../iconButton/playerMode.vue'
+
+defineEmits(['prev'])
 </script>
 
 <style scoped lang="less">

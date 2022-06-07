@@ -1,16 +1,9 @@
-<template lang="pug">
-el-button-group(type="danger" class=" text-white")
-    el-button(
-        type="danger" round 
-        @click="playAll(songs)"
-    ) 
-        i-ep-caretRight
-        span 播放全部
-
-    el-button(alt="wer" @click="playSong(songs)" round)
-        i-ep-plus
-el-dialog(:modelValue="false")
-    
+<template>
+	<el-button-group class="text-white" type="danger"
+		><el-button type="danger" round @click="playAll(songs)">
+			<i-ep-caretRight></i-ep-caretRight><span>播放全部</span></el-button
+		><el-button alt="wer" round @click="playSong(songs)"><i-ep-plus></i-ep-plus></el-button></el-button-group
+	><el-dialog :model-value="false"></el-dialog>
 </template>
 
 <script lang="ts" setup>
