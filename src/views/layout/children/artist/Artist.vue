@@ -5,13 +5,19 @@
 			<div>
 				<p>{{ artistDetail.artist.name }}</p>
 				<div class="my-3">
-					<el-button icon="i-ep-foldAdd" round>收藏</el-button
+					<el-button round>
+						<template #icon>
+							<i-ep-folder-add></i-ep-folder-add>
+						</template>
+						收藏</el-button
 					><el-button
 						v-if="artistDetail.user"
-						icon="i-ep-avatar"
 						round
 						@click="$router.push(`/user/${artistDetail?.user?.userId}`)"
 					>
+						<template #icon>
+							<i-ep-home-filled></i-ep-home-filled>
+						</template>
 						个人主页</el-button
 					>
 				</div>
@@ -33,7 +39,7 @@
 				<router-view
 					v-if="!voidPage"
 					v-slot="{ Component }"
-					:key="$route.params.id.toString()"
+					:key="$route.params.id?.toString()"
 					v-model:voidPage="voidPage"
 					><keep-alive><component :is="Component"></component></keep-alive></router-view
 				><el-empty v-else></el-empty>
@@ -76,7 +82,7 @@ onBeforeRouteUpdate((to) => {
 	activeName.value = to.name as string
 	if (to.name === 'artistAlbum' && to.params.id !== route.params.id) {
 		activeName.value = to.name as string
-		if (to.params.id !== id.toString()) {
+		if (to.params.id !== id?.toString()) {
 			id = parseInt(to.params.id as string)
 			resetArtist(id)
 		}
@@ -84,7 +90,7 @@ onBeforeRouteUpdate((to) => {
 })
 onActivated(() => {
 	activeName.value = route.name as string
-	if (route.params.id !== id.toString()) {
+	if (route.params.id !== id?.toString()) {
 		id = parseInt(route.params.id as string)
 		resetArtist(id)
 	}

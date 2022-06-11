@@ -12,7 +12,7 @@
 						:src="song.al.picUrl + '?param=500y500'"
 						fit="cover"
 					></el-image>
-					<div class="text-center">
+					<div class="py-3 text-center">
 						<p class="text-2xl font-bold" v-text="song.name"></p>
 						<p class="pb-3" v-text="song.ar[0].name"></p>
 						<the-lyric-parser :key="song.lyric" :lyric="song.lyric"></the-lyric-parser>
@@ -24,7 +24,9 @@
 				<div v-if="commentRes" v-loading="isLoading" class="m-auto w-1/2">
 					<p class="text-xl font-bold">{{ commentRes.commentsTitle }}({{ commentRes.totalCount }})</p>
 					<div>
-						<div class="text-sm"><list-comment :comments="commentRes.comments"></list-comment></div>
+						<div class="text-sm">
+							<list-comment :comments="commentRes.comments"></list-comment>
+						</div>
 						<div v-if="commentRes.totalCount" class="flex justify-center">
 							<el-pagination
 								class="m-auto text-center"
@@ -83,7 +85,7 @@ const isLoading = ref(false)
 const initSong = async (id: number) => {
 	const {
 		songs: [songRes],
-	} = await getSongDetail(id)
+	} = await getSongDetail([id])
 	recordStore.addPlayRecord([songRes])
 	const lyricRes = await getSongLyric(id)
 	song.value = {

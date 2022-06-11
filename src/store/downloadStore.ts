@@ -29,7 +29,7 @@ const useDownloadStore = defineStore('download', () => {
 		downloadList.value.push({ name, id, percentage: 0 })
 	}
 	const updateStatus = (id: number, percentage: number) => {
-		if (percentage.toString().length > 5) debugger
+		if (percentage?.toString().length > 5) debugger
 		const index = downloadList.value.findIndex((item) => item.id === id)
 		if (index !== -1) {
 			downloadList.value[index].percentage = percentage

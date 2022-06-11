@@ -4,7 +4,7 @@
 			<div class="relative inline-block">
 				<el-avatar
 					class="cursor-pointer"
-					:src="comment.user.avatarUrl"
+					:src="$resizeImg(comment.user.avatarUrl, 100)"
 					@click="$router.push({ name: 'user', params: { id: comment.user.userId } })"
 				></el-avatar
 				><img

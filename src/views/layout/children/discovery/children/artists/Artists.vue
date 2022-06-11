@@ -67,7 +67,7 @@ const selectClass = (v: ArtistType) => {
 	selectedClass.value = v
 }
 const selectInitial = (v: string | number) => {
-	selectedInitial.value = v.toString()
+	selectedInitial.value = v?.toString()
 }
 </script>
 

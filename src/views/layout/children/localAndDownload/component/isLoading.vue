@@ -1,12 +1,11 @@
 <template>
 	<div>
 		<p>正在下载</p>
-		<div v-if="downloadStore.downloadList.length" class="flex gap-2">
-			<template v-for="item in downloadStore.downloadList" :key="item.id"
-				><span>{{ item.name }}</span
+		<div v-if="downloadStore.downloadList.length">
+			<div v-for="item in downloadStore.downloadList" :key="item.id" class="flex gap-2">
 				><el-progress :percentage="item.percentage"> </el-progress>
-				<p>{{ item.percentage }}</p></template
-			>
+				<p>{{ item.percentage }}</p>
+			</div>
 		</div>
 		<el-empty v-else></el-empty>
 	</div>

@@ -85,7 +85,7 @@ watch(
 			let id = user.profile.userId
 			getPlaylist(id).then((res) => {
 				// 我喜欢的音乐列表
-				localStorage.setItem('favoriteId', res.playlist[0].id.toString())
+				localStorage.setItem('favoriteId', res.playlist[0].id?.toString())
 				userStore.$patch({
 					playlist: res.playlist,
 				})
@@ -93,13 +93,13 @@ watch(
 				if (route.name === 'playlist') {
 					let pid = route.params.id as string
 					res.playlist.some((v) => {
-						if (pid === v.id.toString()) {
+						if (pid === v.id?.toString()) {
 							if (id === v.creator.userId) {
 								createByMeVisible.value = true
 							} else {
 								createByOthersVisible.value = true
 							}
-							focusNav.value = pid.toString()
+							focusNav.value = pid?.toString()
 							nextTick(() => {
 								const aside = document.querySelector('aside')!
 								const target = document.querySelector(`p[data-pid="${pid}"]`) as HTMLElement

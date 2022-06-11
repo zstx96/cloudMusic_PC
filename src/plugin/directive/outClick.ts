@@ -8,8 +8,6 @@ const outClick: Plugin = {
 				window.addEventListener('click', (event: MouseEvent) => {
 					const target = event.target as HTMLElement
 					if (!el.contains(target!)) {
-						console.log('out click')
-
 						handler()
 					}
 				})

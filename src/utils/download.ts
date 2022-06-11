@@ -35,7 +35,7 @@ const download = async (song: Song) => {
 				throttle(() => {
 					const percentage = (100 * receivedLength) / parseInt(contentLength)
 
-					downloadStore.updateStatus(song.id, parseInt(percentage.toString()))
+					downloadStore.updateStatus(song.id, parseInt(percentage?.toString()))
 				}, 100)()
 
 				chunks.push(value)

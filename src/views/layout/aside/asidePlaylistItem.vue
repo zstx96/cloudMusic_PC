@@ -10,9 +10,9 @@
 			:key="index"
 			class="flex cursor-pointer items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap py-1 hover:bg-app-gray hover:bg-opacity-30"
 			:data-pid="item.id"
-			:class="[activeNav === item.id.toString() && 'bg-app-gray bg-opacity-30']"
+			:class="[activeNav === item.id?.toString() && 'bg-app-gray bg-opacity-30']"
 			@click="
-				$emit('update:activeNav', item.id.toString()),
+				$emit('update:activeNav', item.id?.toString()),
 					$router.push({ name: 'playlist', params: { id: item.id } })
 			"
 		>

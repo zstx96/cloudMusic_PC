@@ -62,7 +62,6 @@ const handleTransitionstart = (event: MouseEvent) => {
 	if (!scrolling.value) {
 		scrolling.value = true
 		const el = event.target as HTMLElement
-		console.log(el)
 		el.style.transform = 'translateX(-80%)'
 		el.style.transition = 'all 4s'
 	}

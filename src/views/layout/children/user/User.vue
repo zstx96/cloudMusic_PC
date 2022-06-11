@@ -30,8 +30,12 @@
 						</el-button>
 					</div>
 					<div v-if="userDetail.profile.artistId">
-						<el-button round @click="$router.push(`/artist/${userDetail?.profile.artistId}`)"
-							>歌手页</el-button
+						<el-button round @click="$router.push(`/artist/${userDetail?.profile.artistId}`)">
+							<template #icon>
+								<i-ep-mic></i-ep-mic>
+							</template>
+
+							歌手页</el-button
 						>
 					</div>
 				</div>
