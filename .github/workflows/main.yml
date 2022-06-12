@@ -26,11 +26,12 @@ jobs:
             - uses: actions/checkout@v3
 
             # Runs a single command using the runners shell
-            - name: increase memory
-              run: fix-memory-limit
 
             - name: npm install
               run: npm install
+
+            - name: npm fix-memory-limit
+              run: npm run fix-memory-limit
 
             - name: npm run build
               run: npm run build
