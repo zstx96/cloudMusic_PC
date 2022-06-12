@@ -16,7 +16,13 @@
 			</div>
 		</div>
 		<el-tabs :active-name="activeName" @tab-change="handleTabChange"
-			><el-tab-pane v-for="item in tabs" :key="item.label" :name="item.name" :label="item.label"></el-tab-pane
+			><el-tab-pane
+				v-for="item in tabs"
+				:key="item.label"
+				:disabled="!item.enabled"
+				:name="item.name"
+				:label="item.label"
+			></el-tab-pane
 		></el-tabs>
 		<div>
 			<!--FIXME 切换页面因为scrollbar消失重新出现,导致页面一瞬间变形,并且有闪烁 --><router-view
@@ -42,10 +48,16 @@ const keyword = useRouteQuery('keyword') as Ref<string>
 const searchResult = ['album', 'artist', 'playlist']
 
 type SearchTypeKey = keyof typeof SearchType
-const tabs: { label: string; name: `${SearchTypeKey}Result` }[] = [
+const tabs: { label: string; name: `${SearchTypeKey}Result`; enabled?: boolean }[] = [
 	{
 		label: '单曲',
 		name: 'songResult',
+		enabled: true,
+	},
+	{
+		label: 'user',
+		name: 'userResult',
+		enabled: true,
 	},
 	{
 		label: '歌手',
@@ -62,22 +74,6 @@ const tabs: { label: string; name: `${SearchTypeKey}Result` }[] = [
 	{
 		label: '歌单',
 		name: 'playlistResult',
-	},
-	{
-		label: '歌词',
-		name: 'lyricResult',
-	},
-	{
-		label: '博客',
-		name: 'radioResult',
-	},
-	{
-		label: '声音',
-		name: 'voiceResult',
-	},
-	{
-		label: 'user',
-		name: 'userResult',
 	},
 ]
 const activeName = ref(route.name as string)

@@ -11,7 +11,7 @@
 					<div class="flex items-center gap-2">
 						<div class="max-w-60 overflow-hidden">
 							<div
-								class="whitespace-nowrap"
+								class="min-w-[80px] whitespace-nowrap"
 								:style="{
 									animationDuration: `${animationDuration}s`,
 									'transition-property': 'transform',

@@ -42,7 +42,7 @@ const asideData: Nav = [
 				],
 			},
 			{
-				title: '播客',
+				// title: '播客',
 				name: 'djradio',
 			},
 			{
@@ -50,7 +50,7 @@ const asideData: Nav = [
 				name: 'video',
 			},
 			{
-				// title:"关注",
+				// title: '关注',
 				name: 'follows',
 				params: {
 					id: true,

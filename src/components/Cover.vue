@@ -1,6 +1,11 @@
 <template>
 	<div class="relative flex cursor-pointer flex-col" @mouseover="$emit('update:hoverElIndex', index)">
-		<el-image class="aspect-square w-full rounded" :src="picUrl" fit="cover" lazy
+		<el-image
+			class="w-full rounded"
+			:class="[type === 'rect' ? 'aspect-video' : 'aspect-square']"
+			:src="picUrl"
+			fit="cover"
+			lazy
 			><template #placeholder><img :src="placeholder" /></template></el-image
 		><play-inner-red-vue
 			v-if="hoverElIndex"
@@ -23,6 +28,7 @@ defineProps<{
 	playcount: number
 	index?: number
 	hoverElIndex?: number
+	type?: 'square' | 'rect'
 }>()
 defineEmits<{
 	(event: 'update:hoverElIndex', index?: number): void

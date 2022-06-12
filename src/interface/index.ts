@@ -4,6 +4,7 @@ export * from '../enum'
 export * from './Artist'
 export * from './Album'
 export * from './mv'
+export * from './video'
 
 export type PlayMode = 'loop' | 'single' | 'shuffle'
 

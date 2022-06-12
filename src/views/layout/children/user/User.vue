@@ -25,8 +25,9 @@
 						>
 					</div>
 					<div v-if="userDetail.profile.userId === userStore.user?.profile.userId">
-						<el-button icon="i-ep-editPen" round @click="$router.push({ name: 'editSelf' })"
-							>编辑个人资料
+						<el-button round @click="$router.push({ name: 'editSelf' })">
+							<i-ep-edit></i-ep-edit>
+							编辑个人资料
 						</el-button>
 					</div>
 					<div v-if="userDetail.profile.artistId">
@@ -34,7 +35,6 @@
 							<template #icon>
 								<i-ep-mic></i-ep-mic>
 							</template>
-
 							歌手页</el-button
 						>
 					</div>
