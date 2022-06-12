@@ -32,7 +32,6 @@ jobs:
 
             - name: npm fix-memory-limit
               run: npm run fix-memory-limit
-              run: fix-memory-limit
 
             - name: npm run build
               run: npm run build
