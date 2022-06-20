@@ -1,27 +1,30 @@
-<template lang="pug">
-div(v-if="mvs" class=" flex flex-wrap gap-2   text-sm "
-)
-    div(v-for="item in mvs" class="w-[305px] flex-shrink-0 mb-3 rounded")
-        div(class="relative")
-            el-image(:src="item.imgurl" 
-            fit="cover"
-            lazy 
-            class="w-[305px] h-[171px] cursor-pointer" 
-            @click="$router.push({name: 'mv',params:{id:item.id}})")
-            span(class=" absolute bottom-2 right-2 text-white") {{ dayjs(item.duration).format('mm:ss') }}
-            play-count-inner-vue(:count="item.playCount")
-        div(class="w-[305px] whitespace-nowrap text-ellipsis overflow-hidden")
-            span()  {{ item.name }}
+<template>
+	<div v-if="mvs" class="flex flex-wrap gap-2 text-sm">
+		<div v-for="item in mvs" :key="item.id" class="mb-3 w-[305px] flex-shrink-0 rounded">
+			<div class="relative">
+				<el-image
+					class="h-[171px] w-[305px] cursor-pointer"
+					:src="item.imgurl"
+					fit="cover"
+					lazy
+					@click="$router.push({ name: 'mv', params: { id: item.id } })"
+				></el-image
+				><span class="absolute bottom-2 right-2 text-white">{{ $dayjs(item.duration).format('mm:ss') }}</span
+				><play-count-inner-vue :count="item.playCount"></play-count-inner-vue>
+			</div>
+			<div class="w-[305px] overflow-hidden text-ellipsis whitespace-nowrap">
+				<span> {{ item.name }}</span>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
 import { getArtistMv } from '@/api/artist'
 import playCountInnerVue from '@/components/iconButton/playCountInner.vue'
 import type { Mv } from '@/interface'
-import dayjs from 'dayjs'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-dayjs
 
 const id = parseInt(useRoute().params.id as string)
 

@@ -1,94 +1,108 @@
-<template lang="pug">
-transition(name="scale")
-    div(class="h-full flex flex-col ")
-        div(class="h-[60px]")
-            header-vue(class="  bg-transparent " )
-        div( class="flex-1 px-[5vw]  h-full overflow-y-auto")
-            div(v-if="song" class=" flex gap-2 justify-around items-center")
-                el-image(:src="song.al.picUrl+'?param=500y500'" class="w-[15vw] h-[15vw]  rounded-full  cursor-pointer" fit="cover")
-                div(class="text-center")
-                    p(v-text="song.name" class=" text-2xl font-bold")
-                    p(v-text="song.ar[0].name" class="pb-3")
-                    div(class=" text-center h-80 w-96 overflow-y-auto scroll-smooth " v-if="lyric"   ref="lyricRef" )
-                        p(v-for="([, text], index) in lyric" 
-                        class="py-1"
-                        :class="[(currentIndex == (index + 1)) ? 'font-bold text-black active-lyric-row' : 'text-app-gray']" 
-                        ) {{ text !== "\n" ? text : '~~~~~~~~~~~~~~~~~' }}  
-
-                div(class=" font-bold text-3xl")
-                | others
-            div(v-if="commentRes" class="w-[50vw] m-auto")
-                p(class=" text-xl font-bold") {{ commentRes.commentsTitle }}({{ commentRes.totalCount }})
-                div(class="text-sm")
-                    comments-vue(:comments="commentRes.comments")
-                div(class="flex justify-center")
-                    el-pagination(layout="prev, pager, next" :total="50" class="m-auto text-center")
+<template>
+	<transition name="scale">
+		<div class="relative flex h-full flex-col">
+			<!-- header -->
+			<div class="h-[60px]"><layout-header v-if="$route.name === 'song'"></layout-header></div>
+			<!-- main -->
+			<div class="h-full flex-1 overflow-y-auto px-[5vw]">
+				<!-- cover & lyric -->
+				<div v-if="song" :key="$route.query.id?.toString()" class="flex items-center justify-around gap-2">
+					<el-image
+						class="h-80 w-80 shrink-0 animate-spin-slow cursor-pointer rounded-full border-[24px] border-black"
+						:src="song.al.picUrl + '?param=500y500'"
+						fit="cover"
+					></el-image>
+					<div class="py-3 text-center">
+						<p class="text-2xl font-bold" v-text="song.name"></p>
+						<p class="pb-3" v-text="song.ar[0].name"></p>
+						<the-lyric-parser :key="song.lyric" :lyric="song.lyric"></the-lyric-parser>
+					</div>
+					<div class="text-3xl font-bold"></div>
+					others
+				</div>
+				<!-- comments -->
+				<div v-if="commentRes" v-loading="isLoading" class="m-auto w-1/2">
+					<p class="text-xl font-bold">{{ commentRes.commentsTitle }}({{ commentRes.totalCount }})</p>
+					<div>
+						<div class="text-sm">
+							<list-comment :comments="commentRes.comments"></list-comment>
+						</div>
+						<div v-if="commentRes.totalCount" class="flex justify-center">
+							<el-pagination
+								class="m-auto text-center"
+								layout="prev, pager, next"
+								:total="50"
+							></el-pagination>
+						</div>
+						<div v-else>
+							<p class="mt-6 cursor-pointer text-center text-blue-500">尚未有人评论,点击评论</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div
+				v-if="true"
+				class="fixed w-full"
+				:style="{ transform: `translateY(${offsetY - 40}px)`, width: `${app_width}px` }"
+			>
+				<el-button
+					class="absolute left-[75%]"
+					type="info"
+					icon="i-ep-edit"
+					round
+					@click="commentBoxVisible = true"
+					>写评论</el-button
+				>
+			</div>
+			<!-- TODO 还要写一套滚动发生时的ui -->
+		</div></transition
+	>
+	<box-new-comment v-if="song" v-model:visible="commentBoxVisible" :title="song.name"></box-new-comment>
 </template>
 
 <script lang="ts" setup>
+import layoutHeader from '../layout/header/layoutHeader.vue'
+
 import { getComment, getSongDetail, getSongLyric } from '@/api/song'
 import type { CommentRes, Song } from '@/interface/interface'
-import headerVue from '@/views/layout/header/header.vue'
+import { useRecordStore } from '@/store/recordStore'
+import { app_height, app_controller_height, app_width } from '@/config'
 import { useRouteQuery } from '@vueuse/router'
-import { ref, watch, watchEffect } from 'vue'
-import commentsVue from '@/components/comment/comments.vue'
-import { usePlayerStore } from '@/store/playerStore'
-import { withLoading } from '@/utils/withLoading'
+
+const offsetY = computed(() => app_height.value - app_controller_height)
+const commentBoxVisible = ref(false)
 
 const id = useRouteQuery<string>('id')
-const playStore = usePlayerStore()
+const recordStore = useRecordStore()
 
-const song = ref<Song>()
+const song = ref<Song & { lyric: string }>()
 // lyric
-const lyric = ref<[string, string][]>()
 const lyricRef = ref<HTMLElement>()
-let timeArr: number[]
-const currentIndex = ref(0)
-
 // comment
 const commentRes = ref<CommentRes>()
+const isLoading = ref(false)
 
 const initSong = async (id: number) => {
 	const {
 		songs: [songRes],
-	} = await getSongDetail(id)
-	song.value = songRes
-	const {
-		lrc: { lyric: lyricRes },
-	} = await getSongLyric(id)
-	const arr = lyricRes.split('[')
-	arr.shift()
-	lyric.value = arr.map((str, index) => str.split(']')) as [string, string][]
-	timeArr = lyric.value.map((v) => {
-		const [m, s] = v[0].split(':')
-		return +m * 60 + +s
-	})
-
+	} = await getSongDetail([id])
+	recordStore.addPlayRecord([songRes])
+	const lyricRes = await getSongLyric(id)
+	song.value = {
+		...songRes,
+		lyric: lyricRes,
+	}
 	const { data: CommentsRes } = await getComment(id, 1)
 	commentRes.value = CommentsRes
-	const el = document.querySelector('.active-lyric-row') as HTMLElement
-	watch(
-		() => playStore.currentTime,
-		(t) => {
-			if (t > +timeArr[currentIndex.value]) {
-				currentIndex.value++
-				if (el) {
-					const { offsetTop } = el
-					if (offsetTop >= 256) {
-						lyricRef.value?.scrollBy({ top: 32 })
-					}
-				}
-			}
-		}
-	)
 }
 watch(
 	() => id.value,
 	(v, old) => {
+		isLoading.value = true
 		if (!isNaN(parseInt(v))) {
-			withLoading(initSong)(parseInt(v)).then((_) => {
-				currentIndex.value = 0
+			initSong(parseInt(v)).then((_) => {
 				lyricRef.value?.scroll({ top: 0 })
+				isLoading.value = false
 			})
 		}
 	},
@@ -107,6 +121,6 @@ watch(
 
 .scale-enter-from,
 .scale-leave-to {
-	transform: scale(0);
+	transform: scale(0%);
 }
 </style>

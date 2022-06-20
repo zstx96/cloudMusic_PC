@@ -1,13 +1,8 @@
-import { SourceEnum } from '@/interface'
-import { CommentRes, Song } from '@/interface/interface'
+import { AreaType, IHotAlbum, SourceEnum } from '@/interface'
+import type { CommentRes, Song } from '@/interface'
 import Service from '@/utils/Service'
-/*
- * @作者: zhao
- * @Date: 2021-12-05 13:31:57
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
+import { cacheLyric, cacheSong, getLyricFromCache, getSongDetailFromCache } from '@/utils/db'
+
 export function getSongUrl(id: number) {
 	return Service.get<{
 		data: { url: string; size: number; type: string; md5: string }[]
@@ -19,13 +14,56 @@ export function getSongDownloadUrl(id: number) {
 export function checkSong(id: number) {
 	return Service.get(`/check/music?id=${id}`)
 }
-export function getSongLyric(id: number) {
-	return Service.get<{ lrc: { lyric: string } }>(`/lyric?id=${id}`)
+export async function getSongLyric<
+	T extends {
+		lrc: { lyric: string }
+	}
+>(id: number): Promise<string> {
+	const fetchLyric = async () => {
+		const res = await Service.get<T>(`/lyric?id=${id}`)
+		cacheLyric(id, res.lrc.lyric)
+		return res.lrc.lyric
+	}
+
+	return getLyricFromCache(id).then((lyric) => {
+		if (lyric) {
+			return lyric
+		} else {
+			return fetchLyric()
+		}
+	})
 }
-export function getSongDetail(id: number) {
-	return Service.get<{ songs: [Song] }>('/song/detail', {
+export function getSongDetail<T extends { songs: Song[] }>(ids: number[]) {
+	const fetchSongDetail = async () => {
+		const { songs } = await Service.get<T>('/song/detail', {
+			params: {
+				ids: ids.join(','),
+			},
+		})
+		songs.forEach((song) => {
+			cacheSong(song, null)
+		})
+		return { songs }
+	}
+	return getSongDetailFromCache(ids).then((songs) => {
+		if (songs.length === ids.length) {
+			return { songs }
+		} else {
+			return fetchSongDetail()
+		}
+	})
+}
+export function getAlbumDetail(id: number) {
+	return Service.get<{
+		album: IHotAlbum
+		songs: Song[]
+	}>(`/album?id=${id}`)
+}
+
+export function getNewSongs(type: AreaType) {
+	return Service.get('/top/song', {
 		params: {
-			ids: id,
+			type,
 		},
 	})
 }

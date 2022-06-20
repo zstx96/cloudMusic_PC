@@ -1,15 +1,17 @@
-<template lang="pug">
-div(v-if="songs")
-    playlist-display-vue(:data="songs.map(v => v.data)" :show-play-time="true")
-        template(#default="{ index }")
-            span {{ dayjs(songs[index].playTime).from(dayjs()) }}
+<template>
+	<div v-if="songs?.length">
+		<list-song :data="recentSong" :show-play-time="true"
+			><template #playtime="{ index }"
+				><span>{{ $dayjs(songs[index].playTime).from(dayjs()) }}</span></template
+			></list-song
+		>
+	</div>
+	<el-empty v-else class="text-center">暂无播放记录</el-empty>
 </template>
 
 <script lang="ts" setup>
 import { getRecentSong } from '@/api/record'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
 import type { Song } from '@/interface'
-import { ref } from 'vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
@@ -26,7 +28,10 @@ const songs = ref<
 	}[]
 >()
 
-withLoading(getRecentSong, { target: '#subApp', fullscreen: false })().then(({ data: { list } }) => {
+const recentSong = computed(() => (songs.value || []).map((v) => v.data))
+
+const loadingOps = { target: '#subApp', fullscreen: false }
+withLoading(getRecentSong, loadingOps)().then(({ data: { list } }) => {
 	songs.value = list
 })
 </script>

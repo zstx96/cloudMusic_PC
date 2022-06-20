@@ -1,29 +1,40 @@
-<template lang="pug">
-div
-    div(v-if="topSong" class="flex gap-2")
-        div(class="w-40 h-40  flex flex-col items-center justify-center rounded bg-slate-500 flex-shrink-0 text-6xl text-white text-center font-extrabold")
-            p TOP 
-            p 50
-        div
-            p 热门50首
-            playlist-display-vue(:data="topSong.slice(0,10)")
-    div(v-if="albums" ) 
-        div(v-for="item in albums" class="flex w-full gap-3 py-3 items-center ")
-            div
-                el-image(:src="item.picUrl+'?param=400y400'" 
-                lazy
-                class="w-40 h-40 cursor-pointer rounded"
-                @click="$router.push({name:'album',params:{id:item.id}})")
-            div(class=" bg-slate-300 rounded flex-1 h-40 ")
-               span() {{item.name}}
-               span {{item.briefDesc}}
-               span {{item.description}}
-            
+<template>
+	<div>
+		<div v-if="topSong" class="flex gap-2">
+			<div
+				class="flex h-40 w-40 flex-shrink-0 flex-col items-center justify-center rounded bg-slate-500 text-center text-6xl font-extrabold text-white"
+			>
+				<p>TOP</p>
+				<p>50</p>
+			</div>
+			<div>
+				<p>热门50首</p>
+				<list-song-vue :data="topSong.slice(0, 10)"></list-song-vue>
+			</div>
+		</div>
+		<div v-if="albums">
+			<div v-for="item in albums" :key="item.id" class="flex w-full items-center gap-3 py-3">
+				<div>
+					<el-image
+						class="h-40 w-40 cursor-pointer rounded"
+						:src="item.picUrl + '?param=400y400'"
+						lazy
+						@click="$router.push({ name: 'album', params: { id: item.id } })"
+					></el-image>
+				</div>
+				<div class="h-40 flex-1 rounded bg-slate-300">
+					<span>{{ item.name }}</span
+					><span>{{ item.briefDesc }}</span
+					><span>{{ item.description }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
 import { getArtistAlbum, getArtistTopSong } from '@/api/artist'
-import playlistDisplayVue from '@/components/playlist/playlistDisplay.vue'
+import ListSongVue from '@/components/ListSong.vue'
 import type { IHotAlbum, Song } from '@/interface'
 import Service from '@/utils/Service'
 import { ref } from 'vue'

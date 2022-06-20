@@ -1,23 +1,28 @@
-<template lang="pug">
-div(class="flex overflow-x-hidden  flex-col")
-    el-tabs( v-model="activeName" class="text-inherit"    @tab-click="handelClick")
-        el-tab-pane(v-for="(subNav) in subNavs" 
-        :class="[(activeName == subNav.name) && 'is-active','text-inherit']"
-        :name="subNav.name"
-        :label="subNav.title")  
-    div(class="flex-1 overflow-y-auto  m-auto" :style="{ 'width': `${contentWidht}px` }")
-        router-view(#default="{ Component }")
-            transition(name="fade")
-                keep-alive()
-                    component(:is="Component" )
+<template>
+	<div class="flex flex-col overflow-x-hidden">
+		<el-tabs v-model="activeName" class="text-inherit" @tab-click="handelClick"
+			><el-tab-pane
+				v-for="subNav in subNavs"
+				:key="subNav.name"
+				:class="[activeName == subNav.name && 'is-active', 'text-inherit']"
+				:name="subNav.name"
+				:label="subNav.title"
+			>
+			</el-tab-pane
+		></el-tabs>
+		<div class="m-auto flex-1 overflow-y-auto" :style="{ width: `${contentWidht}px` }">
+			<router-view v-slot="{ Component }"
+				><transition name="fade"
+					><keep-alive><component :is="Component"></component></keep-alive></transition
+			></router-view>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
 import { getBanners } from '@/api/app'
 import { app_width } from '@/config'
 import { useAppStore } from '@/store/appStore'
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 
 const appStore = useAppStore()
 const subNavs = appStore.asideData![0].children![0].children!
@@ -33,7 +38,9 @@ const activeName = ref(route.path.split('/').at(-1))
 const router = useRouter()
 interface Pane {
 	uid: number
-	instance: import('vue').ShallowReactive<import('vue').ComponentInternalInstance>
+	slots: {
+		[x: string]: import('vue').Slot | undefined
+	}
 	props: {
 		readonly disabled: boolean
 		readonly name: import('element-plus/es/utils').BuildPropType<

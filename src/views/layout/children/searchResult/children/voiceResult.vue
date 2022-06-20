@@ -1,6 +1,4 @@
-<template lang="pug">
-
-</template>
+<template>voiceResult</template>
 
 <script lang="ts" setup></script>
 

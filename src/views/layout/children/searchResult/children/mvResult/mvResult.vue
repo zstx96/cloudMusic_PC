@@ -1,6 +1,4 @@
-<template lang="pug">
-
-</template>
+<template>mv result</template>
 
 <script lang="ts" setup></script>
 

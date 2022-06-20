@@ -1,13 +1,13 @@
-<template lang="pug">
-div(class=" text-right")
-    el-icon
-        el-icon-close(@click="$emit('closeLoginBox', false)")
-div(class=" h-full flex flex-col items-center justify-between")
-    div(class=" text-2xl font-bold") 扫码登录
-    div(class="flex-1 flex items-center justify-center")
-        el-image(:src="qrimg" class="h-60 w-60")
-    p {{ message }}
-    span(class=" text-sm text-app-gray") 选择其他登录方式>
+<template>
+	<div class="text-right">
+		<el-icon><i-ep-close @click="$emit('closeLoginBox', false)"></i-ep-close></el-icon>
+	</div>
+	<div class="flex h-full flex-col items-center justify-between">
+		<div class="text-2xl font-bold">扫码登录</div>
+		<div class="flex flex-1 items-center justify-center"><el-image class="h-60 w-60" :src="qrimg"></el-image></div>
+		<p>{{ message }}</p>
+		<span class="text-sm text-app-gray">选择其他登录方式></span>
+	</div>
 </template>
 
 <script lang="ts" setup>

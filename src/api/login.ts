@@ -51,3 +51,7 @@ export function checkQr(key: string) {
 export function refreshLogin() {
 	return Service.get('/login/refresh')
 }
+
+export function logout() {
+	return Service.get('/logout')
+}

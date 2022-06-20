@@ -1,55 +1,83 @@
-<template lang="pug">
-div
-    teleport(to="#app")
-        header-vue(class=" h-[60px] absolute top-0 w-full")
-    div(class="flex justify-center pt-[70px]" v-if="mvDetail" :key="freshFlag")
-        div(class="w-[630px]")
-            div(class=" font-bold text-2xl py-3")  &it;视频详情
-            div()
-                video(:src="mvUrl" controls class="w-[612px] h-[354px]" )
-            div(class="flex  items-center gap-2")
-                el-avatar(:src="mvDetail.artists[0].img1v1Url")
-                span(v-for="ar in mvDetail.artists") {{ ar.name }} /
-            p(class="text-2xl font-bold ") {{ mvDetail.name }}
-            div(class=" text-xs text-app-gray" )
-                span 发布: {{ dayjs(mvDetail.publishTime).format('YYYY-MM-DD') }}
-                span.ml-3 播放：{{ mvDetail.playCount }}
-            div(class="flex gap-3" v-if="mvInfo")
-                el-button(v-if="mvInfo.liked" icon="el-icon-starFilled" @click="likeMv(false)" round) 已赞({{ mvInfo.likedCount }}) 
-                el-button(v-else icon="el-icon-star"  @click="likeMv(true)"  round)  赞({{ mvInfo.likedCount }}) 
-                el-button(icon="el-icon-foldAdd" round) 收藏({{ mvDetail.subCount }})
-                el-button(icon="" round) 分享({{ mvDetail.shareCount }})
-                el-button(round) 下载MV
-                span.flex-1
-                span 举报
-            div
-                span(class=" text-2xl font-bold ") 评论
-                span(class=" text-app-gray text-sm") ({{ mvDetail.commentCount }})
-            div
-                el-input(type="textarea" placeholder="请在此输入评论" :row="4")
-            div(v-if="mvCommentRes" class="text-sm  ")
-                p(class=" text-xl font-bold text-black") 精彩评论
-                div 
-                    comments-vue(:comments="mvCommentRes.hotComments")
-                p 
-                div
-                    comments-vue(:comments="mvCommentRes.comments")
-
+<template>
+	<div>
+		<teleport to="#app"><layout-header class="absolute top-0 h-[60px] w-full"></layout-header></teleport
+		><!-- 占位符， -->
+		<div class="h-[60px]"></div>
+		<div :key="$route.fullPath" class="flex justify-around pt-6">
+			<div v-if="mvDetail" class="flex justify-center">
+				<div class="w-[630px]">
+					<div class="py-3 text-2xl font-bold">⁢视频详情</div>
+					<div><video class="h-[354px] w-[612px]" :src="mvUrl" controls></video></div>
+					<div class="flex items-center gap-2">
+						<el-avatar :src="mvDetail.artists[0].img1v1Url"></el-avatar
+						><span v-for="ar in mvDetail.artists" :key="ar.name">{{ ar.name }} /</span>
+					</div>
+					<p class="text-2xl font-bold">{{ mvDetail.name }}</p>
+					<div class="text-xs text-app-gray">
+						<span>发布: {{ $dayjs(mvDetail.publishTime).format('YYYY-MM-DD') }}</span
+						><span class="ml-3">播放：{{ mvDetail.playCount }}</span>
+					</div>
+					<div v-if="mvInfo" class="flex gap-3">
+						<el-button v-if="mvInfo.liked" icon="i-ep-starFilled" round @click="likeMv(false)"
+							>已赞({{ mvInfo.likedCount }})</el-button
+						><el-button v-else icon="i-ep-star" round @click="likeMv(true)"
+							>赞({{ mvInfo.likedCount }})</el-button
+						><el-button icon="i-ep-folder-add" round>收藏({{ mvDetail.subCount }})</el-button
+						><el-button round>分享({{ mvDetail.shareCount }})</el-button><el-button round>下载MV</el-button
+						><span class="flex-1"></span><span>举报</span>
+					</div>
+					<div>
+						<span class="text-2xl font-bold">评论</span
+						><span class="text-sm text-app-gray">({{ mvDetail.commentCount }})</span>
+					</div>
+					<div><el-input type="textarea" placeholder="请在此输入评论" :row="4"></el-input></div>
+					<div v-if="mvCommentRes" class="text-sm">
+						<p class="text-xl font-bold text-black">精彩评论</p>
+						<div><list-comment :comments="mvCommentRes.hotComments"></list-comment></div>
+						<p class="text-xl font-bold text-black">最新评论</p>
+						<div><list-comment :comments="mvCommentRes.comments"></list-comment></div>
+					</div>
+				</div>
+			</div>
+			<div class="w-96 shrink-0">
+				<p>相关推荐</p>
+				<div v-if="personalizedMv?.length">
+					<div v-for="item in personalizedMv" :key="item.id" class="m-2 flex gap-4">
+						<cover
+							class="h-20 w-36 shrink-0 text-white"
+							:pic-url="item.picUrl"
+							:playcount="item.playCount"
+							@click="$router.push({ name: 'mv', params: { id: item.id } })"
+						></cover>
+						<div class="flex flex-col justify-between py-2 text-sm">
+							<p class="text-base">{{ item.name }}</p>
+							<p class="text-app-gray">
+								<span>by</span
+								><!-- NOTE 实验性质的goto --><span
+									class="cursor-pointer transition hover:text-black"
+									@click="$goto('artist', { id: item.artistId })"
+									>{{ item.artistName }}</span
+								>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
-import { resourceLike, LikeResourceType } from '@/api/app'
-import type { Comment, Mv } from '@/interface'
+import type { Comment, Mv, PersonalizedMv } from '@/interface'
 import Service from '@/utils/Service'
-import dayjs from 'dayjs'
-import { onActivated, ref } from 'vue'
-import commentsVue from '@/components/comment/comments.vue'
-import { useRoute } from 'vue-router'
-import headerVue from '@/views/layout/header/header.vue'
+import { getPersonalizedMv } from '@/api/user'
+import { resourceLike, LikeResourceType } from '@/api/app'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 const route = useRoute()
 const id = parseInt(route.params.id as string)
 
+// mv detail
 const mvDetail = ref<Mv>()
 const getMvDetail = (id: string | number) => {
 	return Service.get<{
@@ -62,6 +90,7 @@ const getMvDetailLocal = async (id: number) => {
 	})
 }
 
+// mv url
 const mvUrl = ref()
 const getMvUrl = async (id: number | string) => {
 	return Service.get<{
@@ -71,6 +100,7 @@ const getMvUrl = async (id: number | string) => {
 	}>(`/mv/url?id=${id}`)
 }
 
+// mv info
 type MvInfo = {
 	commentCount: number
 	liked: boolean
@@ -87,6 +117,7 @@ const likeMv = (t: boolean) => {
 	getMvInfo(id)
 }
 
+// mv comments
 const mvCommentRes = ref<MvCommentRes>()
 interface MvCommentRes {
 	isMusician: boolean
@@ -104,6 +135,11 @@ interface MvCommentRes {
 const getMvComment = (id: number) => {
 	return Service.get<MvCommentRes>(`/comment/mv?id=${id}`)
 }
+// mv personalized
+
+const personalizedMv = ref<PersonalizedMv[]>()
+
+// init
 const initMV = async (id: number) => {
 	await getMvDetailLocal(id)
 	const {
@@ -114,15 +150,20 @@ const initMV = async (id: number) => {
 	mvInfo.value = info
 	const comments = await getMvComment(id)
 	mvCommentRes.value = comments
+	const { result } = await getPersonalizedMv()
+	personalizedMv.value = result
 }
-initMV(id)
-const freshFlag = ref()
+
 // 页面被缓存了
 
 onActivated(() => {
 	const id = parseInt(route.params.id as string)
 	initMV(id)
 })
+onBeforeRouteUpdate((to) => {
+	initMV(parseInt(to.params.id as string))
+})
+initMV(id)
 </script>
 
 <style scoped lang="less"></style>

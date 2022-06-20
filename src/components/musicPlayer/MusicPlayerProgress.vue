@@ -1,17 +1,24 @@
-<template lang="pug">
-div(class="flex gap-1 items-center ")
-    span(class="") {{ dayjs(currentTimeInSeconds * 1000).format('mm:ss') }}
-    div(class="h-6 flex items-center cursor-pointer relative" 
-    @click="handleClick"  
-    @mousemove="throttle(showTime, 100, { trailing: true })($event)"  
-    @mouseout="$emit('update:timeTipVisible',false)"
-    )
-        div(class="absolute bg-slate-400 rounded text-sm -top-4 left-2 transform" 
-        v-show="timeTipVisible" :style="{ 'transform': `translateX(${timeTipOffsetX}px)` }" 
-		v-text="timeTipValue") 
-        div(class=" relative h-0.5 bg-slate-600" :style="{'width':`${progressContainerLen}px`}")
-            div(:style="{ 'width': `${percentage}%` }" class="rounded absolute  -top-[1px]  bg-app-red h-1")
-    span(v-text="dayjs(duration).format('mm:ss')")
+<template>
+	<div class="flex items-center gap-1">
+		<span>{{ $dayjs(currentTimeInSeconds * 1000).format('mm:ss') }}</span>
+		<div
+			class="relative flex h-6 cursor-pointer items-center"
+			@click="handleClick"
+			@mousemove="throttle(showTime, 100, { trailing: true })($event)"
+			@mouseout="$emit('update:timeTipVisible', false)"
+		>
+			<div
+				v-show="timeTipVisible"
+				class="absolute -top-4 left-2 transform rounded bg-slate-400 text-sm"
+				:style="{ transform: `translateX(${timeTipOffsetX}px)` }"
+				v-text="timeTipValue"
+			></div>
+			<div class="relative h-0.5 bg-slate-600" :style="{ width: `${progressContainerLen}px` }">
+				<div class="absolute -top-[1px] h-1 rounded bg-app-red" :style="{ width: `${percentage}%` }"></div>
+			</div>
+		</div>
+		<span v-text="$dayjs(duration).format('mm:ss')"></span>
+	</div>
 </template>
 
 <script lang="ts" setup>

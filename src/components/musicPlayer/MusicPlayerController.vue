@@ -1,12 +1,16 @@
-<template lang="pug">
-div(class="flex justify-around items-center w-full")
-    img(:src="stepPic"  )
-    img(:src="prePic" @click="$emit('prev')")
-    img(:src="playPic"  v-show="isPaused" class=" scale-150" @click="$emit('update:isPaused',false)")
-    img(:src="pausePic" v-show="!isPaused" class=" scale-150" @click="$emit('update:isPaused',true)")
-    img(:src="nextPic" title="下一首" @click="$emit('next')")
-    player-mode-vue.icon(:mode="mode" @click="changePlayMode")
-
+<template>
+	<div class="flex w-full items-center justify-around">
+		<img :src="stepPic" /><img :src="prePic" @click="$emit('prev')" /><img
+			v-show="isPaused"
+			class="scale-150"
+			:src="playPic"
+			@click="$player.play"
+		/><img v-show="!isPaused" class="scale-150" :src="pausePic" @click="$player.pause" /><img
+			:src="nextPic"
+			title="下一首"
+			@click="$player.next"
+		/><player-mode-vue class="icon" :mode="mode" @click="changePlayMode"></player-mode-vue>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -19,11 +23,10 @@ import playerModeVue from '../iconButton/playerMode.vue'
 import { ref } from 'vue'
 import type { PlayMode } from '@/interface'
 
-const props = defineProps<{ isPaused: boolean; mode: PlayMode }>()
+const props = defineProps<{ isPaused: boolean; mode: PlayMode; player: HTMLAudioElement; hasInteracted: boolean }>()
 const emit = defineEmits<{
 	(event: 'update:isPaused', flag: boolean): void
 	(event: 'update:mode', mode: string): void
-	(event: 'next'): void
 	(event: 'prev'): void
 }>()
 

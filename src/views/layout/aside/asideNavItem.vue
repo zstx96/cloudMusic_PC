@@ -1,7 +1,5 @@
-<template lang="pug">
-div
-    el-image(v-if="item.iconUrl" :src="item.iconUrl")
-    span(v-text="item.title")
+<template>
+	<div><el-image v-if="item.iconUrl" :src="item.iconUrl"></el-image><span v-text="item.title"></span></div>
 </template>
 
 <script lang="ts" setup>

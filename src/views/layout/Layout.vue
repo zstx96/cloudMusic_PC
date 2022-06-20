@@ -1,28 +1,29 @@
-<template lang="pug">
-el-container(class="h-full font-sans")
-    el-header( :style="{ 'height': `${app_header_height}px` }")
-        header-vue
-    el-container(class="overflow-auto"   :style="{ 'height': `${app_main_height}px` }")
-        el-aside(width="200px" class="px-[10px] border-r")
-            aside-vue
-        el-main(class=" overflow-x-hidden overflow-y-auto" id="subApp" :style="{ 'height': `${app_main_height}px` }")
-            router-view(class="overflow-auto" #default="{Component}" )
-                keep-alive
-                    component(:is="Component")
+<template>
+	<el-container class="h-full font-sans"
+		><el-header :style="{ height: `${app_header_height}px` }"><layout-header-vue></layout-header-vue></el-header
+		><el-container class="overflow-auto" :style="{ height: `${app_main_height}px` }"
+			><el-aside class="border-r px-[10px]" width="200px"><layout-aside-vue></layout-aside-vue></el-aside
+			><el-main id="subApp" class="overflow-y-auto overflow-x-hidden" :style="{ height: `${app_main_height}px` }"
+				><router-view v-slot="{ Component }"
+					><keep-alive
+						><component :is="Component"></component></keep-alive></router-view></el-main></el-container
+	></el-container>
 </template>
 
 <script lang="ts" setup>
-import headerVue from './header/header.vue'
-import asideVue from './aside/aside.vue'
 import { app_main_height, app_header_height } from '@/config'
+import layoutAsideVue from './aside/layoutAside.vue'
+import layoutHeaderVue from './header/layoutHeader.vue'
 </script>
 
 <style scoped lang="less">
 .el-header {
 	padding: 0 !important;
 }
-
 .rb-page {
 	height: calc();
+}
+#subApp {
+	scrollbar-gutter: both;
 }
 </style>

@@ -1,33 +1,51 @@
-<template lang="pug">
-div()
-    div(class="flex gap-4" v-if="artistDetail")
-        div
-            el-image(:src="artistDetail.artist.cover + '?param=500y500'" class=" w-48")
-        div
-            p {{ artistDetail.artist.name }}
-            div(class="my-3")
-                el-button(icon="el-icon-foldAdd" round) 收藏
-                el-button(icon="el-icon-avatar" 
-                v-if="artistDetail.user" 
-                round
-                @click="$router.push(`/user/${artistDetail?.user?.userId}`)"
-                )  个人主页
-            div(class=" text-sm flex gap-6")
-                span() 单曲数:{{ artistDetail.artist.musicSize }}
-                span() 专辑数:{{ artistDetail.artist.albumSize }}
-                span() MV数:{{ artistDetail.artist.mvSize }}
-    div
-        el-tabs(@tab-change="handleTabClick" :active-name="activeName")
-            el-tab-pane(label="专辑" name="artistAlbum")
-            el-tab-pane(label="MV" name="artistMv")
-            el-tab-pane(label="歌手详情" name="artistDesc")
-            el-tab-pane(label="相似歌手" name="artistSimi")
-        div
-            router-view(v-model:voidPage="voidPage" #default="{Component}" :key="$route.params.id"    v-if="!voidPage")
-                keep-alive
-                    component(:is="Component")
-            el-empty(v-else)
-
+<template>
+	<div>
+		<div v-if="artistDetail" class="flex gap-4">
+			<div><el-image class="w-48" :src="artistDetail.artist.cover + '?param=500y500'"></el-image></div>
+			<div>
+				<p>{{ artistDetail.artist.name }}</p>
+				<div class="my-3">
+					<el-button round>
+						<template #icon>
+							<i-ep-folder-add></i-ep-folder-add>
+						</template>
+						收藏</el-button
+					><el-button
+						v-if="artistDetail.user"
+						round
+						@click="$router.push(`/user/${artistDetail?.user?.userId}`)"
+					>
+						<template #icon>
+							<i-ep-home-filled></i-ep-home-filled>
+						</template>
+						个人主页</el-button
+					>
+				</div>
+				<div class="flex gap-6 text-sm">
+					<span>单曲数:{{ artistDetail.artist.musicSize }}</span
+					><span>专辑数:{{ artistDetail.artist.albumSize }}</span
+					><span>MV数:{{ artistDetail.artist.mvSize }}</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<el-tabs :active-name="activeName" @tab-change="handleTabClick"
+				><el-tab-pane label="专辑" name="artistAlbum"></el-tab-pane
+				><el-tab-pane label="MV" name="artistMv"></el-tab-pane
+				><el-tab-pane label="歌手详情" name="artistDesc"></el-tab-pane
+				><el-tab-pane label="相似歌手" name="artistSimi"></el-tab-pane
+			></el-tabs>
+			<div>
+				<router-view
+					v-if="!voidPage"
+					v-slot="{ Component }"
+					:key="$route.params.id?.toString()"
+					v-model:voidPage="voidPage"
+					><keep-alive><component :is="Component"></component></keep-alive></router-view
+				><el-empty v-else></el-empty>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -63,9 +81,8 @@ const handleTabClick = async (name: TabPanelName) => {
 onBeforeRouteUpdate((to) => {
 	activeName.value = to.name as string
 	if (to.name === 'artistAlbum' && to.params.id !== route.params.id) {
-		console.log(to.name)
 		activeName.value = to.name as string
-		if (to.params.id !== id.toString()) {
+		if (to.params.id !== id?.toString()) {
 			id = parseInt(to.params.id as string)
 			resetArtist(id)
 		}
@@ -73,7 +90,7 @@ onBeforeRouteUpdate((to) => {
 })
 onActivated(() => {
 	activeName.value = route.name as string
-	if (route.params.id !== id.toString()) {
+	if (route.params.id !== id?.toString()) {
 		id = parseInt(route.params.id as string)
 		resetArtist(id)
 	}

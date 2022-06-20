@@ -8,9 +8,21 @@ const Service = Axios.create({
 	withCredentials: true,
 })
 
+const noCacheUrl = ['/user/playlist']
+Service.interceptors.request.use((request) => {
+	if (noCacheUrl.includes(request.url || '')) {
+		request.params['timestamp'] = +new Date()
+	}
+	return request
+})
+
 Service.interceptors.response.use(
 	(res) => {
-		return res.data
+		if (res.data?.code === 200 || res.data?.data?.code === 200) {
+			return res.data
+		} else {
+			throw res.data
+		}
 	},
 	(err) => {
 		return Promise.resolve(err)

@@ -3,7 +3,7 @@ export interface IHotAlbum {
 	paid: boolean
 	onSale: boolean
 	mark: number
-	alias: void /* undefined */[]
+	alias: string[]
 	artists: IArtist_1[]
 	copyrightId: number
 	picId: number

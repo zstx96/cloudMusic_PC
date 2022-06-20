@@ -1,6 +1,5 @@
-<template lang="pug">
-div
-    p album
+<template>
+	<div><p>album</p></div>
 </template>
 
 <script lang="ts" setup>

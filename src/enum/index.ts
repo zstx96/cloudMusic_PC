@@ -1,10 +1,3 @@
-/*
- * @作者: zhao
- * @Date: 2022-03-17 12:44:26
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
 export enum ArtistType {
 	all = -1,
 	male = 1,
@@ -52,4 +45,9 @@ export enum SearchType {
 	video = 1014,
 	all = 1018,
 	voice = 2000,
+}
+
+export enum SubScribeType {
+	playlist = 'playlist',
+	mv = 'mv',
 }

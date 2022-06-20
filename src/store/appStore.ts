@@ -1,3 +1,4 @@
+import { getBanners } from '@/api/app'
 import type { Nav } from '@/interface'
 import { Banner } from '@/interface/interface'
 import { defineStore } from 'pinia'
@@ -41,7 +42,7 @@ const asideData: Nav = [
 				],
 			},
 			{
-				title: '播客',
+				// title: '播客',
 				name: 'djradio',
 			},
 			{
@@ -49,7 +50,7 @@ const asideData: Nav = [
 				name: 'video',
 			},
 			{
-				// title:"关注",
+				// title: '关注',
 				name: 'follows',
 				params: {
 					id: true,
@@ -65,8 +66,8 @@ const asideData: Nav = [
 			},
 			// group 我的音乐
 			{
-				// title: '本地与下载',
-				name: 'download',
+				title: '本地与下载',
+				name: 'localAndDownload',
 				group: '我的音乐',
 			},
 			{
@@ -189,6 +190,9 @@ const asideData: Nav = [
 		params: { id: true },
 	},
 ]
+
+getBanners()
+
 const useAppStore = defineStore('app', () => {
 	const banners = ref<Banner[]>([])
 	const isDarkMode = ref(true)
@@ -201,6 +205,10 @@ const useAppStore = defineStore('app', () => {
 	const setBanners = (value: Banner[]) => {
 		banners.value = value
 	}
+	const fetchBanners = async () => {
+		const res = await getBanners()
+		banners.value = res.banners
+	}
 
 	return {
 		asideData,
@@ -208,6 +216,7 @@ const useAppStore = defineStore('app', () => {
 		setBanners,
 		isDarkMode,
 		toggleMode,
+		fetchBanners,
 	}
 })
 

@@ -1,18 +1,3 @@
-/*
- * @作者: zhao
- * @Date: 2022-03-17 12:44:33
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
-/*
- * @作者: zhao
- * @Date: 2021-12-05 11:13:29
- * @上次更新作者: your name
- * @上次更新时间: Do not edit
- * @描述: file content
- */
-
 import { Fee } from '../enum'
 import type { UserProfile } from './user'
 
@@ -34,6 +19,7 @@ export interface Song {
 	dt: number
 	fee: Fee
 	copyright: number
+	privilege: any
 }
 
 export interface SongRecord {
@@ -74,15 +60,17 @@ export interface PlaylistDetail {
 	enlistTitle: string
 	subscribers: []
 	tracks: Song[]
+	trackIds: { id: number }[]
+	subscribed: boolean
 }
 export interface PlaylistDynamic {
 	bookedCount: number
 	commentCount: number
-	followed: false
+	followed: boolean
 	playCount: number
 	remarkName: string
 	sharedCount: number
-	subscribed: false
+	subscribed: boolean
 }
 export interface Subscriber {
 	userId: number

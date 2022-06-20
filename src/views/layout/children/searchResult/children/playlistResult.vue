@@ -1,5 +1,5 @@
-<template lang="pug">
-
+<template>
+	<p>playlist result</p>
 </template>
 
 <script lang="ts" setup></script>
